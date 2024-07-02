@@ -4,8 +4,20 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public enum States
+    public GameStates GameState;
+    public enum GameStates
     {
         Initialization, Playing, Win, Lose
+    }
+
+    void Start()
+    {
+        SetGameState(GameStates.Playing); 
+    }
+
+    void SetGameState(GameStates gameState)
+    {
+        GameState = gameState;
+        Debug.Log($"Game State: {GameState}");
     }
 }

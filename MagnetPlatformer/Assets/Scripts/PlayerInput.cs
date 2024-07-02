@@ -10,13 +10,12 @@ public class UserInput : MonoBehaviour
     private const InputButton POSITIVE_CHARGE = InputButton.Left;
     private const InputButton NEGATIVE_CHARGE = InputButton.Right;
 
-    public static float MoveX;
-    public static float MoveY;
+    public static float MoveHorizontal;
+    public static float MoveRight;
 
     private void Update()
     {
-        MoveX = Input.GetAxis("Horizontal");
-        MoveY = Input.GetAxis("Vertical");
+        MoveHorizontal = Input.GetAxis("Horizontal");
     }
 
     public void OnMouseClick()
