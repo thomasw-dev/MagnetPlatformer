@@ -6,6 +6,8 @@ using static GameManager;
 public class Magnet : MonoBehaviour
 {
     [SerializeField] Transform _attachTo;
+    [SerializeField] Sprite[] _magnetSprites;
+    SpriteRenderer _spriteRenderer;
 
     public enum Charges { Neutral, Positive, Negative }
     public static Charges CurrentCharge = Charges.Neutral;
@@ -20,6 +22,11 @@ public class Magnet : MonoBehaviour
     {
         UserInput.MagnetSetChargePositive -= SetChargePositive;
         UserInput.MagnetSetChargeNegative -= SetChargeNegative;
+    }
+
+    void Start()
+    {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -51,15 +58,20 @@ public class Magnet : MonoBehaviour
     {
         CurrentCharge = Charges.Neutral;
         Debug.Log("SetChargeNeutral");
+        _spriteRenderer.sprite = _magnetSprites[0];
     }
+
     void SetChargePositive()
     {
         CurrentCharge = Charges.Positive;
         Debug.Log("SetChargePositive");
+        _spriteRenderer.sprite = _magnetSprites[1];
     }
+
     void SetChargeNegative()
     {
         CurrentCharge = Charges.Negative;
         Debug.Log("SetChargeNegative");
+        _spriteRenderer.sprite = _magnetSprites[2];
     }
 }

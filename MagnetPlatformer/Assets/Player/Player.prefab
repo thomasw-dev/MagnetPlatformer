@@ -162,6 +162,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attachTo: {fileID: 2524691104920991101}
+  _magnetSprites:
+  - {fileID: 21300000, guid: 598bff8ba0313421583314954f7a5ee7, type: 3}
+  - {fileID: 21300000, guid: a0fa1369bd23a49569e487c9030dc10c, type: 3}
+  - {fileID: 21300000, guid: b458e88f2c53a42b8bb722cd2e073605, type: 3}
+  _currentCharge: 0
 --- !u!1 &2634632848575497132
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,7 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _body: {fileID: 6112533170344558362}
-  _moveSpeedProgressive: 0.05
+  _moveSpeed: 1
   _jumpForce: 500
 --- !u!1 &6112533170344558362
 GameObject:

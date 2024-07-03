@@ -19,12 +19,17 @@ public class Player : MonoBehaviour
 
     void OnEnable()
     {
-
+        UserInput.OnMoveLeftInput += MoveLeft;
+        UserInput.OnMoveRightInput += MoveRight;
+        UserInput.OnJumpInput += Jump;
     }
 
     void OnDisable()
     {
 
+        UserInput.OnMoveLeftInput += MoveLeft;
+        UserInput.OnMoveRightInput += MoveRight;
+        UserInput.OnJumpInput += Jump;
     }
 
     void Start()
@@ -34,29 +39,22 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        /*if (UserInput.Jump())
-        {
-            _rigidbody.AddForce(Vector2.up * _jumpForce);
-            //velocity = new Vector2(_rigidbody.velocity.x, _jumpSpeed);
-        }*/
+        // ...
+    }
 
-        float x = 0;
-
-        if (UserInput.IsMovingLeft())
-        {
-            x = Mathf.Clamp(_rigidbody.velocity.x - _moveSpeed, -MOVE_SPEED_MAX, 0);
-        }
-
-        if (UserInput.IsMovingRight())
-        {
-            x = Mathf.Clamp(_rigidbody.velocity.x + _moveSpeed, 0, MOVE_SPEED_MAX);
-        }
-
+    void MoveLeft()
+    {
+        float x = Mathf.Clamp(_rigidbody.velocity.x - _moveSpeed, -MOVE_SPEED_MAX, 0);
         _rigidbody.velocity = new Vector2(x, _rigidbody.velocity.y);
     }
 
-    void DoJump()
+    void MoveRight()
     {
-
+        float x = Mathf.Clamp(_rigidbody.velocity.x + _moveSpeed, 0, MOVE_SPEED_MAX);
+        _rigidbody.velocity = new Vector2(x, _rigidbody.velocity.y);
+    }
+    void Jump()
+    {
+        _rigidbody.AddForce(Vector2.up * _jumpForce);
     }
 }
