@@ -6,69 +6,58 @@ using static UnityEngine.EventSystems.PointerEventData;
 
 public class UserInput : MonoBehaviour
 {
-    [SerializeField] MouseClick mouseClickArea;
-
     private const InputButton POSITIVE_CHARGE = InputButton.Left;
     private const InputButton NEGATIVE_CHARGE = InputButton.Right;
 
     public static event Action OnMoveLeftInput;
+    public static event Action OnMoveLeftInputStop;
+
     public static event Action OnMoveRightInput;
+    public static event Action OnMoveRightInputStop;
     public static event Action OnJumpInput;
 
-    public static event Action MagnetSetChargePositive;
-    public static event Action MagnetSetChargeNegative;
+    public static event Action<Magnet.Charges> OnMagnetSetCharge;
 
     void OnEnable()
     {
-        MouseClick.OnLeftClick += Invoke_MagnetSetChargePositive;
-        MouseClick.OnRightClick += Invoke_MagnetSetChargeNegative;
+        Magnet_MouseControl.OnLeftButtonDown += MagnetSetCharge_Positive;
+        Magnet_MouseControl.OnLeftButtonUp += MagnetSetCharge_Neutral;
+        Magnet_MouseControl.OnRightButtonDown += MagnetSetCharge_Negative;
+        Magnet_MouseControl.OnRightButtonUp += MagnetSetCharge_Neutral;
     }
 
     void OnDisable()
     {
-        MouseClick.OnLeftClick -= Invoke_MagnetSetChargePositive;
-        MouseClick.OnRightClick -= Invoke_MagnetSetChargeNegative;
+        Magnet_MouseControl.OnLeftButtonDown -= MagnetSetCharge_Positive;
+        Magnet_MouseControl.OnLeftButtonUp -= MagnetSetCharge_Neutral;
+        Magnet_MouseControl.OnRightButtonDown -= MagnetSetCharge_Negative;
+        Magnet_MouseControl.OnRightButtonUp -= MagnetSetCharge_Neutral;
     }
 
     void Update()
     {
+        // Move Left
         if (Input.GetKey(KeyCode.A))
         {
             OnMoveLeftInput?.Invoke();
         }
+        else OnMoveLeftInputStop?.Invoke();
+
+        // Move Right
         if (Input.GetKey(KeyCode.D))
         {
             OnMoveRightInput?.Invoke();
         }
+        else OnMoveRightInputStop?.Invoke();
+
+        // Jump
         if (Input.GetKeyDown(KeyCode.Space))
         {
             OnJumpInput?.Invoke();
         }
-        if (Input.GetMouseButtonDown(0))
-        {
-            MagnetSetChargePositive?.Invoke();
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            MagnetSetChargeNegative?.Invoke();
-        }
     }
 
-    /*public void OnPointerClick(PointerEventData eventData)
-    {
-        //InputButton click = mouseClickArea.eventData.button;
-        //Debug.Log(click);
-        if (click == POSITIVE_CHARGE)
-        {
-            MagnetSetChargePositive?.Invoke();
-        }
-        if (click == NEGATIVE_CHARGE)
-        {
-            MagnetSetChargeNegative?.Invoke();
-        }
-    }*/
-
-    void Invoke_MagnetSetChargePositive() => MagnetSetChargePositive?.Invoke();
-
-    void Invoke_MagnetSetChargeNegative() => MagnetSetChargeNegative?.Invoke();
+    void MagnetSetCharge_Neutral() => OnMagnetSetCharge?.Invoke(Magnet.Charges.Neutral);
+    void MagnetSetCharge_Positive() => OnMagnetSetCharge?.Invoke(Magnet.Charges.Positive);
+    void MagnetSetCharge_Negative() => OnMagnetSetCharge?.Invoke(Magnet.Charges.Negative);
 }

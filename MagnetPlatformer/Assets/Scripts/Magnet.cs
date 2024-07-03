@@ -15,13 +15,11 @@ public class Magnet : MonoBehaviour
 
     void OnEnable()
     {
-        UserInput.MagnetSetChargePositive += SetChargePositive;
-        UserInput.MagnetSetChargeNegative += SetChargeNegative;
+        UserInput.OnMagnetSetCharge += SetCharge;
     }
     void OnDisable()
     {
-        UserInput.MagnetSetChargePositive -= SetChargePositive;
-        UserInput.MagnetSetChargeNegative -= SetChargeNegative;
+        UserInput.OnMagnetSetCharge -= SetCharge;
     }
 
     void Start()
@@ -54,24 +52,16 @@ public class Magnet : MonoBehaviour
         transform.position = _attachTo.position;
     }
 
-    void SetChargeNeutral()
+    void SetCharge(Charges charge)
     {
-        CurrentCharge = Charges.Neutral;
-        Debug.Log("SetChargeNeutral");
-        _spriteRenderer.sprite = _magnetSprites[0];
-    }
-
-    void SetChargePositive()
-    {
-        CurrentCharge = Charges.Positive;
-        Debug.Log("SetChargePositive");
-        _spriteRenderer.sprite = _magnetSprites[1];
-    }
-
-    void SetChargeNegative()
-    {
-        CurrentCharge = Charges.Negative;
-        Debug.Log("SetChargeNegative");
-        _spriteRenderer.sprite = _magnetSprites[2];
+        CurrentCharge = charge;
+        _spriteRenderer.sprite = GetMagnetSpriteByCharge(charge);
+        Sprite GetMagnetSpriteByCharge(Charges charge) => charge switch
+        {
+            Charges.Neutral => _magnetSprites[0],
+            Charges.Positive => _magnetSprites[1],
+            Charges.Negative => _magnetSprites[2],
+            _ => _magnetSprites[0]
+        };
     }
 }

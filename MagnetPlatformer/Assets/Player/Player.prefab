@@ -246,7 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _body: {fileID: 6112533170344558362}
   _moveSpeed: 1
-  _jumpForce: 500
+  _jumpForce: 400
 --- !u!1 &6112533170344558362
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,7 +392,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 3
   m_Material: {fileID: 0}

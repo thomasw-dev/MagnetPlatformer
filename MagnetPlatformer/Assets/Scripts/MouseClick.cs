@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class MouseClick : MonoBehaviour, IPointerClickHandler
+public class MagnetChargeMouseEvents : IPointerClickHandler
 {
     public static event Action OnLeftClick;
     public static event Action OnRightClick;

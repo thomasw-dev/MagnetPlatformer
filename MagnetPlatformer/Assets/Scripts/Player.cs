@@ -17,19 +17,27 @@ public class Player : MonoBehaviour
 
     const float MOVE_SPEED_MAX = 10f;
 
+    bool isMovingLeft = false;
+    bool isMovingRight = false;
+
+    float _velocityX;
+
     void OnEnable()
     {
         UserInput.OnMoveLeftInput += MoveLeft;
+        UserInput.OnMoveLeftInputStop += MoveLeftStop;
         UserInput.OnMoveRightInput += MoveRight;
+        UserInput.OnMoveRightInputStop += MoveRightStop;
         UserInput.OnJumpInput += Jump;
     }
 
     void OnDisable()
     {
-
-        UserInput.OnMoveLeftInput += MoveLeft;
-        UserInput.OnMoveRightInput += MoveRight;
-        UserInput.OnJumpInput += Jump;
+        UserInput.OnMoveLeftInput -= MoveLeft;
+        UserInput.OnMoveLeftInputStop -= MoveLeftStop;
+        UserInput.OnMoveRightInput -= MoveRight;
+        UserInput.OnMoveRightInputStop -= MoveRightStop;
+        UserInput.OnJumpInput -= Jump;
     }
 
     void Start()
@@ -37,22 +45,29 @@ public class Player : MonoBehaviour
         _rigidbody = _body.GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        // ...
+        if (isMovingLeft || isMovingRight)
+        {
+            _rigidbody.velocity = new Vector2(_velocityX, _rigidbody.velocity.y);
+        }
     }
 
     void MoveLeft()
     {
-        float x = Mathf.Clamp(_rigidbody.velocity.x - _moveSpeed, -MOVE_SPEED_MAX, 0);
-        _rigidbody.velocity = new Vector2(x, _rigidbody.velocity.y);
+        isMovingLeft = true;
+        _velocityX = Mathf.Clamp(_rigidbody.velocity.x - _moveSpeed, -MOVE_SPEED_MAX, 0);
     }
 
     void MoveRight()
     {
-        float x = Mathf.Clamp(_rigidbody.velocity.x + _moveSpeed, 0, MOVE_SPEED_MAX);
-        _rigidbody.velocity = new Vector2(x, _rigidbody.velocity.y);
+        isMovingRight = true;
+        _velocityX = Mathf.Clamp(_rigidbody.velocity.x + _moveSpeed, 0, MOVE_SPEED_MAX);
     }
+
+    void MoveLeftStop() => isMovingLeft = false;
+    void MoveRightStop() => isMovingRight = false;
+
     void Jump()
     {
         _rigidbody.AddForce(Vector2.up * _jumpForce);
