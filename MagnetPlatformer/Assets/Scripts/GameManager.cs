@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameStates GameState;
     public enum GameStates
     {
         Initialization, Playing, Win, Lose
     }
+    public static GameStates GameState;
 
     void Start()
     {

@@ -7,11 +7,15 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject _body;
     Rigidbody2D _rigidbody;
 
-    [Range(1f, 100f)]
-    [SerializeField] float _moveSpeed = 1f;
+    [Header("Movement")]
+    [Range(0.001f, 10f)]
+    [SerializeField] float _moveSpeedProgressive = 1f;
+    [Range(1f, 10f)]
+    [SerializeField] float _moveSpeedConstant = 1f;
 
+    [Header("Jump")]
     [Range(1f, 100f)]
-    [SerializeField] float _jumpSpeed = 1f;
+    [SerializeField] float _jumpForce = 1f;
 
     const float MOVE_SPEED_MAX = 10f;
 
@@ -22,23 +26,29 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Vector2 velocity = Vector2.zero;
+        float x = 0;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (UserInput.Jump())
         {
             velocity = new Vector2(_rigidbody.velocity.x, _jumpSpeed);
-        }
+        }*/
 
-        if (Input.GetKey(KeyCode.A))
+        if (UserInput.IsMovingLeft())
         {
-            velocity = new Vector2(_rigidbody.velocity.x - _moveSpeed, _rigidbody.velocity.y);
+            // Progressive
+            x = Mathf.Clamp(_rigidbody.velocity.x - _moveSpeedProgressive, -MOVE_SPEED_MAX, 0);
+            // Constant
+            //x = -_moveSpeedConstant;
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (UserInput.IsMovingRight())
         {
-            velocity = new Vector2(_rigidbody.velocity.x + _moveSpeed, _rigidbody.velocity.y);
+            // Progressive
+            x = Mathf.Clamp(_rigidbody.velocity.x + _moveSpeedProgressive, 0, MOVE_SPEED_MAX);
+            // Constant
+            //x = _moveSpeedConstant;
         }
 
-        _rigidbody.velocity = Vector2.ClampMagnitude(velocity, MOVE_SPEED_MAX);
+        _rigidbody.velocity = new Vector2(x, _rigidbody.velocity.y); //Vector2.ClampMagnitude(velocity, MOVE_SPEED_MAX);
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2621887890382946644}
   - component: {fileID: 1920142568407144478}
   - component: {fileID: 3340132993716165628}
+  - component: {fileID: 718564577288837491}
   m_Layer: 0
   m_Name: Magnet
   m_TagString: Untagged
@@ -28,11 +29,11 @@ Transform:
   m_GameObject: {fileID: 1204439681888679240}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 6786748561314092866}
+  m_Father: {fileID: 3700726771769224854}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2621887890382946644
 SpriteRenderer:
@@ -148,6 +149,50 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &718564577288837491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204439681888679240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b37fc7055971a49859702a6ef72107b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attachTo: {fileID: 2524691104920991101}
+--- !u!1 &2634632848575497132
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2524691104920991101}
+  m_Layer: 0
+  m_Name: Magnet Attach Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2524691104920991101
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2634632848575497132}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6786748561314092866}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4458368636117831123
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,6 +224,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6786748561314092866}
+  - {fileID: 2045669363255696424}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4230841474306970056
@@ -194,8 +240,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _body: {fileID: 6112533170344558362}
-  _moveSpeed: 1
-  _jumpSpeed: 1
+  _moveSpeedProgressive: 0.05
+  _moveSpeedConstant: 8
+  _jumpForce: 1
 --- !u!1 &6112533170344558362
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +275,7 @@ Transform:
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2045669363255696424}
+  - {fileID: 2524691104920991101}
   m_Father: {fileID: 3700726771769224854}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3278946800921466683
