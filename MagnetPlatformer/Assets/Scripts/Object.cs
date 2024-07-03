@@ -6,6 +6,8 @@ public class Object : MonoBehaviour
 {
     Rigidbody2D _rigidbody;
 
+    [SerializeField] Magnet.Charges _selfCharge;
+
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -21,6 +23,7 @@ public class Object : MonoBehaviour
             if (Magnet.CurrentCharge == Magnet.Charges.Positive) chargeFactor = -1f;
             if (Magnet.CurrentCharge == Magnet.Charges.Negative) chargeFactor = 1f;
 
+            if (_selfCharge == Magnet.Charges.Negative) chargeFactor = -chargeFactor;
             _rigidbody.AddForce((GameObject.Find("Player").transform.position - transform.position) * chargeFactor);
         }
     }
