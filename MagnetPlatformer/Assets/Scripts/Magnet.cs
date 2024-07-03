@@ -7,8 +7,26 @@ public class Magnet : MonoBehaviour
 {
     [SerializeField] Transform _attachTo;
 
+    public enum Charges { Neutral, Positive, Negative }
+    public static Charges CurrentCharge = Charges.Neutral;
+    [SerializeField] Charges _currentCharge;
+
+    void OnEnable()
+    {
+        UserInput.MagnetSetChargePositive += SetChargePositive;
+        UserInput.MagnetSetChargeNegative += SetChargeNegative;
+    }
+    void OnDisable()
+    {
+        UserInput.MagnetSetChargePositive -= SetChargePositive;
+        UserInput.MagnetSetChargeNegative -= SetChargeNegative;
+    }
+
     void Update()
     {
+        // Inspector
+        _currentCharge = CurrentCharge;
+
         if (GameState == GameStates.Playing)
         {
             AimSelfAtCursor();
@@ -27,5 +45,21 @@ public class Magnet : MonoBehaviour
     void AttachSelfToPlayer()
     {
         transform.position = _attachTo.position;
+    }
+
+    void SetChargeNeutral()
+    {
+        CurrentCharge = Charges.Neutral;
+        Debug.Log("SetChargeNeutral");
+    }
+    void SetChargePositive()
+    {
+        CurrentCharge = Charges.Positive;
+        Debug.Log("SetChargePositive");
+    }
+    void SetChargeNegative()
+    {
+        CurrentCharge = Charges.Negative;
+        Debug.Log("SetChargeNegative");
     }
 }
