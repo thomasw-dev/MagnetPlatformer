@@ -31,7 +31,7 @@ public class MagnetWeapon : MonoBehaviour
         // Inspector
         _currentCharge = CurrentCharge;
 
-        if (GameState == GameStates.Playing)
+        if (GameState == State.Playing)
         {
             AimSelfAtCursor();
             AttachSelfToPlayer();
