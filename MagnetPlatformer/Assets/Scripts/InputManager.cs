@@ -1,14 +1,8 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using static UnityEngine.EventSystems.PointerEventData;
 
-public class UserInput : MonoBehaviour
+public class InputManager : MonoBehaviour
 {
-    private const InputButton POSITIVE_CHARGE = InputButton.Left;
-    private const InputButton NEGATIVE_CHARGE = InputButton.Right;
-
     public static event Action OnMoveLeftInput;
     public static event Action OnMoveLeftInputStop;
 
@@ -17,6 +11,11 @@ public class UserInput : MonoBehaviour
     public static event Action OnJumpInput;
 
     public static event Action<Magnet.Charge> OnMagnetSetCharge;
+
+    const KeyCode MOVE_LEFT_KEY = KeyCode.A;
+    const KeyCode MOVE_RIGHT_KEY = KeyCode.D;
+    const KeyCode JUMP_KEY = KeyCode.Space;
+
 
     void OnEnable()
     {
@@ -37,21 +36,21 @@ public class UserInput : MonoBehaviour
     void Update()
     {
         // Move Left
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(MOVE_LEFT_KEY))
         {
             OnMoveLeftInput?.Invoke();
         }
         else OnMoveLeftInputStop?.Invoke();
 
         // Move Right
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(MOVE_RIGHT_KEY))
         {
             OnMoveRightInput?.Invoke();
         }
         else OnMoveRightInputStop?.Invoke();
 
         // Jump
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(JUMP_KEY))
         {
             OnJumpInput?.Invoke();
         }

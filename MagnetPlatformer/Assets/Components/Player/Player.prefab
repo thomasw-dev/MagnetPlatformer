@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71d9d486553db45179f3965b8fb75ba2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _body: {fileID: 6112533170344558362}
+  _rigidbodyObject: {fileID: 6112533170344558362}
   _moveSpeed: 1
   _jumpForce: 1000
 --- !u!1 &4889700426285261428
@@ -493,7 +493,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 2f90b24581c5542529e9d3904f6e6705, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -16,14 +16,26 @@ public class GameManager : MonoBehaviour
     public static event Action OnWinEnter, OnWinExit;
     public static event Action OnLoseEnter, OnLoseExit;
 
-    static Action GetStateEnterExitAction(State gameState, bool isEnter)
+    static Action GetStateEnterAction(State gameState)
     {
         return gameState switch
         {
-            State.Initialization => isEnter ? OnInitializationEnter : OnInitializationExit,
-            State.Playing => isEnter ? OnPlayingEnter : OnPlayingExit,
-            State.Win => isEnter ? OnWinEnter : OnWinExit,
-            State.Lose => isEnter ? OnLoseEnter : OnLoseExit,
+            State.Initialization => OnInitializationEnter,
+            State.Playing => OnPlayingEnter,
+            State.Win => OnWinEnter,
+            State.Lose => OnLoseEnter,
+            _ => null
+        };
+    }
+
+    static Action GetStateExitAction(State gameState)
+    {
+        return gameState switch
+        {
+            State.Initialization => OnInitializationExit,
+            State.Playing => OnPlayingExit,
+            State.Win => OnWinExit,
+            State.Lose => OnLoseExit,
             _ => null
         };
     }
@@ -35,18 +47,21 @@ public class GameManager : MonoBehaviour
 
         set
         {
-            GetStateEnterExitAction(_gameState, false)?.Invoke();
+            GetStateExitAction(_gameState)?.Invoke();
             _gameState = value;
-            GetStateEnterExitAction(_gameState, true)?.Invoke();
+            GetStateEnterAction(_gameState)?.Invoke();
         }
     }
-    [SerializeField] State _state;
+    [SerializeField] State _state; // Inspector
 
     #endregion
 
-    // Subscribe to the OnGoalAchieved event in these GameObjects
+    #region GOALS
+
+    [SerializeField] int _goalRemaining = 1;
     [SerializeField] List<GoalObject> _goals;
-    int _goalRemaining = 1;
+
+    #endregion
 
     void OnEnable()
     {
@@ -59,12 +74,21 @@ public class GameManager : MonoBehaviour
 
     void OnDisable()
     {
-
+        _goalRemaining = 1;
+        for (int i = 0; i < _goals.Count; i++)
+        {
+            _goals[i].OnGoalAchieved -= AddGoalProgress;
+        }
     }
 
     void Start()
     {
         SetState(State.Playing);
+    }
+
+    void Update()
+    {
+        _state = GameState;
     }
 
     void SetState(State gameState)

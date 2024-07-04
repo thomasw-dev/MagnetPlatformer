@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static GameManager;
 
 public class MagnetWeapon : MonoBehaviour
 {
@@ -10,15 +9,17 @@ public class MagnetWeapon : MonoBehaviour
     SpriteRenderer _spriteRenderer;
 
     public static Magnet.Charge CurrentCharge = Magnet.Charge.Neutral;
-    [SerializeField] Magnet.Charge _currentCharge;
+    [SerializeField] Magnet.Charge _currentCharge; // Inspector
+
+    bool _isInputEnabled = true;
 
     void OnEnable()
     {
-        UserInput.OnMagnetSetCharge += SetCharge;
+        InputManager.OnMagnetSetCharge += InputSetCharge;
     }
     void OnDisable()
     {
-        UserInput.OnMagnetSetCharge -= SetCharge;
+        InputManager.OnMagnetSetCharge -= InputSetCharge;
     }
 
     void Start()
@@ -28,10 +29,12 @@ public class MagnetWeapon : MonoBehaviour
 
     void Update()
     {
-        // Inspector
+        // _isInputEnabled is only true when GameState is Playing
+        //_isInputEnabled = GameManager.GameState == GameManager.State.Playing ? true : false;
+
         _currentCharge = CurrentCharge;
 
-        if (GameState == State.Playing)
+        if (GameManager.GameState == GameManager.State.Playing)
         {
             AimSelfAtCursor();
             AttachSelfToPlayer();
@@ -51,8 +54,9 @@ public class MagnetWeapon : MonoBehaviour
         transform.position = _attachTo.position;
     }
 
-    void SetCharge(Magnet.Charge charge)
+    void InputSetCharge(Magnet.Charge charge)
     {
+        if (!_isInputEnabled) { return; }
         CurrentCharge = charge;
         _spriteRenderer.sprite = GetMagnetSpriteByCharge(charge);
         Sprite GetMagnetSpriteByCharge(Magnet.Charge charge) => charge switch
