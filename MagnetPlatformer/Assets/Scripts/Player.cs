@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         _rigidbody = _body.GetComponent<Rigidbody2D>();
+        _rigidbody.freezeRotation = true;
     }
 
     void FixedUpdate()

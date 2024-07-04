@@ -16,22 +16,22 @@ public class UserInput : MonoBehaviour
     public static event Action OnMoveRightInputStop;
     public static event Action OnJumpInput;
 
-    public static event Action<Magnet.Charges> OnMagnetSetCharge;
+    public static event Action<Magnet.Charge> OnMagnetSetCharge;
 
     void OnEnable()
     {
-        Magnet_MouseControl.OnLeftButtonDown += MagnetSetCharge_Positive;
-        Magnet_MouseControl.OnLeftButtonUp += MagnetSetCharge_Neutral;
-        Magnet_MouseControl.OnRightButtonDown += MagnetSetCharge_Negative;
-        Magnet_MouseControl.OnRightButtonUp += MagnetSetCharge_Neutral;
+        MagnetMouseControl.OnLeftButtonDown += MagnetSetCharge_Positive;
+        MagnetMouseControl.OnLeftButtonUp += MagnetSetCharge_Neutral;
+        MagnetMouseControl.OnRightButtonDown += MagnetSetCharge_Negative;
+        MagnetMouseControl.OnRightButtonUp += MagnetSetCharge_Neutral;
     }
 
     void OnDisable()
     {
-        Magnet_MouseControl.OnLeftButtonDown -= MagnetSetCharge_Positive;
-        Magnet_MouseControl.OnLeftButtonUp -= MagnetSetCharge_Neutral;
-        Magnet_MouseControl.OnRightButtonDown -= MagnetSetCharge_Negative;
-        Magnet_MouseControl.OnRightButtonUp -= MagnetSetCharge_Neutral;
+        MagnetMouseControl.OnLeftButtonDown -= MagnetSetCharge_Positive;
+        MagnetMouseControl.OnLeftButtonUp -= MagnetSetCharge_Neutral;
+        MagnetMouseControl.OnRightButtonDown -= MagnetSetCharge_Negative;
+        MagnetMouseControl.OnRightButtonUp -= MagnetSetCharge_Neutral;
     }
 
     void Update()
@@ -57,7 +57,7 @@ public class UserInput : MonoBehaviour
         }
     }
 
-    void MagnetSetCharge_Neutral() => OnMagnetSetCharge?.Invoke(Magnet.Charges.Neutral);
-    void MagnetSetCharge_Positive() => OnMagnetSetCharge?.Invoke(Magnet.Charges.Positive);
-    void MagnetSetCharge_Negative() => OnMagnetSetCharge?.Invoke(Magnet.Charges.Negative);
+    void MagnetSetCharge_Neutral() => OnMagnetSetCharge?.Invoke(Magnet.Charge.Neutral);
+    void MagnetSetCharge_Positive() => OnMagnetSetCharge?.Invoke(Magnet.Charge.Positive);
+    void MagnetSetCharge_Negative() => OnMagnetSetCharge?.Invoke(Magnet.Charge.Negative);
 }

@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Obsolete
-/// </summary>
-public class Object : MonoBehaviour
+public class MagneticObject : MonoBehaviour
 {
-    Rigidbody2D _rigidbody;
+    public enum States
+    {
+        NonMagnetic, Magnetic
+    }
+    public States State;
 
-    [SerializeField] Magnet.Charge _selfCharge;
+    [SerializeField] Magnet.Charge _currentCharge;
+
+    Rigidbody2D _rigidbody;
 
     void Start()
     {
@@ -26,7 +29,7 @@ public class Object : MonoBehaviour
             if (MagnetWeapon.CurrentCharge == Magnet.Charge.Positive) chargeFactor = -1f;
             if (MagnetWeapon.CurrentCharge == Magnet.Charge.Negative) chargeFactor = 1f;
 
-            if (_selfCharge == Magnet.Charge.Negative) chargeFactor = -chargeFactor;
+            if (_currentCharge == Magnet.Charge.Negative) chargeFactor = -chargeFactor;
             _rigidbody.AddForce((GameObject.Find("Player").transform.position - transform.position) * chargeFactor);
         }
     }

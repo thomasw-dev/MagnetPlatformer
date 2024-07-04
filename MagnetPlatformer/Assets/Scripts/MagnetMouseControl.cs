@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class Magnet_MouseControl : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class MagnetMouseControl : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public static event Action OnLeftButtonDown;
     public static event Action OnLeftButtonUp;
