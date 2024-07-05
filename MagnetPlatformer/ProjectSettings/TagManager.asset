@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Player
+    uniqueID: 228688347
+    locked: 0
+  - name: Magnet Weapon
+    uniqueID: 1049436229
+    locked: 0

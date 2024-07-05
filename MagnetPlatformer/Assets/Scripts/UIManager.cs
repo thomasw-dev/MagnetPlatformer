@@ -4,40 +4,58 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] GameObject _startScreen;
+    [SerializeField] GameObject _playingScreen;
     [SerializeField] GameObject _winScreen;
 
     void OnEnable()
     {
-        GameManager.OnPlayingEnter += EnablePlayingUI;
-        GameManager.OnPlayingExit += DisablePlayingUI;
-        GameManager.OnWinEnter += EnableWinUI;
-        GameManager.OnWinExit += DisableWinUI;
+        GameManager.OnInitializationEnter += Initialize;
+        GameManager.OnInitializationExit += DisableStartScreen;
+        GameManager.OnPlayingEnter += EnablePlayingScreen;
+        GameManager.OnPlayingExit += DisablePlayingScreen;
+        GameManager.OnWinEnter += EnableWinScreen;
+        GameManager.OnWinExit += DisableWinScreen;
     }
 
     void OnDisable()
     {
-        GameManager.OnPlayingEnter -= EnablePlayingUI;
-        GameManager.OnPlayingExit -= DisablePlayingUI;
-        GameManager.OnWinEnter -= EnableWinUI;
-        GameManager.OnWinExit -= DisableWinUI;
+        GameManager.OnInitializationEnter -= Initialize;
+        GameManager.OnInitializationExit -= DisableStartScreen;
+        GameManager.OnPlayingEnter -= EnablePlayingScreen;
+        GameManager.OnPlayingExit -= DisablePlayingScreen;
+        GameManager.OnWinEnter -= EnableWinScreen;
+        GameManager.OnWinExit -= DisableWinScreen;
     }
 
-    void EnablePlayingUI()
+    void Initialize()
     {
+        _startScreen.SetActive(true);
         _winScreen.SetActive(false);
+
     }
 
-    void DisablePlayingUI()
+    void DisableStartScreen()
     {
-        _winScreen.SetActive(false);
+        _startScreen.SetActive(false);
     }
 
-    void EnableWinUI()
+    void EnablePlayingScreen()
+    {
+        // ...
+    }
+
+    void DisablePlayingScreen()
+    {
+        // ...
+    }
+
+    void EnableWinScreen()
     {
         _winScreen.SetActive(true);
     }
 
-    void DisableWinUI()
+    void DisableWinScreen()
     {
         _winScreen.SetActive(false);
     }

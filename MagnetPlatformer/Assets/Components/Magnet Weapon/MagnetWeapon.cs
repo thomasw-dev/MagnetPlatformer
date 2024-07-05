@@ -5,21 +5,25 @@ using UnityEngine;
 public class MagnetWeapon : MonoBehaviour
 {
     [SerializeField] Transform _attachTo;
-    [SerializeField] Sprite[] _magnetSprites;
-    SpriteRenderer _spriteRenderer;
 
     public static Magnet.Charge CurrentCharge = Magnet.Charge.Neutral;
     [SerializeField] Magnet.Charge _currentCharge; // Inspector
+
+    [SerializeField] Sprite[] _magnetSprites;
+    SpriteRenderer _spriteRenderer;
 
     bool _isInputEnabled = true;
 
     void OnEnable()
     {
         InputManager.OnMagnetSetCharge += InputSetCharge;
+        GameManager.OnPlayingExit += Restore;
     }
+
     void OnDisable()
     {
         InputManager.OnMagnetSetCharge -= InputSetCharge;
+        GameManager.OnPlayingExit -= Restore;
     }
 
     void Start()
@@ -30,15 +34,12 @@ public class MagnetWeapon : MonoBehaviour
     void Update()
     {
         // _isInputEnabled is only true when GameState is Playing
-        //_isInputEnabled = GameManager.GameState == GameManager.State.Playing ? true : false;
+        _isInputEnabled = GameManager.GameState == GameManager.State.Playing ? true : false;
 
         _currentCharge = CurrentCharge;
 
-        if (GameManager.GameState == GameManager.State.Playing)
-        {
-            AimSelfAtCursor();
-            AttachSelfToPlayer();
-        }
+        AimSelfAtCursor();
+        AttachSelfToPlayer();
     }
 
     void AimSelfAtCursor()
@@ -54,10 +55,21 @@ public class MagnetWeapon : MonoBehaviour
         transform.position = _attachTo.position;
     }
 
+    void SetCharge(Magnet.Charge charge)
+    {
+        CurrentCharge = charge;
+        SetMagnetSprite(charge);
+    }
+
     void InputSetCharge(Magnet.Charge charge)
     {
         if (!_isInputEnabled) { return; }
         CurrentCharge = charge;
+        SetMagnetSprite(charge);
+    }
+
+    void SetMagnetSprite(Magnet.Charge charge)
+    {
         _spriteRenderer.sprite = GetMagnetSpriteByCharge(charge);
         Sprite GetMagnetSpriteByCharge(Magnet.Charge charge) => charge switch
         {
@@ -67,4 +79,6 @@ public class MagnetWeapon : MonoBehaviour
             _ => _magnetSprites[0]
         };
     }
+
+    void Restore() => SetCharge(Magnet.Charge.Neutral);
 }

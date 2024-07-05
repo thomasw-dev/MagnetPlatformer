@@ -65,6 +65,9 @@ public class GameManager : MonoBehaviour
 
     void OnEnable()
     {
+        ClickToStart.OnClick += StartGame;
+        InputManager.OnAnyKeyInput += StartGame;
+
         _goalRemaining = _goals.Count;
         for (int i = 0; i < _goals.Count; i++)
         {
@@ -74,6 +77,9 @@ public class GameManager : MonoBehaviour
 
     void OnDisable()
     {
+        ClickToStart.OnClick -= StartGame;
+        InputManager.OnAnyKeyInput -= StartGame;
+
         _goalRemaining = 1;
         for (int i = 0; i < _goals.Count; i++)
         {
@@ -83,7 +89,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        SetState(State.Playing);
+        SetState(State.Initialization);
     }
 
     void Update()
@@ -96,6 +102,8 @@ public class GameManager : MonoBehaviour
         GameState = gameState;
         Debug.Log($"Game State: {GameState}");
     }
+
+    void StartGame() => SetState(State.Playing);
 
     void AddGoalProgress()
     {

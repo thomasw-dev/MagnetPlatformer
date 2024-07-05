@@ -17,15 +17,37 @@ public class GoalObject : MonoBehaviour
     [SerializeField] SpriteRenderer _spriteRenderer;
     Color _disabledColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
+    Rigidbody2D _rigidbody;
+
+    void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
     void OnEnable()
     {
+        GameManager.OnInitializationEnter += Initialize;
+        GameManager.OnPlayingEnter += EnablePhysics;
+
         // When player touch this object, the goal is achieved
         OnPlayerTouch += AchieveGoal;
     }
 
     void OnDisable()
     {
+        GameManager.OnInitializationEnter -= Initialize;
+        GameManager.OnPlayingEnter -= EnablePhysics;
         OnPlayerTouch -= AchieveGoal;
+    }
+
+    void Initialize()
+    {
+        _rigidbody.bodyType = RigidbodyType2D.Kinematic;
+    }
+
+    void EnablePhysics()
+    {
+        _rigidbody.bodyType = RigidbodyType2D.Dynamic;
     }
 
     void OnTriggerEnter2D(Collider2D col)

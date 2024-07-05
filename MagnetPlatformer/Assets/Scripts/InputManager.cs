@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    public static event Action OnAnyKeyInput;
+
     public static event Action OnMoveLeftInput;
     public static event Action OnMoveLeftInputStop;
 
@@ -35,6 +37,32 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.GameState == GameManager.State.Initialization)
+        {
+            if (CheckAnyKeyInput())
+            {
+                OnAnyKeyInput?.Invoke();
+            }
+        }
+
+        if (GameManager.GameState == GameManager.State.Playing)
+        {
+            MovementInput();
+        }
+    }
+
+    bool CheckAnyKeyInput()
+    {
+        if (Input.anyKeyDown)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape)) return false;
+            return true;
+        }
+        else return false;
+    }
+
+    void MovementInput()
+    {
         // Move Left
         if (Input.GetKey(MOVE_LEFT_KEY))
         {
@@ -56,7 +84,19 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    void MagnetSetCharge_Neutral() => OnMagnetSetCharge?.Invoke(Magnet.Charge.Neutral);
-    void MagnetSetCharge_Positive() => OnMagnetSetCharge?.Invoke(Magnet.Charge.Positive);
-    void MagnetSetCharge_Negative() => OnMagnetSetCharge?.Invoke(Magnet.Charge.Negative);
+    void MagnetSetCharge_Neutral()
+    {
+        if (GameManager.GameState != GameManager.State.Playing) { return; }
+        OnMagnetSetCharge?.Invoke(Magnet.Charge.Neutral);
+    }
+    void MagnetSetCharge_Positive()
+    {
+        if (GameManager.GameState != GameManager.State.Playing) { return; }
+        OnMagnetSetCharge?.Invoke(Magnet.Charge.Positive);
+    }
+    void MagnetSetCharge_Negative()
+    {
+        if (GameManager.GameState != GameManager.State.Playing) { return; }
+        OnMagnetSetCharge?.Invoke(Magnet.Charge.Negative);
+    }
 }

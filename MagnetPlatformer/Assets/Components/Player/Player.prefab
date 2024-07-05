@@ -74,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1049436229
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 598bff8ba0313421583314954f7a5ee7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -163,11 +163,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attachTo: {fileID: 2524691104920991101}
+  _currentCharge: 0
   _magnetSprites:
   - {fileID: 21300000, guid: 598bff8ba0313421583314954f7a5ee7, type: 3}
   - {fileID: 21300000, guid: a0fa1369bd23a49569e487c9030dc10c, type: 3}
   - {fileID: 21300000, guid: b458e88f2c53a42b8bb722cd2e073605, type: 3}
-  _currentCharge: 0
 --- !u!1 &2634632848575497132
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,8 +352,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 228688347
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
@@ -447,8 +447,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7518929593632867291}
-  - component: {fileID: 4597906660908887883}
   - component: {fileID: 7811936331613847614}
+  - component: {fileID: 4597906660908887883}
   m_Layer: 0
   m_Name: Aim Ray
   m_TagString: Untagged
@@ -472,6 +472,24 @@ Transform:
   - {fileID: 8698492258518092534}
   m_Father: {fileID: 2045669363255696424}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7811936331613847614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6800986249168706066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8919f98c231244f7ead7e58df1d02a2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points:
+  - {fileID: 7518929593632867291}
+  - {fileID: 8698492258518092534}
+  _aimRayMaterials:
+  - {fileID: 2100000, guid: 2f90b24581c5542529e9d3904f6e6705, type: 2}
+  - {fileID: 2100000, guid: d646d880b06344d75921fee6c170fb7e, type: 2}
 --- !u!120 &4597906660908887883
 LineRenderer:
   serializedVersion: 2
@@ -481,8 +499,8 @@ LineRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6800986249168706066}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 0
@@ -576,18 +594,3 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &7811936331613847614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6800986249168706066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8919f98c231244f7ead7e58df1d02a2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  points:
-  - {fileID: 7518929593632867291}
-  - {fileID: 8698492258518092534}

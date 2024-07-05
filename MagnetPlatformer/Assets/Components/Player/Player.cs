@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
 
     void OnEnable()
     {
+        GameManager.OnInitializationEnter += Initialize;
         GameManager.OnPlayingEnter += EnableInput;
         GameManager.OnPlayingExit += DisableInput;
         GameManager.OnWinEnter += DisableInput;
@@ -38,6 +39,7 @@ public class Player : MonoBehaviour
 
     void OnDisable()
     {
+        GameManager.OnInitializationEnter -= Initialize;
         GameManager.OnPlayingEnter -= EnableInput;
         GameManager.OnPlayingExit -= DisableInput;
         GameManager.OnWinEnter -= DisableInput;
@@ -71,6 +73,12 @@ public class Player : MonoBehaviour
         {
             _rigidbody2D.velocity = new Vector2(_velocityX, _rigidbody2D.velocity.y);
         }
+    }
+
+    void Initialize()
+    {
+        DisableInput();
+        _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
     }
 
     void EnableInput()
