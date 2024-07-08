@@ -493,7 +493,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: d646d880b06344d75921fee6c170fb7e, type: 2}
   layerToIgnore:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 136
 --- !u!120 &4597906660908887883
 LineRenderer:
   serializedVersion: 2

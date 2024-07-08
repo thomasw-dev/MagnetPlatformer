@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MagneticObject : MonoBehaviour
@@ -56,50 +57,60 @@ public class MagneticObject : MonoBehaviour
 
     void MagneticEffect()
     {
-        List<Rigidbody2D> magneticEffectors = GetAllMagneticEffectorsWithinDiameter(transform.position, _magneticRadius * 2);
+        List<Rigidbody2D> magneticEffectors = GetAllMagneticObjectRigidbodiesWithinDiameter(transform.position, _magneticRadius * 2);
+        Debug.Log($"{gameObject.name}: {magneticEffectors.Count}");
         List<Vector2> forces = new List<Vector2>();
         foreach (var magneticEffector in magneticEffectors)
         {
-            Vector2 force = CalculateMagneticForce(_rigidbody, magneticEffector);
-            forces.Add(force);
+            Vector2 forceMagnitude = CalculateMagneticForceMagnitude(_rigidbody, magneticEffector);
+            float inverseX = forceMagnitude.x > 0 ? _magneticRadius * 2 - forceMagnitude.x : -(_magneticRadius * 2) + forceMagnitude.x;
+            float inverseY = forceMagnitude.y > 0 ? _magneticRadius * 2 - forceMagnitude.y : -(_magneticRadius * 2) + forceMagnitude.y;
+            forceMagnitude = new Vector2(inverseX, inverseY);
+            int chargeFactor = CalculateChargeFactor(_rigidbody.gameObject.GetComponent<MagneticObject>().CurrentCharge, magneticEffector.gameObject.GetComponent<MagneticObject>().CurrentCharge);
+            forces.Add(forceMagnitude * chargeFactor * _forceFactor);
         }
         for (int i = 0; i < forces.Count; i++)
         {
             _rigidbody.AddForce(forces[i] * _forceFactor);
+            Debug.Log($"{gameObject.name}: {forces[i] * _forceFactor}");
         }
     }
 
-    List<Rigidbody2D> GetAllMagneticEffectorsWithinDiameter(Vector2 position, float diameter)
+    List<Rigidbody2D> GetAllMagneticObjectRigidbodiesWithinDiameter(Vector2 position, float diameter)
     {
         List<Rigidbody2D> result = new List<Rigidbody2D>();
         Collider2D[] cols = Physics2D.OverlapCircleAll(position, diameter, _layerMask);
         foreach (var col in cols)
         {
             // If the collider's GameObject is not itself and has MagneticObject component
-            if (col.gameObject != this && col.gameObject.TryGetComponent(out MagneticObject magneticObject))
+            if (col.gameObject != gameObject && col.gameObject.TryGetComponent(out MagneticObject magneticObject))
             {
-                result.Add(col.gameObject.GetComponent<Rigidbody2D>());
+                // Only add magnetic objects that are charged
+                if (magneticObject.CurrentCharge != Magnet.Charge.Neutral)
+                {
+                    result.Add(col.gameObject.GetComponent<Rigidbody2D>());
+                    //Debug.Log(col.gameObject.name);
+                }
             }
         }
         return result;
     }
 
-    Vector2 CalculateMagneticForce(Rigidbody2D receiverRigidbody, Rigidbody2D effectorRigidbody)
+    Vector2 CalculateMagneticForceMagnitude(Rigidbody2D receiverRigidbody, Rigidbody2D effectorRigidbody)
     {
         Vector2 distance = receiverRigidbody.position - effectorRigidbody.position;
-        distance = new Vector2(_magneticRadius - distance.x, _magneticRadius - distance.y); // !!!
-        Magnet.Charge receiverCharge = receiverRigidbody.gameObject.GetComponent<MagneticObject>().CurrentCharge;
-        Magnet.Charge effectorCharge = effectorRigidbody.gameObject.GetComponent<MagneticObject>().CurrentCharge;
+        return distance; // new Vector2(_magneticRadius * 2 - distance.x, _magneticRadius * 2 - distance.y);
+    }
 
+    int CalculateChargeFactor(Magnet.Charge receiverCharge, Magnet.Charge effectorCharge)
+    {
         // Repel or Attract
-        int chargeFactor = 1; // 1 = repel, -1 - attract
+        int chargeFactor = 1; // 1 = repel, -1 = attract
         if (receiverCharge == Magnet.Charge.Positive && effectorCharge == Magnet.Charge.Positive) chargeFactor = 1;
         if (receiverCharge == Magnet.Charge.Positive && effectorCharge == Magnet.Charge.Negative) chargeFactor = -1;
         if (receiverCharge == Magnet.Charge.Negative && effectorCharge == Magnet.Charge.Positive) chargeFactor = -1;
         if (receiverCharge == Magnet.Charge.Negative && effectorCharge == Magnet.Charge.Negative) chargeFactor = 1;
-        if (receiverCharge == Magnet.Charge.Neutral || effectorCharge == Magnet.Charge.Neutral) chargeFactor = 0;
-
-        return distance * chargeFactor;
+        return chargeFactor;
     }
 
     void OnDrawGizmos()
