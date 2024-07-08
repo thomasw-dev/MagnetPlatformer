@@ -15,11 +15,14 @@ public class Player : MonoBehaviour
     [Range(1f, 1000f)]
     [SerializeField] float _jumpForce = 1f;
 
+    [SerializeField] bool _airJumpEnabled = false;
+
     const float MOVE_SPEED_MAX = 10f;
 
     bool _isInputEnabled = true;
     bool _isMovingLeft = false;
     bool _isMovingRight = false;
+    bool isGrounded = false;
 
     float _velocityX;
 
@@ -65,6 +68,8 @@ public class Player : MonoBehaviour
     {
         // _isInputEnabled is only true when GameState is Playing
         _isInputEnabled = GameManager.GameState == GameManager.State.Playing ? true : false;
+
+        Debug.Log(isGrounded);
     }
 
     void FixedUpdate()
@@ -73,6 +78,22 @@ public class Player : MonoBehaviour
         {
             _rigidbody2D.velocity = new Vector2(_velocityX, _rigidbody2D.velocity.y);
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        //if (col.gameObject.tag == "Environment" || col.gameObject.tag == "Object")
+        //{
+            isGrounded = true;
+        //}
+    }
+
+    void OnCollisionExit2D(Collision2D col)
+    {
+        //if (col.gameObject.tag == "Environment" || col.gameObject.tag == "Object")
+        //{
+            isGrounded = false;
+        //}
     }
 
     void Initialize()
@@ -123,6 +144,9 @@ public class Player : MonoBehaviour
     void Jump()
     {
         if (!_isInputEnabled) { return; }
-        _rigidbody2D.AddForce(Vector2.up * _jumpForce);
+        if (true) // (isGrounded || _airJumpEnabled)
+        {
+            _rigidbody2D.AddForce(Vector2.up * _jumpForce);
+        }
     }
 }

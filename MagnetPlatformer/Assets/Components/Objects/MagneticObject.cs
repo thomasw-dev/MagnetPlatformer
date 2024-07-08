@@ -58,7 +58,6 @@ public class MagneticObject : MonoBehaviour
     void MagneticEffect()
     {
         List<Rigidbody2D> magneticEffectors = GetAllMagneticObjectRigidbodiesWithinDiameter(transform.position, _magneticRadius * 2);
-        Debug.Log($"{gameObject.name}: {magneticEffectors.Count}");
         List<Vector2> forces = new List<Vector2>();
         foreach (var magneticEffector in magneticEffectors)
         {
@@ -72,7 +71,6 @@ public class MagneticObject : MonoBehaviour
         for (int i = 0; i < forces.Count; i++)
         {
             _rigidbody.AddForce(forces[i] * _forceFactor);
-            Debug.Log($"{gameObject.name}: {forces[i] * _forceFactor}");
         }
     }
 
@@ -89,7 +87,6 @@ public class MagneticObject : MonoBehaviour
                 if (magneticObject.CurrentCharge != Magnet.Charge.Neutral)
                 {
                     result.Add(col.gameObject.GetComponent<Rigidbody2D>());
-                    //Debug.Log(col.gameObject.name);
                 }
             }
         }
@@ -99,7 +96,7 @@ public class MagneticObject : MonoBehaviour
     Vector2 CalculateMagneticForceMagnitude(Rigidbody2D receiverRigidbody, Rigidbody2D effectorRigidbody)
     {
         Vector2 distance = receiverRigidbody.position - effectorRigidbody.position;
-        return distance; // new Vector2(_magneticRadius * 2 - distance.x, _magneticRadius * 2 - distance.y);
+        return distance;
     }
 
     int CalculateChargeFactor(Magnet.Charge receiverCharge, Magnet.Charge effectorCharge)

@@ -41,12 +41,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9063011633283796772}
-  - component: {fileID: 4421919774485550289}
   - component: {fileID: 8600872871196404604}
   - component: {fileID: 1255547304758826710}
   - component: {fileID: 5857423101529571672}
   m_Layer: 0
-  m_Name: Object
+  m_Name: Magnetic Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,19 +68,6 @@ Transform:
   - {fileID: 7906563638889898801}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4421919774485550289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4653347773498213825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be3565ec9791f4023ad489c9384245c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 984322971749303477}
 --- !u!114 &8600872871196404604
 MonoBehaviour:
   m_ObjectHideFlags: 0

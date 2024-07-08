@@ -15,7 +15,7 @@ public class GoalObject : MonoBehaviour
     event Action OnPlayerTouch;
 
     [SerializeField] SpriteRenderer _spriteRenderer;
-    Color _disabledColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+    [SerializeField] Sprite _disabledSprite;
 
     Rigidbody2D _rigidbody;
 
@@ -27,7 +27,7 @@ public class GoalObject : MonoBehaviour
     void OnEnable()
     {
         GameManager.OnInitializationEnter += Initialize;
-        GameManager.OnPlayingEnter += EnablePhysics;
+        //GameManager.OnPlayingEnter += EnablePhysics;
 
         // When player touch this object, the goal is achieved
         OnPlayerTouch += AchieveGoal;
@@ -36,7 +36,7 @@ public class GoalObject : MonoBehaviour
     void OnDisable()
     {
         GameManager.OnInitializationEnter -= Initialize;
-        GameManager.OnPlayingEnter -= EnablePhysics;
+        //GameManager.OnPlayingEnter -= EnablePhysics;
         OnPlayerTouch -= AchieveGoal;
     }
 
@@ -69,6 +69,6 @@ public class GoalObject : MonoBehaviour
 
     void SetDisabledVisual()
     {
-        _spriteRenderer.color = _disabledColor;
+        _spriteRenderer.sprite = _disabledSprite;
     }
 }
