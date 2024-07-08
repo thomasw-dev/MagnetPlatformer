@@ -1,16 +1,29 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MagneticObject : MonoBehaviour
 {
-    [SerializeField] Magnet.Charge _currentCharge;
+    Magnet.Charge _currentCharge;
+    public Magnet.Charge CurrentCharge
+    {
+        get { return _currentCharge;  }
+        set
+        {
+            if (_currentCharge != value)
+            {
+                OnCurrentChargeChanged?.Invoke(value);
+            }
+            _currentCharge = value;
+        }
+    }
+    [SerializeField] Magnet.Charge _charge;
+
     [SerializeField] LayerMask _layerMask = default;
 
-    [Range(0f, 20f)]
+    [Range(0f, 50f)]
     [SerializeField] float _magneticRadius = 1f;
-    [Range(0f, 10f)]
+    [Range(0f, 50f)]
     [SerializeField] float _forceFactor = 1f;
 
     public event Action<Magnet.Charge> OnCurrentChargeChanged;
@@ -22,12 +35,7 @@ public class MagneticObject : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    void Start()
-    {
-
-    }
-
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         if (_currentCharge == Magnet.Charge.Positive || _currentCharge == Magnet.Charge.Negative)
         {
@@ -35,10 +43,20 @@ public class MagneticObject : MonoBehaviour
         }
     }
 
+    void OnValidate()
+    {
+        CurrentCharge = _charge;
+    }
+
+    public void SetCharge(Magnet.Charge charge)
+    {
+        _currentCharge = charge;
+        OnCurrentChargeChanged?.Invoke(charge);
+    }
+
     void MagneticEffect()
     {
-        List<Rigidbody2D> magneticEffectors = GetAllMagneticEffectorsWithinRadius(transform.position, _magneticRadius);
-        Debug.Log($"magneticEffectors.Count: {magneticEffectors.Count}");
+        List<Rigidbody2D> magneticEffectors = GetAllMagneticEffectorsWithinDiameter(transform.position, _magneticRadius * 2);
         List<Vector2> forces = new List<Vector2>();
         foreach (var magneticEffector in magneticEffectors)
         {
@@ -51,10 +69,10 @@ public class MagneticObject : MonoBehaviour
         }
     }
 
-    List<Rigidbody2D> GetAllMagneticEffectorsWithinRadius(Vector2 position, float radius)
+    List<Rigidbody2D> GetAllMagneticEffectorsWithinDiameter(Vector2 position, float diameter)
     {
         List<Rigidbody2D> result = new List<Rigidbody2D>();
-        Collider2D[] cols = Physics2D.OverlapCircleAll(position, radius, _layerMask);
+        Collider2D[] cols = Physics2D.OverlapCircleAll(position, diameter, _layerMask);
         foreach (var col in cols)
         {
             // If the collider's GameObject is not itself and has MagneticObject component
@@ -68,7 +86,18 @@ public class MagneticObject : MonoBehaviour
 
     Vector2 CalculateMagneticForce(Rigidbody2D receiverRigidbody, Rigidbody2D effectorRigidbody)
     {
-        return receiverRigidbody.position - effectorRigidbody.position;
+        Vector2 distance = receiverRigidbody.position - effectorRigidbody.position;
+        Magnet.Charge receiverCharge = receiverRigidbody.gameObject.GetComponent<MagneticObject>().CurrentCharge;
+        Magnet.Charge effectorCharge = effectorRigidbody.gameObject.GetComponent<MagneticObject>().CurrentCharge;
+
+        // Repel or Attract
+        int netFactor = 1; // 1 = repel, -1 - attract
+        if (receiverCharge == Magnet.Charge.Positive && effectorCharge == Magnet.Charge.Positive) netFactor = 1;
+        if (receiverCharge == Magnet.Charge.Positive && effectorCharge == Magnet.Charge.Negative) netFactor = -1;
+        if (receiverCharge == Magnet.Charge.Negative && effectorCharge == Magnet.Charge.Positive) netFactor = -1;
+        if (receiverCharge == Magnet.Charge.Negative && effectorCharge == Magnet.Charge.Negative) netFactor = 1;
+
+        return distance * netFactor;
     }
 
     void OnDrawGizmos()

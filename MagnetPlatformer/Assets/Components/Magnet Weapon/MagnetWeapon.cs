@@ -16,13 +16,13 @@ public class MagnetWeapon : MonoBehaviour
 
     void OnEnable()
     {
-        InputManager.OnMagnetSetCharge += InputSetCharge;
+        InputManager.OnMagnetWeaponSetCharge += InputSetCharge;
         GameManager.OnPlayingExit += Restore;
     }
 
     void OnDisable()
     {
-        InputManager.OnMagnetSetCharge -= InputSetCharge;
+        InputManager.OnMagnetWeaponSetCharge -= InputSetCharge;
         GameManager.OnPlayingExit -= Restore;
     }
 

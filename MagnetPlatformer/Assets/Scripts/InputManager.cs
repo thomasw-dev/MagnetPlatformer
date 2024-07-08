@@ -12,7 +12,7 @@ public class InputManager : MonoBehaviour
     public static event Action OnMoveRightInputStop;
     public static event Action OnJumpInput;
 
-    public static event Action<Magnet.Charge> OnMagnetSetCharge;
+    public static event Action<Magnet.Charge> OnMagnetWeaponSetCharge;
 
     const KeyCode MOVE_LEFT_KEY = KeyCode.A;
     const KeyCode MOVE_RIGHT_KEY = KeyCode.D;
@@ -87,16 +87,16 @@ public class InputManager : MonoBehaviour
     void MagnetSetCharge_Neutral()
     {
         if (GameManager.GameState != GameManager.State.Playing) { return; }
-        OnMagnetSetCharge?.Invoke(Magnet.Charge.Neutral);
+        OnMagnetWeaponSetCharge?.Invoke(Magnet.Charge.Neutral);
     }
     void MagnetSetCharge_Positive()
     {
         if (GameManager.GameState != GameManager.State.Playing) { return; }
-        OnMagnetSetCharge?.Invoke(Magnet.Charge.Positive);
+        OnMagnetWeaponSetCharge?.Invoke(Magnet.Charge.Positive);
     }
     void MagnetSetCharge_Negative()
     {
         if (GameManager.GameState != GameManager.State.Playing) { return; }
-        OnMagnetSetCharge?.Invoke(Magnet.Charge.Negative);
+        OnMagnetWeaponSetCharge?.Invoke(Magnet.Charge.Negative);
     }
 }
