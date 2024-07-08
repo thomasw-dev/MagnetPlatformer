@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class MagnetWeapon : MonoBehaviour
 {
     [SerializeField] Transform _attachTo;
 
+    public static event Action<Magnet.Charge> OnFireWeapon;
     public static Magnet.Charge CurrentCharge = Magnet.Charge.Neutral;
     [SerializeField] Magnet.Charge _currentCharge; // Inspector
 
@@ -17,12 +17,14 @@ public class MagnetWeapon : MonoBehaviour
     void OnEnable()
     {
         InputManager.OnMagnetWeaponSetCharge += InputSetCharge;
+        InputManager.OnMagnetWeaponSetCharge += FireWeapon;
         GameManager.OnPlayingExit += Restore;
     }
 
     void OnDisable()
     {
         InputManager.OnMagnetWeaponSetCharge -= InputSetCharge;
+        InputManager.OnMagnetWeaponSetCharge -= FireWeapon;
         GameManager.OnPlayingExit -= Restore;
     }
 
@@ -78,6 +80,12 @@ public class MagnetWeapon : MonoBehaviour
             Magnet.Charge.Negative => _magnetSprites[2],
             _ => _magnetSprites[0]
         };
+    }
+
+    void FireWeapon(Magnet.Charge charge)
+    {
+        if (charge == Magnet.Charge.Neutral) return;
+        OnFireWeapon?.Invoke(charge);
     }
 
     void Restore() => SetCharge(Magnet.Charge.Neutral);

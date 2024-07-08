@@ -87,17 +87,19 @@ public class MagneticObject : MonoBehaviour
     Vector2 CalculateMagneticForce(Rigidbody2D receiverRigidbody, Rigidbody2D effectorRigidbody)
     {
         Vector2 distance = receiverRigidbody.position - effectorRigidbody.position;
+        distance = new Vector2(_magneticRadius - distance.x, _magneticRadius - distance.y); // !!!
         Magnet.Charge receiverCharge = receiverRigidbody.gameObject.GetComponent<MagneticObject>().CurrentCharge;
         Magnet.Charge effectorCharge = effectorRigidbody.gameObject.GetComponent<MagneticObject>().CurrentCharge;
 
         // Repel or Attract
-        int netFactor = 1; // 1 = repel, -1 - attract
-        if (receiverCharge == Magnet.Charge.Positive && effectorCharge == Magnet.Charge.Positive) netFactor = 1;
-        if (receiverCharge == Magnet.Charge.Positive && effectorCharge == Magnet.Charge.Negative) netFactor = -1;
-        if (receiverCharge == Magnet.Charge.Negative && effectorCharge == Magnet.Charge.Positive) netFactor = -1;
-        if (receiverCharge == Magnet.Charge.Negative && effectorCharge == Magnet.Charge.Negative) netFactor = 1;
+        int chargeFactor = 1; // 1 = repel, -1 - attract
+        if (receiverCharge == Magnet.Charge.Positive && effectorCharge == Magnet.Charge.Positive) chargeFactor = 1;
+        if (receiverCharge == Magnet.Charge.Positive && effectorCharge == Magnet.Charge.Negative) chargeFactor = -1;
+        if (receiverCharge == Magnet.Charge.Negative && effectorCharge == Magnet.Charge.Positive) chargeFactor = -1;
+        if (receiverCharge == Magnet.Charge.Negative && effectorCharge == Magnet.Charge.Negative) chargeFactor = 1;
+        if (receiverCharge == Magnet.Charge.Neutral || effectorCharge == Magnet.Charge.Neutral) chargeFactor = 0;
 
-        return distance * netFactor;
+        return distance * chargeFactor;
     }
 
     void OnDrawGizmos()

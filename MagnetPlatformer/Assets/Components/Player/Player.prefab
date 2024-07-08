@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2045669363255696424}
+  - component: {fileID: 718564577288837491}
   - component: {fileID: 2621887890382946644}
   - component: {fileID: 1920142568407144478}
   - component: {fileID: 3340132993716165628}
-  - component: {fileID: 718564577288837491}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Magnet Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,6 +36,24 @@ Transform:
   - {fileID: 7518929593632867291}
   m_Father: {fileID: 3700726771769224854}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &718564577288837491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204439681888679240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b37fc7055971a49859702a6ef72107b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attachTo: {fileID: 2524691104920991101}
+  _currentCharge: 0
+  _magnetSprites:
+  - {fileID: 21300000, guid: 598bff8ba0313421583314954f7a5ee7, type: 3}
+  - {fileID: 21300000, guid: a0fa1369bd23a49569e487c9030dc10c, type: 3}
+  - {fileID: 21300000, guid: b458e88f2c53a42b8bb722cd2e073605, type: 3}
 --- !u!212 &2621887890382946644
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -150,24 +168,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &718564577288837491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1204439681888679240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37fc7055971a49859702a6ef72107b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _attachTo: {fileID: 2524691104920991101}
-  _currentCharge: 0
-  _magnetSprites:
-  - {fileID: 21300000, guid: 598bff8ba0313421583314954f7a5ee7, type: 3}
-  - {fileID: 21300000, guid: a0fa1369bd23a49569e487c9030dc10c, type: 3}
-  - {fileID: 21300000, guid: b458e88f2c53a42b8bb722cd2e073605, type: 3}
 --- !u!1 &2634632848575497132
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +177,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2524691104920991101}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Magnet Weapon Attach Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3700726771769224854}
   - component: {fileID: 4230841474306970056}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8698492258518092534}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Line End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 3278946800921466683}
   - component: {fileID: 3068059973282212026}
   - component: {fileID: 6559561196357730418}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -449,7 +449,7 @@ GameObject:
   - component: {fileID: 7518929593632867291}
   - component: {fileID: 7811936331613847614}
   - component: {fileID: 4597906660908887883}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Aim Ray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -488,8 +488,12 @@ MonoBehaviour:
   - {fileID: 7518929593632867291}
   - {fileID: 8698492258518092534}
   _aimRayMaterials:
+  - {fileID: 2100000, guid: b038f56c388d0406392716e4f917f695, type: 2}
   - {fileID: 2100000, guid: 2f90b24581c5542529e9d3904f6e6705, type: 2}
   - {fileID: 2100000, guid: d646d880b06344d75921fee6c170fb7e, type: 2}
+  layerToIgnore:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!120 &4597906660908887883
 LineRenderer:
   serializedVersion: 2
