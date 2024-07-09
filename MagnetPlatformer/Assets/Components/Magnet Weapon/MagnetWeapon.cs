@@ -23,20 +23,20 @@ public class MagnetWeapon : MonoBehaviour
     {
         InputManager.OnMagnetWeaponSetCharge += InputSetCharge;
         InputManager.OnMagnetWeaponSetCharge += FireWeapon;
-        GameManager.OnPlayingExit += Restore;
+        GameState.Play.OnExit += Restore;
     }
 
     void OnDisable()
     {
         InputManager.OnMagnetWeaponSetCharge -= InputSetCharge;
         InputManager.OnMagnetWeaponSetCharge -= FireWeapon;
-        GameManager.OnPlayingExit -= Restore;
+        GameState.Play.OnExit -= Restore;
     }
 
     void Update()
     {
         // _isInputEnabled is only true when GameState is Playing
-        _isInputEnabled = GameManager.GameState == GameManager.State.Playing ? true : false;
+        _isInputEnabled = GameState.CurrentState == GameState.Play ? true : false;
 
         _currentCharge = CurrentCharge;
 

@@ -1,62 +1,79 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] GameObject _startScreen;
     [SerializeField] GameObject _playingScreen;
     [SerializeField] GameObject _winScreen;
+    [SerializeField] GameObject _loseScreen;
+
+    [SerializeField] List<GameObject> _screens;
 
     void OnEnable()
     {
-        GameManager.OnInitializationEnter += Initialize;
-        GameManager.OnInitializationExit += DisableStartScreen;
-        GameManager.OnPlayingEnter += EnablePlayingScreen;
-        GameManager.OnPlayingExit += DisablePlayingScreen;
-        GameManager.OnWinEnter += EnableWinScreen;
-        GameManager.OnWinExit += DisableWinScreen;
+        GameState.Initialize.OnEnter += Initialize;
+        GameState.Initialize.OnExit += DisableStartScreen;
+        GameState.Play.OnEnter += EnablePlayingScreen;
+        GameState.Play.OnExit += DisablePlayingScreen;
+        GameState.Win.OnEnter += EnableWinScreen;
+        GameState.Win.OnExit += DisableWinScreen;
+        GameState.Lose.OnEnter += EnableLoseScreen;
+        GameState.Lose.OnExit += DisableLoseScreen;
     }
 
     void OnDisable()
     {
-        GameManager.OnInitializationEnter -= Initialize;
-        GameManager.OnInitializationExit -= DisableStartScreen;
-        GameManager.OnPlayingEnter -= EnablePlayingScreen;
-        GameManager.OnPlayingExit -= DisablePlayingScreen;
-        GameManager.OnWinEnter -= EnableWinScreen;
-        GameManager.OnWinExit -= DisableWinScreen;
+        GameState.Initialize.OnEnter -= Initialize;
+        GameState.Initialize.OnExit -= DisableStartScreen;
+        GameState.Play.OnEnter -= EnablePlayingScreen;
+        GameState.Play.OnExit -= DisablePlayingScreen;
+        GameState.Win.OnEnter -= EnableWinScreen;
+        GameState.Win.OnExit -= DisableWinScreen;
+        GameState.Lose.OnEnter -= EnableLoseScreen;
+        GameState.Lose.OnExit -= DisableLoseScreen;
+    }
+
+    void SoloScreen(List<GameObject> list, GameObject target)
+    {
+        if (list.Contains(target))
+        {
+            foreach (GameObject obj in list)
+            {
+                obj.SetActive(obj == target);
+            }
+        }
+        else Debug.Log("Target object not found in the list.");
+    }
+
+    [ContextMenu("Enable All Screens")]
+    void EnableAllScreens()
+    {
+        foreach (GameObject obj in _screens)
+            obj.SetActive(true);
     }
 
     void Initialize()
     {
-        _startScreen.SetActive(true);
-        _winScreen.SetActive(false);
-
+        EnableStartScreen();
     }
 
-    void DisableStartScreen()
-    {
-        _startScreen.SetActive(false);
-    }
+    [ContextMenu("Solo: Start Screen")]
+    void EnableStartScreen() => SoloScreen(_screens, _startScreen);
+    void DisableStartScreen() => _startScreen.SetActive(false);
 
-    void EnablePlayingScreen()
-    {
-        // ...
-    }
+    [ContextMenu("Solo: Playing Screen")]
+    void EnablePlayingScreen() => SoloScreen(_screens, _playingScreen);
+    void DisablePlayingScreen() => _playingScreen.SetActive(false);
 
-    void DisablePlayingScreen()
-    {
-        // ...
-    }
+    [ContextMenu("Solo: Win Screen")]
+    void EnableWinScreen() => SoloScreen(_screens, _winScreen);
+    void DisableWinScreen() => _winScreen.SetActive(false);
 
-    void EnableWinScreen()
-    {
-        _winScreen.SetActive(true);
-    }
-
-    void DisableWinScreen()
-    {
-        _winScreen.SetActive(false);
-    }
+    [ContextMenu("Solo: Lose Screen")]
+    void EnableLoseScreen() => SoloScreen(_screens, _loseScreen);
+    void DisableLoseScreen() => _loseScreen.SetActive(false);
 }

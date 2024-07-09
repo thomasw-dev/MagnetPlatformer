@@ -19,18 +19,18 @@ public class MagnetWeaponAimRay : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.OnInitializationEnter += Initialize;
+        GameState.Initialize.OnEnter += Initialize;
         InputManager.OnMagnetWeaponSetCharge += SetLineVisual;
         MagnetWeapon.OnFireWeapon += ShootRay;
-        GameManager.OnPlayingExit += Restore;
+        GameState.Play.OnEnter += Restore;
     }
 
     void OnDisable()
     {
-        GameManager.OnInitializationEnter -= Initialize;
+        GameState.Initialize.OnEnter -= Initialize;
         InputManager.OnMagnetWeaponSetCharge -= SetLineVisual;
         MagnetWeapon.OnFireWeapon -= ShootRay;
-        GameManager.OnPlayingExit -= Restore;
+        GameState.Play.OnExit -= Restore;
     }
 
     void Start()

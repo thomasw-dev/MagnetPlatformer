@@ -35,10 +35,10 @@ public class Player : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.OnInitializationEnter += Initialize;
-        GameManager.OnPlayingEnter += EnableInput;
-        GameManager.OnPlayingExit += DisableInput;
-        GameManager.OnWinEnter += DisableInput;
+        GameState.Initialize.OnEnter += Initialize;
+        GameState.Play.OnEnter += EnableInput;
+        GameState.Play.OnExit += DisableInput;
+        GameState.Win.OnEnter += DisableInput;
 
         InputManager.OnMoveLeftInput += MoveLeft;
         InputManager.OnMoveLeftInputStop += MoveLeftStop;
@@ -49,10 +49,10 @@ public class Player : MonoBehaviour
 
     void OnDisable()
     {
-        GameManager.OnInitializationEnter -= Initialize;
-        GameManager.OnPlayingEnter -= EnableInput;
-        GameManager.OnPlayingExit -= DisableInput;
-        GameManager.OnWinEnter -= DisableInput;
+        GameState.Initialize.OnEnter -= Initialize;
+        GameState.Play.OnEnter -= EnableInput;
+        GameState.Play.OnExit -= DisableInput;
+        GameState.Win.OnEnter -= DisableInput;
 
         InputManager.OnMoveLeftInput -= MoveLeft;
         InputManager.OnMoveLeftInputStop -= MoveLeftStop;
@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         // _isInputEnabled is only true when GameState is Playing
-        _isInputEnabled = GameManager.GameState == GameManager.State.Playing ? true : false;
+        _isInputEnabled = GameState.CurrentState == GameState.Play ? true : false;
     }
 
     void FixedUpdate()
@@ -84,9 +84,7 @@ public class Player : MonoBehaviour
 
     bool GroundCheck()
     {
-        Vector2 position = _groundCheckRaycastPoint.position;
-        Vector2 direction = Vector2.down;
-        RaycastHit2D hit = Physics2D.Raycast(position, direction, GROUND_CHECK_RAYCAST_LENGTH, _environmentLayerMask);
+        RaycastHit2D hit = Physics2D.Raycast(_groundCheckRaycastPoint.position, Vector2.down, GROUND_CHECK_RAYCAST_LENGTH, _environmentLayerMask);
         return hit.collider != null ? true : false;
     }
 

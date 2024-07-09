@@ -42,12 +42,10 @@ public class CameraController : MonoBehaviour
     {
         _followPlayer = false;
         _stickyPos = pos;
-        Debug.Log("Enable sticky camera");
     }
 
     void DisableSticky()
     {
         _followPlayer = true;
-        Debug.Log("Disable sticky camera");
     }
 }

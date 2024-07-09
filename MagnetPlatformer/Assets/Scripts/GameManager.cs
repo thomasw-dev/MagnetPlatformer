@@ -4,58 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    #region GAME STATES, ACTIONS
-
-    public enum State
-    {
-        Initialization, Playing, Win, Lose
-    }
-
-    public static event Action OnInitializationEnter, OnInitializationExit;
-    public static event Action OnPlayingEnter, OnPlayingExit;
-    public static event Action OnWinEnter, OnWinExit;
-    public static event Action OnLoseEnter, OnLoseExit;
-
-    static Action GetStateEnterAction(State gameState)
-    {
-        return gameState switch
-        {
-            State.Initialization => OnInitializationEnter,
-            State.Playing => OnPlayingEnter,
-            State.Win => OnWinEnter,
-            State.Lose => OnLoseEnter,
-            _ => null
-        };
-    }
-
-    static Action GetStateExitAction(State gameState)
-    {
-        return gameState switch
-        {
-            State.Initialization => OnInitializationExit,
-            State.Playing => OnPlayingExit,
-            State.Win => OnWinExit,
-            State.Lose => OnLoseExit,
-            _ => null
-        };
-    }
-
-    private static State _gameState;
-    public static State GameState
-    {
-        get { return _gameState; }
-
-        set
-        {
-            GetStateExitAction(_gameState)?.Invoke();
-            _gameState = value;
-            GetStateEnterAction(_gameState)?.Invoke();
-        }
-    }
-    [SerializeField] State _state; // Inspector
-
-    #endregion
-
     #region GOALS
 
     [SerializeField] int _goalRemaining = 1;
@@ -89,28 +37,17 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        SetState(State.Initialization);
+        GameState.ChangeState(GameState.Initialize);
     }
 
-    void Update()
-    {
-        _state = GameState;
-    }
-
-    void SetState(State gameState)
-    {
-        GameState = gameState;
-        Debug.Log($"Game State: {GameState}");
-    }
-
-    void StartGame() => SetState(State.Playing);
+    void StartGame() => GameState.ChangeState(GameState.Play);
 
     void AddGoalProgress()
     {
         _goalRemaining--;
         if (_goalRemaining == 0)
         {
-            SetState(State.Win);
+            GameState.ChangeState(GameState.Win);
         }
     }
 }

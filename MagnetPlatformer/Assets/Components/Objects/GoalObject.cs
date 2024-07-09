@@ -26,7 +26,7 @@ public class GoalObject : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.OnInitializationEnter += Initialize;
+        GameState.Initialize.OnEnter += Initialize;
         //GameManager.OnPlayingEnter += EnablePhysics;
 
         // When player touch this object, the goal is achieved
@@ -35,7 +35,7 @@ public class GoalObject : MonoBehaviour
 
     void OnDisable()
     {
-        GameManager.OnInitializationEnter -= Initialize;
+        GameState.Initialize.OnExit -= Initialize;
         //GameManager.OnPlayingEnter -= EnablePhysics;
         OnPlayerTouch -= AchieveGoal;
     }

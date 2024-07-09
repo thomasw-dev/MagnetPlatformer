@@ -26,13 +26,13 @@ public class MagneticObjectVisual : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.OnInitializationEnter += Initialize;
+        GameState.Initialize.OnEnter += Initialize;
         _magneticObject.OnCurrentChargeChanged += SetVisual;
     }
 
     void OnDisable()
     {
-        GameManager.OnInitializationEnter -= Initialize;
+        GameState.Initialize.OnExit -= Initialize;
         _magneticObject.OnCurrentChargeChanged -= SetVisual;
     }
 

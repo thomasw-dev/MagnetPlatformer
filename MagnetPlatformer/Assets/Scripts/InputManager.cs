@@ -37,7 +37,7 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.GameState == GameManager.State.Initialization)
+        if (GameState.CurrentState == GameState.Initialize)
         {
             if (CheckAnyKeyInput())
             {
@@ -45,7 +45,7 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        if (GameManager.GameState == GameManager.State.Playing)
+        if (GameState.CurrentState == GameState.Play)
         {
             MovementInput();
         }
@@ -86,17 +86,17 @@ public class InputManager : MonoBehaviour
 
     void MagnetSetCharge_Neutral()
     {
-        if (GameManager.GameState != GameManager.State.Playing) { return; }
+        if (GameState.CurrentState != GameState.Play) { return; }
         OnMagnetWeaponSetCharge?.Invoke(Magnet.Charge.Neutral);
     }
     void MagnetSetCharge_Positive()
     {
-        if (GameManager.GameState != GameManager.State.Playing) { return; }
+        if (GameState.CurrentState != GameState.Play) { return; }
         OnMagnetWeaponSetCharge?.Invoke(Magnet.Charge.Positive);
     }
     void MagnetSetCharge_Negative()
     {
-        if (GameManager.GameState != GameManager.State.Playing) { return; }
+        if (GameState.CurrentState != GameState.Play) { return; }
         OnMagnetWeaponSetCharge?.Invoke(Magnet.Charge.Negative);
     }
 }
