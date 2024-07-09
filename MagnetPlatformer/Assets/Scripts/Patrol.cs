@@ -3,25 +3,30 @@ using UnityEngine;
 
 public class Patrol : MonoBehaviour
 {
+    [SerializeField] Rigidbody2D _rigidbody2D;
+
     public enum StartMode { StartOnPlay, StartOnTrigger }
     [SerializeField] StartMode _startMode;
-    [Tooltip("Only applicable for StartOnTrigger start mode.")]
+    [Tooltip("Only applicable to StartOnTrigger mode.")]
     [SerializeField] Collider2D _startTrigger;
+
+    [SerializeField] bool _loop = true;
 
     [SerializeField] Marker[] _markers;
 
     [System.Serializable]
     public struct Marker
     {
-        public Transform point;
-        public float duration;
+        public Transform Point;
+        public float Duration; // time it takes to move to this point
+        public Ease Ease;
     }
 
-    Rigidbody2D _rigidbody2D;
+    int _current = 0;
 
-    void Awake()
+    void Start()
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
     }
 
     void OnEnable()
@@ -47,16 +52,32 @@ public class Patrol : MonoBehaviour
     [ContextMenu("Start Patrol")]
     void StartPatrol()
     {
-        for (int i = 0; i < _markers.Length; i++)
+        ToNextMarker();
+    }
+
+    void ToNextMarker()
+    {
+        if (_current >= _markers.Length)
         {
-            //bool complete = false;
-            _rigidbody2D.DOMove(_markers[i].point.position, _markers[i].duration);
+            if (_loop)
+            {
+                _current = 0;
+            }
+            else return;
         }
+
+        _rigidbody2D.DOMove(_markers[_current].Point.localPosition, _markers[_current].Duration).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            _current++;
+            ToNextMarker();
+        });
     }
 
     [ContextMenu("Stop Patrol")]
     void StopPatrol()
     {
         _rigidbody2D.DOKill();
+        _rigidbody2D.position = _markers[0].Point.position;
+        _current = 0;
     }
 }
