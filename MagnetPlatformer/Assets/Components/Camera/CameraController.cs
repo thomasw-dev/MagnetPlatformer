@@ -26,15 +26,18 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if (_followPlayer)
+        if (GameState.CurrentState != GameState.Lose)
         {
-            Vector3 camPos = new Vector3(_player.transform.position.x, _player.transform.position.y, transform.position.z);
-            transform.position = Vector3.Lerp(transform.position, camPos, _followSmoothFactor * Time.deltaTime);
-        }
-        else
-        {
-            Vector3 stickyPos = new Vector3(_stickyPos.x, _stickyPos.y, transform.position.z);
-            transform.position = Vector3.Lerp(transform.position, stickyPos, _stickySmoothFactor * Time.deltaTime);
+            if (_followPlayer)
+            {
+                Vector3 camPos = new Vector3(_player.transform.position.x, _player.transform.position.y, transform.position.z);
+                transform.position = Vector3.Lerp(transform.position, camPos, _followSmoothFactor * Time.deltaTime);
+            }
+            else
+            {
+                Vector3 stickyPos = new Vector3(_stickyPos.x, _stickyPos.y, transform.position.z);
+                transform.position = Vector3.Lerp(transform.position, stickyPos, _stickySmoothFactor * Time.deltaTime);
+            }
         }
     }
 

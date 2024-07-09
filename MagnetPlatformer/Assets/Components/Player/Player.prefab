@@ -505,7 +505,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b038f56c388d0406392716e4f917f695, type: 2}
   - {fileID: 2100000, guid: 2f90b24581c5542529e9d3904f6e6705, type: 2}
   - {fileID: 2100000, guid: d646d880b06344d75921fee6c170fb7e, type: 2}
-  layerToIgnore:
+  _excludeLayers:
     serializedVersion: 2
     m_Bits: 136
 --- !u!120 &3508758447889702787

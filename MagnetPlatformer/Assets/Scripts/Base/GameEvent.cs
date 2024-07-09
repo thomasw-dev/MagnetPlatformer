@@ -3,30 +3,32 @@ using System.Collections.Generic;
 
 public static class GameEvent
 {
-    public enum Events
+    public enum Event
     {
-        PlayerCollide,
-        PlayerTouchTrap
+        Death
     }
 
-    public static Dictionary<Events, Action> doOnEvent = new();
+    public static event Action Death;
 
-    public static void Subscribe(Events e, Action handler)
+    public static Dictionary<Event, Action> EventDictionary = new Dictionary<Event, Action>
     {
-        if (!doOnEvent.ContainsKey(e)) { doOnEvent[e] = null; }
+        [Event.Death] = Death
+    };
 
-        doOnEvent[e] += handler;
+    public static void Subscribe(Event eventEnum, Action handler)
+    {
+        if (!EventDictionary.ContainsKey(eventEnum)) { return; }
+        EventDictionary[eventEnum] += handler;
     }
 
-    public static void Unsubscribe(Events e, Action handler)
+    public static void Unsubscribe(Event eventEnum, Action handler)
     {
-        if (!doOnEvent.ContainsKey(e)) { return; }
-
-        doOnEvent[e] -= handler;
+        if (!EventDictionary.ContainsKey(eventEnum)) { return; }
+        EventDictionary[eventEnum] -= handler;
     }
 
-    public static void Trigger(Events e)
+    public static void Raise(Event eventEnum)
     {
-        doOnEvent[e]?.Invoke();
+        EventDictionary[eventEnum]?.Invoke();
     }
 }

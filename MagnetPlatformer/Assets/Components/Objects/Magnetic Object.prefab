@@ -83,9 +83,10 @@ MonoBehaviour:
   _charge: 0
   _layerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 512
   _magneticRadius: 10
   _forceFactor: 1
+  gizmos: 0
 --- !u!50 &1255547304758826710
 Rigidbody2D:
   serializedVersion: 4

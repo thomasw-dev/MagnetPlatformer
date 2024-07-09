@@ -9,7 +9,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
 
     [SerializeField] Material[] _aimRayMaterials;
 
-    [SerializeField] public LayerMask layerToIgnore;
+    [SerializeField] LayerMask _excludeLayers;
     float raycastLength = 20f;
 
     void Awake()
@@ -84,7 +84,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
     {
         Vector2 origin = transform.position;
         Vector2 direction = transform.up;
-        RaycastHit2D hit = Physics2D.Raycast(origin, direction, raycastLength, ~layerToIgnore);
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, raycastLength, ~_excludeLayers);
 
         if (hit.collider != null)
         {

@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     void OnEnable()
     {
+        GameEvent.Subscribe(GameEvent.Event.Death, Death);
+
         ClickToStart.OnClick += StartGame;
         InputManager.OnAnyKeyInput += StartGame;
 
@@ -25,6 +27,8 @@ public class GameManager : MonoBehaviour
 
     void OnDisable()
     {
+        GameEvent.Unsubscribe(GameEvent.Event.Death, Death);
+
         ClickToStart.OnClick -= StartGame;
         InputManager.OnAnyKeyInput -= StartGame;
 
@@ -50,4 +54,6 @@ public class GameManager : MonoBehaviour
             GameState.ChangeState(GameState.Win);
         }
     }
+
+    void Death() => GameState.ChangeState(GameState.Lose);
 }
