@@ -57,12 +57,12 @@ public class GoalObject : MonoBehaviour
         if (Method.IsPlayerObject(col.gameObject))
         {
             OnPlayerTouch?.Invoke();
-            _state = State.Disabled;
         }
     }
 
     void AchieveGoal()
     {
+        _state = State.Disabled;
         OnGoalAchieved?.Invoke();
         SetDisabledVisual();
     }

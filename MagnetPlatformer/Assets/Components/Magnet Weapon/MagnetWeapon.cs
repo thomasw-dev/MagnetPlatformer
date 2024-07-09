@@ -14,6 +14,11 @@ public class MagnetWeapon : MonoBehaviour
 
     bool _isInputEnabled = true;
 
+    void Awake()
+    {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     void OnEnable()
     {
         InputManager.OnMagnetWeaponSetCharge += InputSetCharge;
@@ -26,11 +31,6 @@ public class MagnetWeapon : MonoBehaviour
         InputManager.OnMagnetWeaponSetCharge -= InputSetCharge;
         InputManager.OnMagnetWeaponSetCharge -= FireWeapon;
         GameManager.OnPlayingExit -= Restore;
-    }
-
-    void Start()
-    {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()

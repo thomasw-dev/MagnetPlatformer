@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MagneticObject : MonoBehaviour
@@ -30,6 +29,9 @@ public class MagneticObject : MonoBehaviour
     public event Action<Magnet.Charge> OnCurrentChargeChanged;
 
     Rigidbody2D _rigidbody;
+
+    [Space(10)]
+    [SerializeField] bool gizmos = false;
 
     void Awake()
     {
@@ -112,17 +114,20 @@ public class MagneticObject : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        switch (_currentCharge)
+        if (gizmos)
         {
-            case Magnet.Charge.Neutral:
-                return;
-            case Magnet.Charge.Positive:
-                Gizmos.color = Color.red;
-                break;
-            case Magnet.Charge.Negative:
-                Gizmos.color = Color.blue;
-                break;
+            switch (_currentCharge)
+            {
+                case Magnet.Charge.Neutral:
+                    return;
+                case Magnet.Charge.Positive:
+                    Gizmos.color = Color.red;
+                    break;
+                case Magnet.Charge.Negative:
+                    Gizmos.color = Color.blue;
+                    break;
+            }
+            Gizmos.DrawWireSphere(transform.position, _magneticRadius);
         }
-        Gizmos.DrawWireSphere(transform.position, _magneticRadius);
     }
 }

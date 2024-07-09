@@ -43,18 +43,18 @@ public class MagnetWeaponAimRay : MonoBehaviour
         SetLineVisual(Magnet.Charge.Neutral);
     }
 
-    void SetupLines(Transform[] points)
-    {
-        _lineRenderer.positionCount = points.Length;
-        this.points = points;
-    }
-
     void Update()
     {
         for (int i = 0; i < points.Length; i++)
         {
             _lineRenderer.SetPosition(i, points[i].position);
         }
+    }
+
+    void SetupLines(Transform[] points)
+    {
+        _lineRenderer.positionCount = points.Length;
+        this.points = points;
     }
 
     void SetLineVisual(Magnet.Charge charge)
