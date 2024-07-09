@@ -22,7 +22,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
         GameState.Initialize.OnEnter += Initialize;
         InputManager.OnMagnetWeaponSetCharge += SetLineVisual;
         MagnetWeapon.OnFireWeapon += ShootRay;
-        GameState.Play.OnEnter += Restore;
+        GameState.Play.OnExit += Restore;
     }
 
     void OnDisable()

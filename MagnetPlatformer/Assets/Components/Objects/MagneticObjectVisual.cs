@@ -32,7 +32,7 @@ public class MagneticObjectVisual : MonoBehaviour
 
     void OnDisable()
     {
-        GameState.Initialize.OnExit -= Initialize;
+        GameState.Initialize.OnEnter -= Initialize;
         _magneticObject.OnCurrentChargeChanged -= SetVisual;
     }
 

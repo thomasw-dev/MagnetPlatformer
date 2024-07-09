@@ -35,7 +35,7 @@ public class GoalObject : MonoBehaviour
 
     void OnDisable()
     {
-        GameState.Initialize.OnExit -= Initialize;
+        GameState.Initialize.OnEnter -= Initialize;
         //GameManager.OnPlayingEnter -= EnablePhysics;
         OnPlayerTouch -= AchieveGoal;
     }
