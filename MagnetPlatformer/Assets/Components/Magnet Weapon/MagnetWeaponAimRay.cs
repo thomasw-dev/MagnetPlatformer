@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MagnetWeaponAimRay : MonoBehaviour
 {
     LineRenderer _lineRenderer;
     [SerializeField] Transform[] points;
-
     [SerializeField] Material[] _aimRayMaterials;
-
     [SerializeField] LayerMask _excludeLayers;
-    float raycastLength = 20f;
+
+    const float RAYCAST_LENGTH = 40f;
 
     void Awake()
     {
@@ -22,7 +19,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
         GameState.Initialize.OnEnter += Initialize;
         InputManager.OnMagnetWeaponSetCharge += SetLineVisual;
         MagnetWeapon.OnFireWeapon += ShootRay;
-        GameState.Play.OnExit += Restore;
+        GameState.Play.OnExit += Disable;
     }
 
     void OnDisable()
@@ -30,7 +27,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
         GameState.Initialize.OnEnter -= Initialize;
         InputManager.OnMagnetWeaponSetCharge -= SetLineVisual;
         MagnetWeapon.OnFireWeapon -= ShootRay;
-        GameState.Play.OnExit -= Restore;
+        GameState.Play.OnExit -= Disable;
     }
 
     void Start()
@@ -84,7 +81,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
     {
         Vector2 origin = transform.position;
         Vector2 direction = transform.up;
-        RaycastHit2D hit = Physics2D.Raycast(origin, direction, raycastLength, ~_excludeLayers);
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, RAYCAST_LENGTH, ~_excludeLayers);
 
         if (hit.collider != null)
         {
@@ -98,5 +95,9 @@ public class MagnetWeaponAimRay : MonoBehaviour
         }
     }
 
-    void Restore() => SetLineVisual(Magnet.Charge.Neutral);
+    void Disable()
+    {
+        SetLineVisual(Magnet.Charge.Neutral);
+        _lineRenderer.enabled = false;
+    }
 }
