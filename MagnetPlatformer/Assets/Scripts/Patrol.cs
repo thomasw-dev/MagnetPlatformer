@@ -72,9 +72,10 @@ public class Patrol : MonoBehaviour
             else return;
         }
 
-        Vector2 position = _markers[_current].Point.localPosition;
+        Vector2 position = transform.TransformPoint(_markers[_current].Point.localPosition);
         float duration = _markers[_current].Duration;
-        _rigidbody2D.DOMove(position, duration).SetEase(Ease.Linear).OnComplete(() =>
+        Ease ease = _markers[_current].Ease;
+        _rigidbody2D.DOMove(position, duration).SetEase(ease).OnComplete(() =>
         {
             _current++;
             ToNextMarker();
