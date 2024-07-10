@@ -700,8 +700,8 @@ MonoBehaviour:
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 768
-  _moveSpeed: 3
-  _jumpForce: 2200
+  _moveSpeed: 1.5
+  _jumpForce: 1600
   _airJumpEnabled: 0
   gizmos: 0
 --- !u!50 &6086237419897319610
@@ -717,7 +717,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 5
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 9.81
   m_Material: {fileID: 0}

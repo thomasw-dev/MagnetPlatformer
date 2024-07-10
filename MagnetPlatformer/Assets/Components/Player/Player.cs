@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] bool _airJumpEnabled = false;
 
-    const float MOVE_SPEED_MAX = 100f;
+    const float MOVE_SPEED_MAX = 15f;
     const float GROUND_CHECK_RAYCAST_LENGTH = 0.5f;
 
     Rigidbody2D _rigidbody2D;
