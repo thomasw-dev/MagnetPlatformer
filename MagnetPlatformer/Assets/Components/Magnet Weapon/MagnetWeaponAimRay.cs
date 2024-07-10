@@ -86,7 +86,11 @@ public class MagnetWeaponAimRay : MonoBehaviour
         if (hit.collider != null)
         {
             GameObject hitObject = hit.collider.gameObject;
-            Debug.Log("Hit object: " + hitObject.name);
+
+            if (Log.MagnetWeaponHit)
+            {
+                Debug.Log("Hit: " + hitObject.name);
+            }
 
             if (hitObject.TryGetComponent(out MagneticObject magneticObject))
             {

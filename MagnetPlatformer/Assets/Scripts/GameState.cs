@@ -22,6 +22,10 @@ public class GameState : StateController
     public static void ChangeState(State state)
     {
         CurrentState = state;
-        Debug.Log($"Current State: {state.Name}");
+
+        if (Log.GameState)
+        {
+            Debug.Log($"Current State: {state.Name}");
+        }
     }
 }

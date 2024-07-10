@@ -2,49 +2,65 @@ using UnityEngine;
 
 public class MagneticObjectVisual : MonoBehaviour
 {
-    static Color _neutralColor = new Color(1.0f, 1.0f, 1.0f, 1.0f); 
-    static Color _positiveColor = new Color(0.67f, 0, 0, 1.0f);
-    static Color _negativeColor = new Color(0, 0, 0.67f, 1.0f);
-
     [SerializeField] MagneticObject _magneticObject;
+    [SerializeField] MagnetSpriteVariants _magneticSpriteVariants;
 
     SpriteRenderer _spriteRenderer;
 
     void Awake()
     {
-        NullCheck();
+        if (!NullCheckPass()) { return; }
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    void NullCheck()
+    bool NullCheckPass()
     {
         if (_magneticObject == null)
         {
             Debug.LogError("MagneticObjectVisual is not assigned a MagneticObject.", this);
+            return false;
         }
+        return true;
     }
 
     void OnEnable()
     {
         GameState.Initialize.OnEnter += Initialize;
-        _magneticObject.OnCurrentChargeChanged += SetVisual;
+        _magneticObject.OnCurrentChargeChanged += SetSprite;
     }
 
     void OnDisable()
     {
         GameState.Initialize.OnEnter -= Initialize;
-        _magneticObject.OnCurrentChargeChanged -= SetVisual;
+        _magneticObject.OnCurrentChargeChanged -= SetSprite;
     }
 
     void Initialize()
     {
-        SetVisual(_magneticObject.CurrentCharge);
+        SetSprite(_magneticObject.CurrentCharge);
     }
 
-    void SetVisual(Magnet.Charge charge)
+    void SetSprite(Magnet.Charge charge)
     {
-        if (charge == Magnet.Charge.Neutral) _spriteRenderer.color = _neutralColor;
-        if (charge == Magnet.Charge.Positive) _spriteRenderer.color = _positiveColor;
-        if (charge == Magnet.Charge.Negative) _spriteRenderer.color = _negativeColor;
+        Debug.Log($"Updating the sprite {charge}");
+        if (charge == Magnet.Charge.Neutral) _spriteRenderer.sprite = _magneticSpriteVariants.Neutral;
+        if (charge == Magnet.Charge.Positive) _spriteRenderer.sprite = _magneticSpriteVariants.Positive;
+        if (charge == Magnet.Charge.Negative) _spriteRenderer.sprite = _magneticSpriteVariants.Negative;
     }
+
+    #region Inspector
+
+    public void UpdateSprite(Magnet.Charge charge)
+    {
+        SetSprite(GetComponent<SpriteRenderer>(), charge);
+    }
+
+    void SetSprite(SpriteRenderer spriteRenderer, Magnet.Charge charge)
+    {
+        if (charge == Magnet.Charge.Neutral) spriteRenderer.sprite = _magneticSpriteVariants.Neutral;
+        if (charge == Magnet.Charge.Positive) spriteRenderer.sprite = _magneticSpriteVariants.Positive;
+        if (charge == Magnet.Charge.Negative) spriteRenderer.sprite = _magneticSpriteVariants.Negative;
+    }
+
+    #endregion
 }

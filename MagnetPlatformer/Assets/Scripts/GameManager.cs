@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    #region GOALS
+    // GOALS
 
     [SerializeField] int _goalRemaining = 1;
     [SerializeField] List<GoalObject> _goals;
-
-    #endregion
 
     void OnEnable()
     {

@@ -7,8 +7,6 @@ public class Patrol : MonoBehaviour
 
     public enum StartMode { StartOnPlay, StartOnTrigger }
     [SerializeField] StartMode _startMode;
-    [Tooltip("Only applicable to StartOnTrigger mode.")]
-    [SerializeField] Collider2D _startTrigger;
 
     [SerializeField] bool _loop = true;
 
@@ -49,6 +47,14 @@ public class Patrol : MonoBehaviour
         GameState.Lose.OnExit -= StopPatrol;
     }
 
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (Method.IsPlayerObject(col.gameObject))
+        {
+            StartPatrol();
+        }
+    }
+
     [ContextMenu("Start Patrol")]
     void StartPatrol()
     {
@@ -66,7 +72,9 @@ public class Patrol : MonoBehaviour
             else return;
         }
 
-        _rigidbody2D.DOMove(_markers[_current].Point.localPosition, _markers[_current].Duration).SetEase(Ease.Linear).OnComplete(() =>
+        Vector2 position = _markers[_current].Point.localPosition;
+        float duration = _markers[_current].Duration;
+        _rigidbody2D.DOMove(position, duration).SetEase(Ease.Linear).OnComplete(() =>
         {
             _current++;
             ToNextMarker();

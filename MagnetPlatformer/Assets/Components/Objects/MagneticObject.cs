@@ -7,7 +7,7 @@ public class MagneticObject : MonoBehaviour
     Magnet.Charge _currentCharge;
     public Magnet.Charge CurrentCharge
     {
-        get { return _currentCharge;  }
+        get { return _currentCharge; }
         set
         {
             if (_currentCharge != value)
@@ -18,6 +18,8 @@ public class MagneticObject : MonoBehaviour
         }
     }
     [SerializeField] Magnet.Charge _charge;
+
+    [Space(10)]
 
     [SerializeField] LayerMask _layerMask = default;
 
@@ -49,12 +51,12 @@ public class MagneticObject : MonoBehaviour
     void OnValidate()
     {
         CurrentCharge = _charge;
+        UpdateVisual(CurrentCharge);
     }
 
     public void SetCharge(Magnet.Charge charge)
     {
         _currentCharge = charge;
-        OnCurrentChargeChanged?.Invoke(charge);
     }
 
     void MagneticEffect()
@@ -129,5 +131,35 @@ public class MagneticObject : MonoBehaviour
             }
             Gizmos.DrawWireSphere(transform.position, _magneticRadius);
         }
+    }
+
+    #region Inspector
+
+    [SerializeField] Transform _visual;
+
+    [ContextMenu("Update Visual")]
+    void UpdateVisual(Magnet.Charge charge)
+    {
+        List<MagneticObjectVisual> magneticObjectVisuals = GetagneticObjectVisualInChildren(_visual);
+        foreach(var magneticObjectVisual in magneticObjectVisuals)
+        {
+            magneticObjectVisual.UpdateSprite(charge);
+        }
+    }
+
+    List<MagneticObjectVisual> GetagneticObjectVisualInChildren(Transform parent)
+    {
+        List<MagneticObjectVisual> result = new List<MagneticObjectVisual>();
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            Transform child = parent.GetChild(i);
+            if (child.TryGetComponent(out MagneticObjectVisual magneticObjectVisual))
+            {
+                result.Add(magneticObjectVisual);
+            }
+        }
+        return result;
+
+        #endregion
     }
 }
