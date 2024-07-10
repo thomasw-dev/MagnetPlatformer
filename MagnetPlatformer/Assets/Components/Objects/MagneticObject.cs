@@ -56,7 +56,7 @@ public class MagneticObject : MonoBehaviour
 
     public void SetCharge(Magnet.Charge charge)
     {
-        _currentCharge = charge;
+        CurrentCharge = charge;
     }
 
     void MagneticEffect()

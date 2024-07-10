@@ -44,8 +44,8 @@ GameObject:
   - component: {fileID: 8600872871196404604}
   - component: {fileID: 1255547304758826710}
   - component: {fileID: 5857423101529571672}
-  m_Layer: 0
-  m_Name: Magnetic Object (Free)
+  m_Layer: 9
+  m_Name: Object (Free)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,7 +127,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0

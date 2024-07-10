@@ -7,19 +7,19 @@ public class Player : MonoBehaviour
     [Tooltip("These fields need their values to be assigned in the Inspector.")]
     [Header("Assign Fields")]
     [SerializeField] Transform _groundCheckRaycastPoint;
-    [SerializeField] LayerMask _environmentLayerMask;
+    [SerializeField] LayerMask _groundLayerMask;
 
     [Header("Movement")]
     [Range(0.001f, 10f)]
     [SerializeField] float _moveSpeed = 1f;
 
     [Header("Jump")]
-    [Range(1f, 1000f)]
+    [Range(1f, 10000f)]
     [SerializeField] float _jumpForce = 1f;
 
     [SerializeField] bool _airJumpEnabled = false;
 
-    const float MOVE_SPEED_MAX = 10f;
+    const float MOVE_SPEED_MAX = 100f;
     const float GROUND_CHECK_RAYCAST_LENGTH = 0.5f;
 
     Rigidbody2D _rigidbody2D;
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
 
     bool GroundCheck()
     {
-        RaycastHit2D hit = Physics2D.Raycast(_groundCheckRaycastPoint.position, Vector2.down, GROUND_CHECK_RAYCAST_LENGTH, _environmentLayerMask);
+        RaycastHit2D hit = Physics2D.Raycast(_groundCheckRaycastPoint.position, Vector2.down, GROUND_CHECK_RAYCAST_LENGTH, _groundLayerMask);
         return hit.collider != null ? true : false;
     }
 
