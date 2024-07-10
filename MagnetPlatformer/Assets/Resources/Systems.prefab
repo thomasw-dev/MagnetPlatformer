@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameState: 1
-  _magnetWeaponHit: 1
+  _magnetWeaponHit: 0
 --- !u!1 &8106182458384445459
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using UnityEngine;
 public class MagneticObjectVisual : MonoBehaviour
 {
     [SerializeField] MagneticObject _magneticObject;
-    [SerializeField] MagnetSpriteVariants _magneticSpriteVariants;
+    [SerializeField] MagnetSpriteVariant _magneticSpriteVariant;
 
     SpriteRenderer _spriteRenderer;
 
@@ -42,10 +42,9 @@ public class MagneticObjectVisual : MonoBehaviour
 
     void SetSprite(Magnet.Charge charge)
     {
-        Debug.Log($"Updating the sprite {charge}");
-        if (charge == Magnet.Charge.Neutral) _spriteRenderer.sprite = _magneticSpriteVariants.Neutral;
-        if (charge == Magnet.Charge.Positive) _spriteRenderer.sprite = _magneticSpriteVariants.Positive;
-        if (charge == Magnet.Charge.Negative) _spriteRenderer.sprite = _magneticSpriteVariants.Negative;
+        if (charge == Magnet.Charge.Neutral) _spriteRenderer.sprite = _magneticSpriteVariant.Neutral;
+        if (charge == Magnet.Charge.Positive) _spriteRenderer.sprite = _magneticSpriteVariant.Positive;
+        if (charge == Magnet.Charge.Negative) _spriteRenderer.sprite = _magneticSpriteVariant.Negative;
     }
 
     #region Inspector
@@ -57,9 +56,9 @@ public class MagneticObjectVisual : MonoBehaviour
 
     void SetSprite(SpriteRenderer spriteRenderer, Magnet.Charge charge)
     {
-        if (charge == Magnet.Charge.Neutral) spriteRenderer.sprite = _magneticSpriteVariants.Neutral;
-        if (charge == Magnet.Charge.Positive) spriteRenderer.sprite = _magneticSpriteVariants.Positive;
-        if (charge == Magnet.Charge.Negative) spriteRenderer.sprite = _magneticSpriteVariants.Negative;
+        if (charge == Magnet.Charge.Neutral) spriteRenderer.sprite = _magneticSpriteVariant.Neutral;
+        if (charge == Magnet.Charge.Positive) spriteRenderer.sprite = _magneticSpriteVariant.Positive;
+        if (charge == Magnet.Charge.Negative) spriteRenderer.sprite = _magneticSpriteVariant.Negative;
     }
 
     #endregion

@@ -18,8 +18,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4653347773498213825, guid: d97cec0cd73534dbe848fce1c92c046e, type: 3}
       propertyPath: m_Name
-      value: Magnetic Object Variant
+      value: Object (Static)
       objectReference: {fileID: 0}
+    - target: {fileID: 7824485931842501048, guid: d97cec0cd73534dbe848fce1c92c046e, type: 3}
+      propertyPath: _magneticSpriteVariant
+      value: 
+      objectReference: {fileID: 11400000, guid: cce7542e860e34086b127c89187e0c04, type: 2}
     - target: {fileID: 7824485931842501048, guid: d97cec0cd73534dbe848fce1c92c046e, type: 3}
       propertyPath: _magneticSpriteVariants
       value: 

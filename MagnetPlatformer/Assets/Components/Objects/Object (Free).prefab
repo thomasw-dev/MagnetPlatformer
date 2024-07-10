@@ -335,4 +335,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _magneticObject: {fileID: 8600872871196404604}
-  _magneticSpriteVariants: {fileID: 11400000, guid: 714ff18c32e06418d8b6511714bba90d, type: 2}
+  _magneticSpriteVariant: {fileID: 11400000, guid: 714ff18c32e06418d8b6511714bba90d, type: 2}
