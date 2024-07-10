@@ -1,18 +1,30 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MagnetObjectGroup : MonoBehaviour
+[CreateAssetMenu(fileName = "Magnet Object Group", order = 1)]
+public class MagnetObjectGroup : RuntimeSet<GameObject>
 {
-    // Start is called before the first frame update
-    void Start()
+    private List<GameObject> _items = new();
+
+    public List<GameObject> Items
     {
-        
+        get { return _items; }
+        set { _items = value; }
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Add(GameObject gameObject)
     {
-        
+        if (!Items.Contains(gameObject))
+        {
+            Items.Add(gameObject);
+        }
+    }
+
+    public override void Remove(GameObject gameObject)
+    {
+        if (Items.Contains(gameObject))
+        {
+            Items.Remove(gameObject);
+        }
     }
 }

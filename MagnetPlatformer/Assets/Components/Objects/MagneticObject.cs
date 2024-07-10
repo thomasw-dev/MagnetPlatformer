@@ -62,6 +62,8 @@ public class MagneticObject : MonoBehaviour
     void MagneticEffect()
     {
         List<Rigidbody2D> magneticEffectors = GetAllMagneticObjectRigidbodiesWithinDiameter(transform.position, _magneticRadius * 2);
+        if (gameObject.name == "Object (Vertical) 1A: Hanging")
+        Debug.Log(magneticEffectors.Count);
         List<Vector2> forces = new List<Vector2>();
         foreach (var magneticEffector in magneticEffectors)
         {
@@ -82,15 +84,40 @@ public class MagneticObject : MonoBehaviour
     {
         List<Rigidbody2D> result = new List<Rigidbody2D>();
         Collider2D[] cols = Physics2D.OverlapCircleAll(position, diameter, _layerMask);
+
+        bool selfIsInGroup = false;
+        MagnetObjectGroup selfGroup = null;
+        if (gameObject.TryGetComponent(out AddToMagnetObjectGroup selfAddToGroup))
+        {
+            selfIsInGroup = true;
+            selfGroup = selfAddToGroup.MagnetObjectGroup;
+        }
+
         foreach (var col in cols)
         {
             // If the collider's GameObject is not itself and has MagneticObject component
             if (col.gameObject != gameObject && col.gameObject.TryGetComponent(out MagneticObject magneticObject))
             {
-                // Only add magnetic objects that are charged
+                // Only include magnetic objects that are charged
                 if (magneticObject.CurrentCharge != Magnet.Charge.Neutral)
                 {
-                    result.Add(col.gameObject.GetComponent<Rigidbody2D>());
+                    bool targetIsInGroup = false;
+                    MagnetObjectGroup targetGroup = null;
+                    if (col.gameObject.TryGetComponent(out AddToMagnetObjectGroup targetAddToGroup))
+                    {
+                        targetIsInGroup = true;
+                        targetGroup = targetAddToGroup.MagnetObjectGroup;
+                    }
+
+                    if (selfIsInGroup || targetIsInGroup)
+                    {
+                        if (selfGroup == targetGroup && selfGroup != null && targetGroup != null)
+                        {
+                            // Only add if they are in the same group
+                            result.Add(col.gameObject.GetComponent<Rigidbody2D>());
+                        }
+                    }
+                    else result.Add(col.gameObject.GetComponent<Rigidbody2D>());
                 }
             }
         }
@@ -137,17 +164,16 @@ public class MagneticObject : MonoBehaviour
 
     [SerializeField] Transform _visual;
 
-    [ContextMenu("Update Visual")]
     void UpdateVisual(Magnet.Charge charge)
     {
-        List<MagneticObjectVisual> magneticObjectVisuals = GetagneticObjectVisualInChildren(_visual);
-        foreach(var magneticObjectVisual in magneticObjectVisuals)
+        List<MagneticObjectVisual> magneticObjectVisuals = GetMagneticObjectVisualInChildren(_visual);
+        foreach (var magneticObjectVisual in magneticObjectVisuals)
         {
             magneticObjectVisual.UpdateSprite(charge);
         }
     }
 
-    List<MagneticObjectVisual> GetagneticObjectVisualInChildren(Transform parent)
+    List<MagneticObjectVisual> GetMagneticObjectVisualInChildren(Transform parent)
     {
         List<MagneticObjectVisual> result = new List<MagneticObjectVisual>();
         for (int i = 0; i < parent.childCount; i++)
