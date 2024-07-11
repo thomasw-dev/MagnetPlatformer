@@ -66,9 +66,6 @@ public class MagneticObject : MonoBehaviour
         foreach (var magneticEffector in magneticEffectors)
         {
             Vector2 forceMagnitude = CalculateMagneticForceMagnitude(_rigidbody, magneticEffector);
-            float inverseX = forceMagnitude.x > 0 ? _magneticRadius * 2 - forceMagnitude.x : -(_magneticRadius * 2) + forceMagnitude.x;
-            float inverseY = forceMagnitude.y > 0 ? _magneticRadius * 2 - forceMagnitude.y : -(_magneticRadius * 2) + forceMagnitude.y;
-            forceMagnitude = new Vector2(inverseX, inverseY);
             int chargeFactor = CalculateChargeFactor(_rigidbody.gameObject.GetComponent<MagneticObject>().CurrentCharge, magneticEffector.gameObject.GetComponent<MagneticObject>().CurrentCharge);
             forces.Add(forceMagnitude * chargeFactor * _forceFactor);
         }
@@ -125,7 +122,9 @@ public class MagneticObject : MonoBehaviour
     Vector2 CalculateMagneticForceMagnitude(Rigidbody2D receiverRigidbody, Rigidbody2D effectorRigidbody)
     {
         Vector2 distance = receiverRigidbody.position - effectorRigidbody.position;
-        return distance;
+        float inverseX = distance.x > 0 ? _magneticRadius * 2 - distance.x : -(_magneticRadius * 2) + distance.x;
+        float inverseY = distance.y > 0 ? _magneticRadius * 2 - distance.y : -(_magneticRadius * 2) + distance.y;
+        return new Vector2(inverseX, inverseY);
     }
 
     int CalculateChargeFactor(Magnet.Charge receiverCharge, Magnet.Charge effectorCharge)
