@@ -41,7 +41,7 @@ namespace Experimental
                     Vector2 distance = _targets[i].transform.position - transform.position;
                     if (distance.magnitude > _targets[i].Radius) { continue; }
 
-                    Vector2 force = MagneticForce.Calculate(_rigidbody, distance, _targets[i].Gain);
+                    Vector2 force = MagneticForce.Calculate(_rigidbody.velocity, distance, _targets[i].Gain);
                     Vector2 appliedForce = MagneticForce.AdjustForceByCharge(force, _targets[i].Charge);
                     _rigidbody.AddForce(appliedForce);
                 }
@@ -53,6 +53,37 @@ namespace Experimental
         {
             _isActive = false;
             transform.position = _initialPos;
+        }
+    }
+
+    public static class MagneticForce
+    {
+        const float PUSH_VELOCITY = 10f;
+        const float MAX_VELOCITY = 100f;
+        const float MAX_FORCE = 100f;
+
+        public static Vector2 Calculate()
+        {
+            Vector2 output = Vector2.zero;
+            return output;
+        }
+
+        public static Vector2 Calculate(Vector2 selfRigidbodyVelocity, Vector2 selfTargetDistance, float targetGain)
+        {
+            Vector2 desiredVelocity = Vector2.ClampMagnitude(PUSH_VELOCITY * selfTargetDistance, MAX_VELOCITY);
+            Vector2 deviation = desiredVelocity - selfRigidbodyVelocity;
+            return Vector2.ClampMagnitude(targetGain * deviation, MAX_FORCE);
+        }
+
+        public static Vector2 AdjustForceByCharge(Vector2 force, Magnet.Charge targetCharge)
+        {
+            return targetCharge switch
+            {
+                Magnet.Charge.Neutral => Vector2.zero,
+                Magnet.Charge.Positive => force,
+                Magnet.Charge.Negative => -force,
+                _ => Vector2.zero
+            };
         }
     }
 }
