@@ -14,11 +14,11 @@ namespace Experimental
             return output;
         }
 
-        public static Vector2 Calculate(Rigidbody2D rigidbody, Vector2 distance, float gain)
+        public static Vector2 Calculate(Rigidbody2D selfRigidbody, Vector2 selfTargetDistance, float targetGain)
         {
-            Vector2 targetVelocity = Vector2.ClampMagnitude(PUSH_VELOCITY * distance, MAX_VELOCITY);
-            Vector2 error = targetVelocity - rigidbody.velocity;
-            return Vector2.ClampMagnitude(gain * error, MAX_FORCE);
+            Vector2 desiredVelocity = Vector2.ClampMagnitude(PUSH_VELOCITY * selfTargetDistance, MAX_VELOCITY);
+            Vector2 deviation = desiredVelocity - selfRigidbody.velocity;
+            return Vector2.ClampMagnitude(targetGain * deviation, MAX_FORCE);
         }
 
         public static Vector2 AdjustForceByCharge(Vector2 force, Magnet.Charge targetCharge)

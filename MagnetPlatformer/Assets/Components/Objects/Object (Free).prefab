@@ -80,14 +80,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d9ec059aa8d49ca93c268d4c3388b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _charge: 0
+  _magneticRadius: 10
+  _forceFactor: 1
+  _constantCharge: 0
+  Gain: 1
+  Radius: 5
+  _neutral: 1
+  _positive: 0
+  _negative: 0
+  gizmos: 0
   _layerMask:
     serializedVersion: 2
     m_Bits: 512
-  _magneticRadius: 10
-  _forceFactor: 1
-  gizmos: 0
-  _visual: {fileID: 7906563638889898801}
+  _visualChild: {fileID: 7906563638889898801}
 --- !u!50 &1255547304758826710
 Rigidbody2D:
   serializedVersion: 4

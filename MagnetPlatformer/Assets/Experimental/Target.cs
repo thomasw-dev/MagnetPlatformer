@@ -29,29 +29,20 @@ namespace Experimental
         {
             if (Charge == Magnet.Charge.Neutral)
             {
-                if (_positive && !_negative)
-                    Charge = Magnet.Charge.Positive;
-                
-                if (!_positive && _negative)
-                    Charge = Magnet.Charge.Negative;
+                if (_positive && !_negative) Charge = Magnet.Charge.Positive;
+                if (!_positive && _negative) Charge = Magnet.Charge.Negative;
             }
 
             else if (Charge == Magnet.Charge.Positive)
             {
-                if (_neutral && !_negative)
-                    Charge = Magnet.Charge.Neutral;
-                
-                if (!_neutral && _negative)
-                    Charge = Magnet.Charge.Negative;
+                if (_neutral && !_negative) Charge = Magnet.Charge.Neutral;
+                if (!_neutral && _negative) Charge = Magnet.Charge.Negative;
             }
 
             else if (Charge == Magnet.Charge.Negative)
             {
-                if (_neutral && !_positive)
-                    Charge = Magnet.Charge.Neutral;
-
-                if (!_neutral && _positive)
-                    Charge = Magnet.Charge.Positive;
+                if (_neutral && !_positive) Charge = Magnet.Charge.Neutral;
+                if (!_neutral && _positive) Charge = Magnet.Charge.Positive;
             }
 
             _neutral = Charge == Magnet.Charge.Neutral;

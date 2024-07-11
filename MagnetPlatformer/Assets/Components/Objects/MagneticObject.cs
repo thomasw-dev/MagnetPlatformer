@@ -4,36 +4,55 @@ using UnityEngine;
 
 public class MagneticObject : MonoBehaviour
 {
+    [Range(0f, 5f)]
+    public float Gain = 1f;
+
+    [Range(0f, 20f)]
+    public float Radius = 5f;
+
+    [Tooltip("If the charge is constant, player cannot change the charge of this object.")]
+    [SerializeField] bool _constantCharge;
+    bool _chargeIsConstant;
+    [HideInInspector] public bool ChargeIsConstant
+    {
+        get { return _chargeIsConstant; }
+        set
+        {
+            if (_chargeIsConstant != value) { OnChargeIsConstantChanged?.Invoke(value); }
+            _chargeIsConstant = value;
+        }
+    }
+
+    [Space(10)]
+
+    [SerializeField] bool _neutral = true;
+    [SerializeField] bool _positive = false;
+    [SerializeField] bool _negative = false;
+
     Magnet.Charge _currentCharge;
     public Magnet.Charge CurrentCharge
     {
         get { return _currentCharge; }
         set
         {
-            if (_currentCharge != value)
-            {
-                OnCurrentChargeChanged?.Invoke(value);
-            }
+            if (_currentCharge != value) { OnCurrentChargeChanged?.Invoke(value); }
             _currentCharge = value;
         }
     }
-    [SerializeField] Magnet.Charge _charge;
 
     [Space(10)]
 
     [SerializeField] LayerMask _layerMask = default;
-
-    [Range(0f, 50f)]
-    [SerializeField] float _magneticRadius = 1f;
-    [Range(0f, 50f)]
-    [SerializeField] float _forceFactor = 1f;
-
-    public event Action<Magnet.Charge> OnCurrentChargeChanged;
-
-    Rigidbody2D _rigidbody;
+    [SerializeField] Transform _visualChild;
 
     [Space(10)]
+
     [SerializeField] bool gizmos = false;
+
+    public event Action<Magnet.Charge> OnCurrentChargeChanged;
+    public event Action<bool> OnChargeIsConstantChanged;
+
+    Rigidbody2D _rigidbody;
 
     void Awake()
     {
@@ -42,15 +61,38 @@ public class MagneticObject : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_currentCharge == Magnet.Charge.Positive || _currentCharge == Magnet.Charge.Negative)
+        if (CurrentCharge == Magnet.Charge.Positive || CurrentCharge == Magnet.Charge.Negative)
         {
-            MagneticEffect();
+            PrevMagneticEffect();
         }
     }
 
     void OnValidate()
     {
-        CurrentCharge = _charge;
+        ChargeIsConstant = _constantCharge;
+
+        if (CurrentCharge == Magnet.Charge.Neutral)
+        {
+            if (_positive && !_negative) CurrentCharge = Magnet.Charge.Positive;
+            if (!_positive && _negative) CurrentCharge = Magnet.Charge.Negative;
+        }
+
+        else if (CurrentCharge == Magnet.Charge.Positive)
+        {
+            if (_neutral && !_negative) CurrentCharge = Magnet.Charge.Neutral;
+            if (!_neutral && _negative) CurrentCharge = Magnet.Charge.Negative;
+        }
+
+        else if (CurrentCharge == Magnet.Charge.Negative)
+        {
+            if (_neutral && !_positive) CurrentCharge = Magnet.Charge.Neutral;
+            if (!_neutral && _positive) CurrentCharge = Magnet.Charge.Positive;
+        }
+
+        _neutral = CurrentCharge == Magnet.Charge.Neutral;
+        _positive = CurrentCharge == Magnet.Charge.Positive;
+        _negative = CurrentCharge == Magnet.Charge.Negative;
+
         UpdateVisual(CurrentCharge);
     }
 
@@ -60,6 +102,17 @@ public class MagneticObject : MonoBehaviour
     }
 
     void MagneticEffect()
+    {
+        // Neutral charge does not have magnetic effect
+        if (CurrentCharge == Magnet.Charge.Neutral) { return; }
+
+
+    }
+
+    float _magneticRadius;
+    float _forceFactor;
+
+    void PrevMagneticEffect()
     {
         List<Rigidbody2D> magneticEffectors = GetAllMagneticObjectRigidbodiesWithinDiameter(transform.position, _magneticRadius * 2);
         List<Vector2> forces = new List<Vector2>();
@@ -154,11 +207,9 @@ public class MagneticObject : MonoBehaviour
 
     #region Inspector
 
-    [SerializeField] Transform _visual;
-
     void UpdateVisual(Magnet.Charge charge)
     {
-        List<MagneticObjectVisual> magneticObjectVisuals = GetMagneticObjectVisualInChildren(_visual);
+        List<MagneticObjectVisual> magneticObjectVisuals = GetMagneticObjectVisualInChildren(_visualChild);
         foreach (var magneticObjectVisual in magneticObjectVisuals)
         {
             magneticObjectVisual.UpdateSprite(charge);
