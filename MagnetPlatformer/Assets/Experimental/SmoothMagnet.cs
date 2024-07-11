@@ -9,15 +9,11 @@ namespace Experimental
 
     public class SmoothMagnet : MonoBehaviour
     {
-        [SerializeField] float _pushVelocity = 2.5f;
-        [SerializeField] float _maxVelocity = 15.0f;
-        [SerializeField] float _maxForce = 40.0f;
-
-        [Space(10)]
+        // [SerializeField] float _pushVelocity = 2.5f;
+        // [SerializeField] float _maxVelocity = 15.0f;
+        // [SerializeField] float _maxForce = 40.0f;
 
         [SerializeField] bool _isActive = true;
-
-        [Space(10)]
 
         [SerializeField] Target[] _targets;
 
@@ -45,30 +41,11 @@ namespace Experimental
                     Vector2 distance = _targets[i].transform.position - transform.position;
                     if (distance.magnitude > _targets[i].Radius) { continue; }
 
-                    Vector2 force = MagneticForce(distance, _targets[i].Gain);
-                    Vector2 appliedForce;
-                    switch (_targets[i].Charge)
-                    {
-                        case Magnet.Charge.Neutral: appliedForce = Vector2.zero;
-                            break;
-                        case Magnet.Charge.Positive: appliedForce = force;
-                            break;
-                        case Magnet.Charge.Negative: appliedForce = -force;
-                            break;
-                        default: appliedForce = Vector2.zero;
-                            break;
-                    }
-
+                    Vector2 force = MagneticForce.Calculate(_rigidbody, distance, _targets[i].Gain);
+                    Vector2 appliedForce = MagneticForce.AdjustForceByCharge(force, _targets[i].Charge);
                     _rigidbody.AddForce(appliedForce);
                 }
             }
-        }
-
-        Vector2 MagneticForce(Vector2 distance, float gain)
-        {
-            Vector2 targetVelocity = Vector2.ClampMagnitude(_pushVelocity * distance, _maxVelocity);
-            Vector2 error = targetVelocity - _rigidbody.velocity;
-            return Vector2.ClampMagnitude(gain * error, _maxForce);
         }
 
         [ContextMenu("Reset")]
