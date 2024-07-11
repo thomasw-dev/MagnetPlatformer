@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8275192628645175072}
   - component: {fileID: 724226551965369436}
+  - component: {fileID: 9216712951025809990}
   m_Layer: 0
-  m_Name: Log
+  m_Name: Settings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,6 +47,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameState: 1
   _magnetWeaponHit: 0
+--- !u!114 &9216712951025809990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038390933844859372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6985eb317d71b4c96be6752f27119744, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enableDeath: 1
 --- !u!1 &8106182458384445459
 GameObject:
   m_ObjectHideFlags: 0

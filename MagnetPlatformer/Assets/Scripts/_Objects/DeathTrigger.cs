@@ -6,7 +6,10 @@ public class DeathTrigger : MonoBehaviour
     {
         if (Method.IsPlayerObject(col.gameObject))
         {
-            GameEvent.Raise(GameEvent.Event.Death);
+            if (Mod.EnableDeath)
+            {
+                GameEvent.Raise(GameEvent.Event.Death);
+            }
         }
     }
 }

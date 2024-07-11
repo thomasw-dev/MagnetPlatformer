@@ -62,7 +62,6 @@ public class MagneticObject : MonoBehaviour
     void MagneticEffect()
     {
         List<Rigidbody2D> magneticEffectors = GetAllMagneticObjectRigidbodiesWithinDiameter(transform.position, _magneticRadius * 2);
-        Debug.Log(magneticEffectors.Count);
         List<Vector2> forces = new List<Vector2>();
         foreach (var magneticEffector in magneticEffectors)
         {
