@@ -2,23 +2,24 @@ using UnityEngine;
 
 namespace Experimental
 {
+    public static class Magnet
+    {
+        public enum Charge { Neutral, Positive, Negative }
+    }
+
     public class SmoothMagnet : MonoBehaviour
     {
         [SerializeField] float _pushVelocity = 2.5f;
         [SerializeField] float _maxVelocity = 15.0f;
         [SerializeField] float _maxForce = 40.0f;
-        [SerializeField] float _gain = 5f;
 
         [Space(10)]
 
         [SerializeField] bool _isActive = true;
-        [SerializeField] bool _isAttracted = true;
 
         [Space(10)]
 
-        [SerializeField] Transform[] _targets;
-
-        public static float MAX_DISTANCE = 8f;
+        [SerializeField] Target[] _targets;
 
         Rigidbody2D _rigidbody;
         Vector2 _initialPos;
@@ -39,21 +40,35 @@ namespace Experimental
             {
                 for (int i = 0; i < _targets.Length; i++)
                 {
-                    Vector2 distance = _targets[i].position - transform.position;
-                    if (distance.magnitude > MAX_DISTANCE) { continue; }
+                    if (!_targets[i].gameObject.activeSelf) { continue; }
 
-                    Vector2 force = MagneticForce(distance);
-                    Vector2 appliedForce = _isAttracted ? force : -force; // new Vector2(_maxForce, _maxForce) - force;
+                    Vector2 distance = _targets[i].transform.position - transform.position;
+                    if (distance.magnitude > _targets[i].Radius) { continue; }
+
+                    Vector2 force = MagneticForce(distance, _targets[i].Gain);
+                    Vector2 appliedForce;
+                    switch (_targets[i].Charge)
+                    {
+                        case Magnet.Charge.Neutral: appliedForce = Vector2.zero;
+                            break;
+                        case Magnet.Charge.Positive: appliedForce = force;
+                            break;
+                        case Magnet.Charge.Negative: appliedForce = -force;
+                            break;
+                        default: appliedForce = Vector2.zero;
+                            break;
+                    }
+
                     _rigidbody.AddForce(appliedForce);
                 }
             }
         }
 
-        Vector2 MagneticForce(Vector2 distance)
+        Vector2 MagneticForce(Vector2 distance, float gain)
         {
             Vector2 targetVelocity = Vector2.ClampMagnitude(_pushVelocity * distance, _maxVelocity);
             Vector2 error = targetVelocity - _rigidbody.velocity;
-            return Vector2.ClampMagnitude(_gain * error, _maxForce);
+            return Vector2.ClampMagnitude(gain * error, _maxForce);
         }
 
         [ContextMenu("Reset")]
