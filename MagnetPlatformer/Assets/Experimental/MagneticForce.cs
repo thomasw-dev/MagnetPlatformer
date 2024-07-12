@@ -74,23 +74,30 @@ namespace NewMagneticForce
 
         void FixedUpdate()
         {
-            if (_isActive)
+            GravityForce();
+
+            if (!_isActive) { return; }
+
+            for (int i = 0; i < _targets.Length; i++)
             {
-                for (int i = 0; i < _targets.Length; i++)
+                if (!_targets[i].gameObject.activeSelf) { continue; }
+
+                Vector2 distance = _targets[i].transform.position - transform.position;
+                if (distance.magnitude > _targets[i].Radius) { continue; }
+
+                if (_targets[i].Charge != Magnet.Charge.Neutral)
                 {
-                    if (!_targets[i].gameObject.activeSelf) { continue; }
-
-                    Vector2 distance = _targets[i].transform.position - transform.position;
-                    if (distance.magnitude > _targets[i].Radius) { continue; }
-
-                    if (_targets[i].Charge != Magnet.Charge.Neutral)
-                    {
-                        Vector2 force = Magnetic.Calculate(_rigidbody.velocity, distance, _targets[i].Gain);
-                        Vector2 appliedForce = Magnetic.AdjustForceByCharge(force, Charge, _targets[i].Charge);
-                        _rigidbody.AddForce(appliedForce);
-                    }
+                    Vector2 force = Magnetic.Calculate(_rigidbody.velocity, distance, _targets[i].Gain);
+                    Vector2 appliedForce = Magnetic.AdjustForceByCharge(force, Charge, _targets[i].Charge);
+                    _rigidbody.AddForce(appliedForce);
                 }
             }
+        }
+
+        void GravityForce()
+        {
+            Vector2 gravityForce = MagneticForce.Calculate(_rigidbody.velocity, Vector2.down, 1f);
+            _rigidbody.AddForce(gravityForce);
         }
 
         [ContextMenu("Reset")]
