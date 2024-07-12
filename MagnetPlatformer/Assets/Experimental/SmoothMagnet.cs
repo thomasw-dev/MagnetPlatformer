@@ -18,11 +18,13 @@ namespace Experimental
         [SerializeField] Target[] _targets;
 
         Rigidbody2D _rigidbody;
+        Gravity _gravity;
         Vector2 _initialPos;
 
         void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+            _gravity = GetComponent<Gravity>();
         }
 
         void Start()
@@ -41,9 +43,17 @@ namespace Experimental
                     Vector2 distance = _targets[i].transform.position - transform.position;
                     if (distance.magnitude > _targets[i].Radius) { continue; }
 
-                    Vector2 force = MagneticForce.Calculate(_rigidbody.velocity, distance, _targets[i].Gain);
-                    Vector2 appliedForce = MagneticForce.AdjustForceByCharge(force, _targets[i].Charge);
-                    _rigidbody.AddForce(appliedForce);
+                    if (_targets[i].Charge == Magnet.Charge.Neutral)
+                    {
+                        //_gravity.enabled = true;
+                    }
+                    else
+                    {
+                        //_gravity.enabled = false;
+                        Vector2 force = MagneticForce.Calculate(_rigidbody.velocity, distance, _targets[i].Gain);
+                        Vector2 appliedForce = MagneticForce.AdjustForceByCharge(force, _targets[i].Charge);
+                        _rigidbody.AddForce(appliedForce);
+                    }
                 }
             }
         }

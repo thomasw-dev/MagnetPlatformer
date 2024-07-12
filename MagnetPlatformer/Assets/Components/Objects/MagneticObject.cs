@@ -43,6 +43,7 @@ public class MagneticObject : MonoBehaviour
 
     [Space(10)]
 
+    [SerializeField] bool _useGravity = true;
     [SerializeField] LayerMask _layerMask = default;
     [SerializeField] Transform _visualChild;
 
@@ -60,11 +61,28 @@ public class MagneticObject : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
+    void OnEnable()
+    {
+        OnCurrentChargeChanged += UpdateChargeBools;
+        OnCurrentChargeChanged += UpdateVisual;
+    }
+
+    void OnDisable()
+    {
+        OnCurrentChargeChanged -= UpdateChargeBools;
+        OnCurrentChargeChanged -= UpdateVisual;
+    }
+
     void FixedUpdate()
     {
         if (CurrentCharge != Magnet.Charge.Neutral)
         {
             MagneticEffect();
+        }
+
+        if (_useGravity)
+        {
+            GravityForce();
         }
     }
 
@@ -90,10 +108,7 @@ public class MagneticObject : MonoBehaviour
             if (!_neutral && _positive) CurrentCharge = Magnet.Charge.Positive;
         }
 
-        _neutral = CurrentCharge == Magnet.Charge.Neutral;
-        _positive = CurrentCharge == Magnet.Charge.Positive;
-        _negative = CurrentCharge == Magnet.Charge.Negative;
-
+        UpdateChargeBools(CurrentCharge);
         UpdateVisual(CurrentCharge);
     }
 
@@ -104,46 +119,71 @@ public class MagneticObject : MonoBehaviour
 
     void MagneticEffect()
     {
-        List<GameObject> magneticObjectsNearby = GetAllNearbyMagneticObjects(transform.position, _magneticRadius * 2);
-        List<GameObject> magneticObjectsinEffect = new List<GameObject>();
+        List<Vector2> forces = new List<Vector2>();
+
+        // Identify the magnetic objects in effect
+        List<GameObject> magneticObjectsNearby = GetAllNearbyMagneticObjects(transform.position, Radius * 2);
+        List<GameObject> magneticObjectsinEffect;
+        // If it is assigned a Magnet Object Group, it can only interact with magnetic objects within the group.
+        // Otherwise, interact with all other magnetic objects.
         if (TryGetComponent(out AddToMagnetObjectGroup magnetObjectGroup))
         {
             MagnetObjectGroup group = magnetObjectGroup.MagnetObjectGroup;
-            if (magnetObjectGroup.MagnetObjectGroup != null)
+            if (group != null)
             {
-                magneticObjectsinEffect = DiscardUnmatchedGroupObjects(magneticObjectsNearby, group);
+                magneticObjectsinEffect = IncludeMatchedGroupObjects(magneticObjectsNearby, group);
             }
             else magneticObjectsinEffect = magneticObjectsNearby;
         }
         else magneticObjectsinEffect = magneticObjectsNearby;
+
+        // Calculate the forces
+        foreach (var magneticObject in magneticObjectsinEffect)
+        {
+            MagneticObject target = magneticObject.GetComponent<MagneticObject>();
+            Vector2 selfTargetDistance = transform.position - magneticObject.transform.position;
+            Vector2 force = MagneticForce.Calculate(_rigidbody.velocity, selfTargetDistance, target.Gain);
+            force = MagneticForce.AdjustForceByCharge(force, target.CurrentCharge);
+            forces.Add(force);
+        }
+
+        // Apply the forces
+        for (int i = 0; i < forces.Count; i++)
+        {
+            _rigidbody.AddForce(forces[i]);
+        }
     }
 
     List<GameObject> GetAllNearbyMagneticObjects(Vector2 position, float diameter)
     {
-        List<GameObject> result = new List<GameObject>();
+        List<GameObject> output = new List<GameObject>();
         Collider2D[] cols = Physics2D.OverlapCircleAll(position, diameter, _layerMask);
         foreach (var col in cols)
         {
-            result.Add(col.gameObject);
+            output.Add(col.gameObject);
         }
-        return result;
+        return output;
     }
 
-    List<GameObject> DiscardUnmatchedGroupObjects(List<GameObject> magneticObjects, MagnetObjectGroup group)
+    List<GameObject> IncludeMatchedGroupObjects(List<GameObject> magneticObjects, MagnetObjectGroup group)
     {
-        List<GameObject> result = new List<GameObject>();
+        List<GameObject> output = new List<GameObject>();
         foreach (var magneticObject in magneticObjects)
         {
-            if (TryGetComponent(out AddToMagnetObjectGroup magnetObjectGroup))
+            if (magneticObject.TryGetComponent(out AddToMagnetObjectGroup magnetObjectGroup))
             {
-                if (true) // !!!
+                if (magnetObjectGroup.MagnetObjectGroup == group)
                 {
-                    result.Add(magneticObject);
+                    output.Add(magneticObject);
                 }
             }
-            else result.Add(magneticObject);
         }
-        return result;
+        return output;
+    }
+
+    void GravityForce()
+    {
+        _rigidbody.AddForce(Vector2.down * Constants.GRAVITY);
     }
 
     float _magneticRadius;
@@ -167,7 +207,7 @@ public class MagneticObject : MonoBehaviour
 
     List<Rigidbody2D> Prev_GetAllMagneticObjectRigidbodiesWithinDiameter(Vector2 position, float diameter)
     {
-        List<Rigidbody2D> result = new List<Rigidbody2D>();
+        List<Rigidbody2D> output = new List<Rigidbody2D>();
         Collider2D[] cols = Physics2D.OverlapCircleAll(position, diameter, _layerMask);
 
         bool selfIsInGroup = false;
@@ -199,14 +239,14 @@ public class MagneticObject : MonoBehaviour
                         if (selfGroup == targetGroup && selfGroup != null && targetGroup != null)
                         {
                             // Only add if they are in the same group
-                            result.Add(col.gameObject.GetComponent<Rigidbody2D>());
+                            output.Add(col.gameObject.GetComponent<Rigidbody2D>());
                         }
                     }
-                    else result.Add(col.gameObject.GetComponent<Rigidbody2D>());
+                    else output.Add(col.gameObject.GetComponent<Rigidbody2D>());
                 }
             }
         }
-        return result;
+        return output;
     }
 
     Vector2 Prev_CalculateMagneticForceMagnitude(Rigidbody2D receiverRigidbody, Rigidbody2D effectorRigidbody)
@@ -232,17 +272,32 @@ public class MagneticObject : MonoBehaviour
     {
         if (gizmos)
         {
-            switch (_currentCharge)
+            switch (CurrentCharge)
             {
                 case Magnet.Charge.Neutral: return;
                 case Magnet.Charge.Positive: Gizmos.color = Color.red; break;
                 case Magnet.Charge.Negative: Gizmos.color = Color.blue; break;
             }
-            Gizmos.DrawWireSphere(transform.position, _magneticRadius);
+            Gizmos.DrawWireSphere(transform.position, Radius);
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (Log.MagneticForceOnSelected)
+        {
+            Debug.Log($"Net force on this object: {_rigidbody.velocity}");
         }
     }
 
     #region Inspector
+
+    void UpdateChargeBools(Magnet.Charge charge)
+    {
+        _neutral = charge == Magnet.Charge.Neutral;
+        _positive = charge == Magnet.Charge.Positive;
+        _negative = charge == Magnet.Charge.Negative;
+    }
 
     void UpdateVisual(Magnet.Charge charge)
     {
@@ -255,17 +310,17 @@ public class MagneticObject : MonoBehaviour
 
     List<MagneticObjectVisual> GetMagneticObjectVisualInChildren(Transform parent)
     {
-        List<MagneticObjectVisual> result = new List<MagneticObjectVisual>();
+        List<MagneticObjectVisual> output = new List<MagneticObjectVisual>();
         for (int i = 0; i < parent.childCount; i++)
         {
             Transform child = parent.GetChild(i);
             if (child.TryGetComponent(out MagneticObjectVisual magneticObjectVisual))
             {
-                result.Add(magneticObjectVisual);
+                output.Add(magneticObjectVisual);
             }
         }
-        return result;
-
-        #endregion
+        return output;
     }
+
+    #endregion
 }

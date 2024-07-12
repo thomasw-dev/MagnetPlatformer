@@ -25,6 +25,13 @@ namespace Experimental
         Color _positiveColor = new Color(0.67f, 0, 0, 1.0f);
         Color _negativeColor = new Color(0, 0, 0.67f, 1.0f);
 
+        Gravity _gravity;
+
+        void Awake()
+        {
+            _gravity = GetComponent<Gravity>();
+        }
+
         void OnValidate()
         {
             if (Charge == Magnet.Charge.Neutral)
@@ -50,6 +57,7 @@ namespace Experimental
             _negative = Charge == Magnet.Charge.Negative;
 
             UpdateColor(Charge);
+            ToggleGravity(Charge);
         }
 
         void UpdateColor(Magnet.Charge charge)
@@ -57,6 +65,11 @@ namespace Experimental
             if (charge == Magnet.Charge.Neutral) _spriteRenderer.color = _neutralColor;
             if (charge == Magnet.Charge.Positive) _spriteRenderer.color = _positiveColor;
             if (charge == Magnet.Charge.Negative) _spriteRenderer.color = _negativeColor;
+        }
+
+        void ToggleGravity(Magnet.Charge charge)
+        {
+            GetComponent<Gravity>().enabled = charge == Magnet.Charge.Neutral;
         }
 
         void OnDrawGizmos()

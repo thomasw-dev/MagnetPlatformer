@@ -6,6 +6,8 @@ public class MagneticObjectVisual : MonoBehaviour
     [SerializeField] MagnetSpriteVariant _magneticSpriteVariant;
 
     SpriteRenderer _spriteRenderer;
+    bool _constantChargeEffectEnabled = false;
+    Color _spriteRendererColorPrev;
 
     void Awake()
     {
@@ -27,12 +29,14 @@ public class MagneticObjectVisual : MonoBehaviour
     {
         GameState.Initialize.OnEnter += Initialize;
         _magneticObject.OnCurrentChargeChanged += SetSprite;
+        _magneticObject.OnChargeIsConstantChanged += ToggleConstantChargeEffect;
     }
 
     void OnDisable()
     {
         GameState.Initialize.OnEnter -= Initialize;
         _magneticObject.OnCurrentChargeChanged -= SetSprite;
+        _magneticObject.OnChargeIsConstantChanged -= ToggleConstantChargeEffect;
     }
 
     void Initialize()
@@ -45,6 +49,21 @@ public class MagneticObjectVisual : MonoBehaviour
         if (charge == Magnet.Charge.Neutral) _spriteRenderer.sprite = _magneticSpriteVariant.Neutral;
         if (charge == Magnet.Charge.Positive) _spriteRenderer.sprite = _magneticSpriteVariant.Positive;
         if (charge == Magnet.Charge.Negative) _spriteRenderer.sprite = _magneticSpriteVariant.Negative;
+    }
+
+    void ToggleConstantChargeEffect(bool state)
+    {
+        _constantChargeEffectEnabled = state;
+        if (_constantChargeEffectEnabled)
+        {
+            _spriteRendererColorPrev = _spriteRenderer.color;
+            Color.RGBToHSV(_spriteRenderer.color, out float currentHue, out float saturation, out float currentValue);
+            _spriteRenderer.color = Color.HSVToRGB(currentHue, 1, currentValue);
+        }
+        else
+        {
+            _spriteRenderer.color = _spriteRendererColorPrev;
+        }
     }
 
     #region Inspector
