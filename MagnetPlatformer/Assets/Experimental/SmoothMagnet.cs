@@ -72,12 +72,6 @@ namespace Experimental
         const float MAX_VELOCITY = 100f;
         const float MAX_FORCE = 100f;
 
-        public static Vector2 Calculate()
-        {
-            Vector2 output = Vector2.zero;
-            return output;
-        }
-
         public static Vector2 Calculate(Vector2 selfRigidbodyVelocity, Vector2 selfTargetDistance, float targetGain)
         {
             Vector2 desiredVelocity = Vector2.ClampMagnitude(PUSH_VELOCITY * selfTargetDistance, MAX_VELOCITY);
