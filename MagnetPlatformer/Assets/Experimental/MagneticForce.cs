@@ -64,10 +64,6 @@ namespace NewMagneticForce
                 if (!_neutral && _positive) Charge = Magnet.Charge.Positive;
             }
 
-            _neutral = Charge == Magnet.Charge.Neutral;
-            _positive = Charge == Magnet.Charge.Positive;
-            _negative = Charge == Magnet.Charge.Negative;
-
             UpdateChargeBools(Charge);
             UpdateColor(Charge);
         }
@@ -121,7 +117,7 @@ namespace NewMagneticForce
             if (charge == Magnet.Charge.Negative) _spriteRenderer.color = _negativeColor;
         }
 
-        void OnDrawGizmos()
+        void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, Radius);

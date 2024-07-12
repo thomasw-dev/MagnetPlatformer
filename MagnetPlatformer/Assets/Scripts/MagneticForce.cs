@@ -13,14 +13,13 @@ public static class MagneticForce
         return Vector2.ClampMagnitude(targetGain * deviation, MAX_FORCE);
     }
 
-    public static Vector2 AdjustForceByCharge(Vector2 force, Magnet.Charge targetCharge)
+    public static Vector2 AdjustForceByCharge(Vector2 force, Magnet.Charge selfCharge, Magnet.Charge targetCharge)
     {
-        return targetCharge switch
-        {
-            Magnet.Charge.Neutral => Vector2.zero,
-            Magnet.Charge.Positive => force,
-            Magnet.Charge.Negative => -force,
-            _ => Vector2.zero
-        };
+        // Repel or Attract (1 = attract, -1 = repel)
+        if (selfCharge == Magnet.Charge.Positive && targetCharge == Magnet.Charge.Positive) return force;
+        if (selfCharge == Magnet.Charge.Positive && targetCharge == Magnet.Charge.Negative) return -force;
+        if (selfCharge == Magnet.Charge.Negative && targetCharge == Magnet.Charge.Positive) return -force;
+        if (selfCharge == Magnet.Charge.Negative && targetCharge == Magnet.Charge.Negative) return force;
+        return Vector2.zero;
     }
 }

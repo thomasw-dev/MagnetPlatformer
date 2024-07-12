@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MagneticObject : MonoBehaviour
 {
-    [Range(0f, 5f)]
-    public float Gain = 1f;
+    [Range(0f, 100f)]
+    public float Force = 1f;
 
-    [Range(0f, 20f)]
+    [Range(0f, 50f)]
     public float Radius = 5f;
 
     [Tooltip("If the charge is constant, player cannot change the charge of this object.")]
@@ -75,14 +75,14 @@ public class MagneticObject : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (CurrentCharge != Magnet.Charge.Neutral)
-        {
-            MagneticEffect();
-        }
-
         if (_useGravity)
         {
             GravityForce();
+        }
+
+        if (CurrentCharge != Magnet.Charge.Neutral)
+        {
+            MagneticEffect();
         }
     }
 
@@ -142,8 +142,8 @@ public class MagneticObject : MonoBehaviour
         {
             MagneticObject target = magneticObject.GetComponent<MagneticObject>();
             Vector2 selfTargetDistance = transform.position - magneticObject.transform.position;
-            Vector2 force = MagneticForce.Calculate(_rigidbody.velocity, selfTargetDistance, target.Gain);
-            force = MagneticForce.AdjustForceByCharge(force, target.CurrentCharge);
+            Vector2 force = MagneticForce.Calculate(_rigidbody.velocity, selfTargetDistance, target.Force);
+            force = MagneticForce.AdjustForceByCharge(force, CurrentCharge, target.CurrentCharge);
             forces.Add(force);
         }
 
@@ -183,92 +183,11 @@ public class MagneticObject : MonoBehaviour
 
     void GravityForce()
     {
-        _rigidbody.AddForce(Vector2.down * Constants.GRAVITY);
+        Vector2 gravityForce = MagneticForce.Calculate(_rigidbody.velocity, Vector2.down, 1f);
+        _rigidbody.AddForce(gravityForce);
     }
 
-    float _magneticRadius;
-    float _forceFactor;
-
-    void Prev_MagneticEffect()
-    {
-        List<Rigidbody2D> magneticEffectors = Prev_GetAllMagneticObjectRigidbodiesWithinDiameter(transform.position, _magneticRadius * 2);
-        List<Vector2> forces = new List<Vector2>();
-        foreach (var magneticEffector in magneticEffectors)
-        {
-            Vector2 forceMagnitude = Prev_CalculateMagneticForceMagnitude(_rigidbody, magneticEffector);
-            int chargeFactor = Prev_CalculateChargeFactor(_rigidbody.gameObject.GetComponent<MagneticObject>().CurrentCharge, magneticEffector.gameObject.GetComponent<MagneticObject>().CurrentCharge);
-            forces.Add(forceMagnitude * chargeFactor * _forceFactor);
-        }
-        for (int i = 0; i < forces.Count; i++)
-        {
-            _rigidbody.AddForce(forces[i] * _forceFactor);
-        }
-    }
-
-    List<Rigidbody2D> Prev_GetAllMagneticObjectRigidbodiesWithinDiameter(Vector2 position, float diameter)
-    {
-        List<Rigidbody2D> output = new List<Rigidbody2D>();
-        Collider2D[] cols = Physics2D.OverlapCircleAll(position, diameter, _layerMask);
-
-        bool selfIsInGroup = false;
-        MagnetObjectGroup selfGroup = null;
-        if (gameObject.TryGetComponent(out AddToMagnetObjectGroup selfAddToGroup))
-        {
-            selfIsInGroup = true;
-            selfGroup = selfAddToGroup.MagnetObjectGroup;
-        }
-
-        foreach (var col in cols)
-        {
-            // If the collider's GameObject is not itself and has MagneticObject component
-            if (col.gameObject != gameObject && col.gameObject.TryGetComponent(out MagneticObject magneticObject))
-            {
-                // Only include magnetic objects that are charged
-                if (magneticObject.CurrentCharge != Magnet.Charge.Neutral)
-                {
-                    bool targetIsInGroup = false;
-                    MagnetObjectGroup targetGroup = null;
-                    if (col.gameObject.TryGetComponent(out AddToMagnetObjectGroup targetAddToGroup))
-                    {
-                        targetIsInGroup = true;
-                        targetGroup = targetAddToGroup.MagnetObjectGroup;
-                    }
-
-                    if (selfIsInGroup || targetIsInGroup)
-                    {
-                        if (selfGroup == targetGroup && selfGroup != null && targetGroup != null)
-                        {
-                            // Only add if they are in the same group
-                            output.Add(col.gameObject.GetComponent<Rigidbody2D>());
-                        }
-                    }
-                    else output.Add(col.gameObject.GetComponent<Rigidbody2D>());
-                }
-            }
-        }
-        return output;
-    }
-
-    Vector2 Prev_CalculateMagneticForceMagnitude(Rigidbody2D receiverRigidbody, Rigidbody2D effectorRigidbody)
-    {
-        Vector2 distance = receiverRigidbody.position - effectorRigidbody.position;
-        float inverseX = distance.x > 0 ? _magneticRadius * 2 - distance.x : -(_magneticRadius * 2) + distance.x;
-        float inverseY = distance.y > 0 ? _magneticRadius * 2 - distance.y : -(_magneticRadius * 2) + distance.y;
-        return new Vector2(inverseX, inverseY);
-    }
-
-    int Prev_CalculateChargeFactor(Magnet.Charge receiverCharge, Magnet.Charge effectorCharge)
-    {
-        // Repel or Attract
-        int chargeFactor = 1; // 1 = repel, -1 = attract
-        if (receiverCharge == Magnet.Charge.Positive && effectorCharge == Magnet.Charge.Positive) chargeFactor = 1;
-        if (receiverCharge == Magnet.Charge.Positive && effectorCharge == Magnet.Charge.Negative) chargeFactor = -1;
-        if (receiverCharge == Magnet.Charge.Negative && effectorCharge == Magnet.Charge.Positive) chargeFactor = -1;
-        if (receiverCharge == Magnet.Charge.Negative && effectorCharge == Magnet.Charge.Negative) chargeFactor = 1;
-        return chargeFactor;
-    }
-
-    void OnDrawGizmos()
+    void OnDrawGizmosSelected()
     {
         if (gizmos)
         {
@@ -280,10 +199,7 @@ public class MagneticObject : MonoBehaviour
             }
             Gizmos.DrawWireSphere(transform.position, Radius);
         }
-    }
 
-    void OnDrawGizmosSelected()
-    {
         if (Log.MagneticForceOnSelected)
         {
             Debug.Log($"Net force on this object: {_rigidbody.velocity}");
