@@ -197,10 +197,7 @@ public class MagneticObject : MonoBehaviour
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawRay(transform.position, _netForce);
-    }
 
-    void OnDrawGizmosSelected()
-    {
         if (gizmos)
         {
             switch (CurrentCharge)

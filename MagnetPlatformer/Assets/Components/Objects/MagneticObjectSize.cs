@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 /// <summary>
 /// The centralizaed place to set the size of this object.
@@ -14,18 +15,22 @@ public class MagneticObjectSize : MonoBehaviour
     public Vector2 Size = Vector2.one;
     [SerializeField] LayerMask physicsLayer;
 
-    [ContextMenu("Update Component Sizes")]
-    void UpdateComponentSizes()
+    private void OnValidate()
     {
-        GetComponent<BoxCollider2D>().size = Size;
+        UpdateComponentSizes(Size);
+    }
+
+    void UpdateComponentSizes(Vector2 size)
+    {
+        GetComponent<BoxCollider2D>().size = size;
 
         List<GameObject> listPhysics = new List<GameObject>();
         Method.GetChildRecursive_MatchesLayer(gameObject, listPhysics, physicsLayer);
-        listPhysics[0].GetComponent<BoxCollider2D>().size = Size;
+        listPhysics[0].GetComponent<BoxCollider2D>().size = size;
 
         List<GameObject> listSpriteRenderer = new List<GameObject>();
         Method.GetChildRecursive_ContainsSpriteRenderer(gameObject, listSpriteRenderer);
-        listSpriteRenderer[0].GetComponent<SpriteRenderer>().size = Size;
+        listSpriteRenderer[0].GetComponent<SpriteRenderer>().size = size;
     }
 
     void OnDrawGizmos()

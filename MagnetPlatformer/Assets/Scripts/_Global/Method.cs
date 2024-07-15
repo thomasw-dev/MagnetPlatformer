@@ -15,10 +15,16 @@ public static class Method
         foreach (Transform child in obj.transform)
         {
             if (child == null) continue;
-            else if (child.gameObject.layer == layer)
+            else if (IsInLayer(child.gameObject))
                 listOfChildren.Add(child.gameObject);
 
             GetChildRecursive_MatchesLayer(child.gameObject, listOfChildren, layer);
+        }
+
+        bool IsInLayer(GameObject obj)
+        {
+            int objLayer = obj.layer;
+            return layer == (layer | (1 << objLayer));
         }
     }
 
