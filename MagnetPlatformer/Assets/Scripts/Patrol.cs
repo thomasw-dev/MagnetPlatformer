@@ -43,7 +43,7 @@ public class Patrol : MonoBehaviour
         {
             GameState.Play.OnEnter -= StartPatrol;
         }
-        GameState.Win.OnExit -= StartPatrol;
+        GameState.Win.OnExit -= StopPatrol;
         GameState.Lose.OnExit -= StopPatrol;
     }
 

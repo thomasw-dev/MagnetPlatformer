@@ -1,14 +1,27 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MagneticObject : MonoBehaviour
 {
-    [Range(0f, 100f)]
+    public enum EnumState
+    {
+        Normal, AlteredCharge
+    }
+    public StateController<EnumState> StateController = new StateController<EnumState>();
+    [SerializeField] EnumState _state; // Inspector
+
+    [Space(10)]
+
+    [Range(0f, 1000f)]
     public float Force = 1f;
 
     [Range(0f, 50f)]
     public float Radius = 5f;
+
+    [Range(0f, 10f)]
+    public float Duration = 1f;
 
     [Tooltip("If the charge is constant, player cannot change the charge of this object.")]
     [SerializeField] bool _constantCharge;
@@ -40,6 +53,7 @@ public class MagneticObject : MonoBehaviour
             _currentCharge = value;
         }
     }
+    Magnet.Charge _initialCharge;
 
     [Space(10)]
 
@@ -72,6 +86,17 @@ public class MagneticObject : MonoBehaviour
     {
         OnCurrentChargeChanged -= UpdateChargeBools;
         OnCurrentChargeChanged -= UpdateVisual;
+    }
+
+    void Start()
+    {
+        StateController.ChangeState(EnumState.Normal);
+        _initialCharge = CurrentCharge;
+    }
+
+    void Update()
+    {
+        _state = StateController.CurrentEnum; // Inspector
     }
 
     void FixedUpdate()
@@ -113,9 +138,31 @@ public class MagneticObject : MonoBehaviour
         UpdateVisual(CurrentCharge);
     }
 
-    public void SetCharge(Magnet.Charge charge)
+    public void AlterCharge(Magnet.Charge charge)
+    {
+        if (StateController.CurrentEnum == EnumState.Normal)
+        {
+            StartCoroutine(AlterChargeForDuration(charge, Duration));
+        }
+    }
+
+    IEnumerator AlterChargeForDuration(Magnet.Charge charge, float duration)
+    {
+        SetCharge(charge);
+        StateController.ChangeState(EnumState.AlteredCharge);
+        yield return new WaitForSeconds(duration);
+        RevertToInitialCharge();
+        StateController.ChangeState(EnumState.Normal);
+    }
+
+    void SetCharge(Magnet.Charge charge)
     {
         CurrentCharge = charge;
+    }
+
+    void RevertToInitialCharge()
+    {
+        CurrentCharge = _initialCharge;
     }
 
     void MagneticEffect()
@@ -189,7 +236,7 @@ public class MagneticObject : MonoBehaviour
 
     void GravityForce()
     {
-        Vector2 gravityForce = MagneticForce.Calculate(_rigidbody.velocity, Vector2.down, 1f);
+        Vector2 gravityForce = MagneticForce.Calculate(_rigidbody.velocity, Vector2.down, 1f) * _rigidbody.mass;
         _rigidbody.AddForce(gravityForce);
     }
 

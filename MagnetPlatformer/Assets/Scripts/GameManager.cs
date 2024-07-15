@@ -53,5 +53,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Death() => GameState.ChangeState(GameState.Lose);
+    void Death()
+    {
+        if (GameState.CurrentState != GameState.Play) { return; }
+        GameState.ChangeState(GameState.Lose);
+    }
 }

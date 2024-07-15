@@ -507,7 +507,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: d646d880b06344d75921fee6c170fb7e, type: 2}
   _excludeLayers:
     serializedVersion: 2
-    m_Bits: 136
+    m_Bits: 392
 --- !u!120 &3508758447889702787
 LineRenderer:
   serializedVersion: 2

@@ -1,11 +1,24 @@
-using UnityEngine;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-public class StateController
+public class StateController<T> where T : Enum
 {
-    /*State _currentState;
+    public List<State> States = new List<State>();
+
+    public StateController()
+    {
+        T[] array = (T[])Enum.GetValues(typeof(T));
+        for (int i = 0; i < array.Length; i++)
+        {
+            States.Add(new State(array[i].ToString()));
+        }
+    }
+
+    State _currentState;
     public State CurrentState
     {
-        get { return _currentState; }
+        get => _currentState;
         set
         {
             _currentState?.Exit();
@@ -14,9 +27,16 @@ public class StateController
         }
     }
 
-    public void ChangeState(State state)
+    public void ChangeState(T stateEnum)
     {
+        State state = States.First(item => item.Name == stateEnum.ToString());
         CurrentState = state;
-        Debug.Log($"Current State: {state.Name}");
-    }*/
+    }
+
+    public T CurrentEnum => (T)Enum.Parse(typeof(T), CurrentState.Name);
+
+    public State EnumToState<E>(E stateEnum) where E : Enum
+    {
+        return States.First(item => item.Name == stateEnum.ToString());
+    }
 }

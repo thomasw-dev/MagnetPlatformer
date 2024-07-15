@@ -1,9 +1,13 @@
+using System.Collections;
 using UnityEngine;
 
 public class MagneticObjectVisual : MonoBehaviour
 {
     [SerializeField] MagneticObject _magneticObject;
     [SerializeField] MagnetSpriteVariant _magneticSpriteVariant;
+    [SerializeField] Sprite _alteredChargeTriggerEffect;
+
+    const float ALTERED_CHARGE_TRIGGER_EFFECT_DURATION = 0.06f;
 
     SpriteRenderer _spriteRenderer;
     bool _constantChargeEffectEnabled = false;
@@ -30,6 +34,8 @@ public class MagneticObjectVisual : MonoBehaviour
         GameState.Initialize.OnEnter += Initialize;
         _magneticObject.OnCurrentChargeChanged += SetSprite;
         _magneticObject.OnChargeIsConstantChanged += ToggleConstantChargeEffect;
+        _magneticObject.StateController.EnumToState(MagneticObject.EnumState.Normal).OnEnter += SetNormalSpriteColor;
+        _magneticObject.StateController.EnumToState(MagneticObject.EnumState.AlteredCharge).OnEnter += AlteredChargeTriggerEffect;
     }
 
     void OnDisable()
@@ -64,6 +70,30 @@ public class MagneticObjectVisual : MonoBehaviour
         {
             _spriteRenderer.color = _spriteRendererColorPrev;
         }
+    }
+
+    void AlteredChargeTriggerEffect() => StartCoroutine(DoAlteredChargeTriggerEffect());
+    IEnumerator DoAlteredChargeTriggerEffect()
+    {
+        Sprite currentSprite = _spriteRenderer.sprite;
+        _spriteRenderer.sprite = _alteredChargeTriggerEffect;
+        _spriteRenderer.color = Color.white;
+        yield return new WaitForSeconds(ALTERED_CHARGE_TRIGGER_EFFECT_DURATION);
+        _spriteRenderer.sprite = currentSprite;
+
+        if (_magneticObject.CurrentCharge == Magnet.Charge.Positive)
+        {
+            _spriteRenderer.color = Color.HSVToRGB(0, 0.67f, 1f);
+        }
+        if (_magneticObject.CurrentCharge == Magnet.Charge.Negative)
+        {
+            _spriteRenderer.color = Color.HSVToRGB(0.67f, 0.67f, 1f);
+        }
+    }
+
+    void SetNormalSpriteColor()
+    {
+        _spriteRenderer.color = Color.white;
     }
 
     #region Inspector

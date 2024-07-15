@@ -94,7 +94,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
 
             if (hitObject.TryGetComponent(out MagneticObject magneticObject))
             {
-                magneticObject.SetCharge(charge);
+                magneticObject.AlterCharge(charge);
             }
         }
     }

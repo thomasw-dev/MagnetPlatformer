@@ -21,4 +21,10 @@ public class CameraStickyArea : MonoBehaviour
             OnTriggerExit?.Invoke();
         }
     }
+
+    [ContextMenu("Move Camera To Here")]
+    void MoveCameraToSelf()
+    {
+        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
+    }
 }

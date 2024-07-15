@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameState : StateController
+public class GameState
 {
     public static State Initialize = new State("Initialize");
     public static State Play = new State("Play");

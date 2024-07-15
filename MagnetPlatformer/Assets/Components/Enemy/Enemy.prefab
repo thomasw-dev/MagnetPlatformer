@@ -41,12 +41,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9063011633283796772}
-  - component: {fileID: 8600872871196404604}
   - component: {fileID: 5550528780440810272}
   - component: {fileID: 1255547304758826710}
   - component: {fileID: 5857423101529571672}
   m_Layer: 9
-  m_Name: Object (Free)
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,32 +68,6 @@ Transform:
   - {fileID: 7906563638889898801}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8600872871196404604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4653347773498213825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5d9ec059aa8d49ca93c268d4c3388b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _state: 0
-  Force: 1
-  Radius: 5
-  Duration: 1
-  _constantCharge: 0
-  _neutral: 1
-  _positive: 0
-  _negative: 0
-  _useGravity: 1
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 512
-  _visualChild: {fileID: 7906563638889898801}
-  gizmos: 1
 --- !u!114 &5550528780440810272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,7 +243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 694857898085223978}
   - component: {fileID: 984322971749303477}
-  - component: {fileID: 7824485931842501048}
+  - component: {fileID: 7376751786704307742}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -334,7 +307,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 263e5c1deaa40474aa49953645751737, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3d391bd184f894533b2b129c03dea48d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -345,18 +318,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7824485931842501048
-MonoBehaviour:
+--- !u!95 &7376751786704307742
+Animator:
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8474108839864650046}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea4bb9c18ec6e4de7979bc3746e521fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _magneticObject: {fileID: 8600872871196404604}
-  _magneticSpriteVariant: {fileID: 11400000, guid: 714ff18c32e06418d8b6511714bba90d, type: 2}
-  _alteredChargeTriggerEffect: {fileID: 7482667652216324306, guid: f0b004962529d4331add1e6a2e92bff8, type: 3}
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
