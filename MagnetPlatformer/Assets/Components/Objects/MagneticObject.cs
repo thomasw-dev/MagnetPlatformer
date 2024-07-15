@@ -129,7 +129,7 @@ public class MagneticObject : MonoBehaviour
         if (TryGetComponent(out AddToMagnetObjectGroup magnetObjectGroup))
         {
             MagnetObjectGroup group = magnetObjectGroup.MagnetObjectGroup;
-            if (group != null)
+            if (magnetObjectGroup.enabled && group != null)
             {
                 magneticObjectsinEffect = IncludeMatchedGroupObjects(magneticObjectsNearby, group);
             }

@@ -884,6 +884,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 644648897980878558, guid: 0b26bcfa4f1f1406f8c9133e72e89fd4, type: 3}
+      propertyPath: Radius
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 644648897980878558, guid: 0b26bcfa4f1f1406f8c9133e72e89fd4, type: 3}
+      propertyPath: gizmos
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 644648897980878558, guid: 0b26bcfa4f1f1406f8c9133e72e89fd4, type: 3}
       propertyPath: _charge
       value: 2
       objectReference: {fileID: 0}
@@ -9638,7 +9646,7 @@ Transform:
   m_GameObject: {fileID: 1054597292}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 32, y: 1.5, z: 0}
+  m_LocalPosition: {x: 33.5, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10243,7 +10251,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6061220996213329675, guid: 22d0f961796a54e76ae15ebffcd68dd2, type: 3}
       propertyPath: m_Offset.x
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6061220996213329675, guid: 22d0f961796a54e76ae15ebffcd68dd2, type: 3}
       propertyPath: m_Offset.y
@@ -10251,7 +10259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8147738437837867826, guid: 22d0f961796a54e76ae15ebffcd68dd2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8147738437837867826, guid: 22d0f961796a54e76ae15ebffcd68dd2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -15563,6 +15571,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 801634441351224583, guid: 3f2041e906008417bbf1f909e58659e9, type: 3}
+      propertyPath: Force
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 801634441351224583, guid: 3f2041e906008417bbf1f909e58659e9, type: 3}
+      propertyPath: Radius
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 801634441351224583, guid: 3f2041e906008417bbf1f909e58659e9, type: 3}
       propertyPath: gizmos
       value: 1
       objectReference: {fileID: 0}
@@ -15604,7 +15620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4384123590215644090, guid: 3f2041e906008417bbf1f909e58659e9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8208530017594782414, guid: 3f2041e906008417bbf1f909e58659e9, type: 3}
       propertyPath: m_Sprite
