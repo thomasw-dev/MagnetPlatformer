@@ -888,10 +888,6 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 644648897980878558, guid: 0b26bcfa4f1f1406f8c9133e72e89fd4, type: 3}
-      propertyPath: gizmos
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 644648897980878558, guid: 0b26bcfa4f1f1406f8c9133e72e89fd4, type: 3}
       propertyPath: _charge
       value: 2
       objectReference: {fileID: 0}
@@ -909,11 +905,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379828141716251898, guid: 0b26bcfa4f1f1406f8c9133e72e89fd4, type: 3}
       propertyPath: m_Size.x
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3379828141716251898, guid: 0b26bcfa4f1f1406f8c9133e72e89fd4, type: 3}
       propertyPath: m_Size.y
-      value: 11
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3379828141716251898, guid: 0b26bcfa4f1f1406f8c9133e72e89fd4, type: 3}
       propertyPath: m_Offset.x
@@ -922,6 +918,10 @@ PrefabInstance:
     - target: {fileID: 3379828141716251898, guid: 0b26bcfa4f1f1406f8c9133e72e89fd4, type: 3}
       propertyPath: m_Offset.y
       value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3650519392653563522, guid: 0b26bcfa4f1f1406f8c9133e72e89fd4, type: 3}
+      propertyPath: physicsLayer.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4556010780201099363, guid: 0b26bcfa4f1f1406f8c9133e72e89fd4, type: 3}
       propertyPath: m_Name
@@ -8961,10 +8961,6 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1438424035839769894, guid: 4cda83960438f479e95f089fa8f2b2c0, type: 3}
-      propertyPath: gizmos
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1438424035839769894, guid: 4cda83960438f479e95f089fa8f2b2c0, type: 3}
       propertyPath: _charge
       value: 1
       objectReference: {fileID: 0}
@@ -12709,10 +12705,6 @@ PrefabInstance:
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2059712096520942540, guid: eebe29d87e9b04c549e01c7bbfaf342e, type: 3}
-      propertyPath: gizmos
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2059712096520942540, guid: eebe29d87e9b04c549e01c7bbfaf342e, type: 3}
       propertyPath: _charge
       value: 1
       objectReference: {fileID: 0}
@@ -13992,10 +13984,6 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 801634441351224583, guid: 3f2041e906008417bbf1f909e58659e9, type: 3}
-      propertyPath: gizmos
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 801634441351224583, guid: 3f2041e906008417bbf1f909e58659e9, type: 3}
       propertyPath: _charge
       value: 1
       objectReference: {fileID: 0}
@@ -14568,10 +14556,6 @@ PrefabInstance:
     - target: {fileID: 2059712096520942540, guid: eebe29d87e9b04c549e01c7bbfaf342e, type: 3}
       propertyPath: Radius
       value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2059712096520942540, guid: eebe29d87e9b04c549e01c7bbfaf342e, type: 3}
-      propertyPath: gizmos
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2059712096520942540, guid: eebe29d87e9b04c549e01c7bbfaf342e, type: 3}
       propertyPath: _charge
@@ -15579,10 +15563,6 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 801634441351224583, guid: 3f2041e906008417bbf1f909e58659e9, type: 3}
-      propertyPath: gizmos
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 801634441351224583, guid: 3f2041e906008417bbf1f909e58659e9, type: 3}
       propertyPath: _charge
       value: 2
       objectReference: {fileID: 0}
@@ -16123,10 +16103,6 @@ PrefabInstance:
     - target: {fileID: 109708275475085663, guid: 3f2041e906008417bbf1f909e58659e9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 801634441351224583, guid: 3f2041e906008417bbf1f909e58659e9, type: 3}
-      propertyPath: gizmos
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 801634441351224583, guid: 3f2041e906008417bbf1f909e58659e9, type: 3}
       propertyPath: _charge

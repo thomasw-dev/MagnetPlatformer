@@ -49,12 +49,13 @@ public class MagneticObject : MonoBehaviour
 
     [Space(10)]
 
-    [SerializeField] bool gizmos = false;
+    [SerializeField] bool gizmos = true;
 
     public event Action<Magnet.Charge> OnCurrentChargeChanged;
     public event Action<bool> OnChargeIsConstantChanged;
 
     Rigidbody2D _rigidbody;
+    Vector2 _netForce = Vector3.zero;
 
     void Awake()
     {
@@ -80,7 +81,7 @@ public class MagneticObject : MonoBehaviour
             GravityForce();
         }
 
-        if (CurrentCharge != Magnet.Charge.Neutral)
+        if (CurrentCharge != Magnet.Charge.Neutral && _rigidbody.bodyType != RigidbodyType2D.Static)
         {
             MagneticEffect();
         }
@@ -147,11 +148,16 @@ public class MagneticObject : MonoBehaviour
             forces.Add(force);
         }
 
-        // Apply the forces
-        for (int i = 0; i < forces.Count; i++)
+        // Calculate the net force
+        Vector2 netForce = Vector3.zero;
+        foreach (Vector2 force in forces)
         {
-            _rigidbody.AddForce(forces[i]);
+            netForce += force;
         }
+
+        // Apply the net force
+        _netForce = netForce;
+        _rigidbody.AddForce(netForce);
     }
 
     List<GameObject> GetAllNearbyMagneticObjects(Vector2 position, float diameter)
@@ -185,6 +191,12 @@ public class MagneticObject : MonoBehaviour
     {
         Vector2 gravityForce = MagneticForce.Calculate(_rigidbody.velocity, Vector2.down, 1f);
         _rigidbody.AddForce(gravityForce);
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawRay(transform.position, _netForce);
     }
 
     void OnDrawGizmosSelected()
