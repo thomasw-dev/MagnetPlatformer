@@ -7,7 +7,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
     [SerializeField] Material[] _aimRayMaterials;
     [SerializeField] LayerMask _excludeLayers;
 
-    const float RAYCAST_LENGTH = 40f;
+    const float RAYCAST_LENGTH = 100f;
 
     void Awake()
     {
