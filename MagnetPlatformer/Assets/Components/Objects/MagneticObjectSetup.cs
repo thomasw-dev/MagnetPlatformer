@@ -26,10 +26,14 @@ public class MagneticObjectSetup : MonoBehaviour
         GameObject child_PhysicsCollider = Method.GetChildrenMeetCondition(gameObject, IsInPhysicsLayer)[0];
         child_PhysicsCollider.GetComponent<BoxCollider2D>().size = size;
 
+        bool IsInPhysicsLayer(GameObject gameObject) => Method.IsInLayer(gameObject, Constants.LAYER.Physics.ToString());
+
         // Get child "Sprite" and set the size
 
         GameObject child_SpriteRenderer = Method.GetChildrenMeetCondition(gameObject, HasEnabledSpriteRenderer)[0];
         child_SpriteRenderer.GetComponent<SpriteRenderer>().size = size;
+
+        bool HasEnabledSpriteRenderer(GameObject gameObject) => Method.HasEnabledComponent<SpriteRenderer>(gameObject);
     }
 
     void UpdateType(MagneticObject.Type type)
@@ -49,17 +53,13 @@ public class MagneticObjectSetup : MonoBehaviour
             rigidbody.constraints = constraints;
         }
 
-        // Update Sprite
+        // Get MagneticObjectVisual in child "Sprite" and tell it to set the sprite
 
         GameObject child_MagneticObjectVisual = Method.GetChildrenMeetCondition(gameObject, HasEnabledMagneticObjectVisual)[0];
         child_MagneticObjectVisual.GetComponent<MagneticObjectVisual>().UpdateSprite(charge);
+
+        bool HasEnabledMagneticObjectVisual(GameObject gameObject) => Method.HasEnabledComponent<MagneticObjectVisual>(gameObject);
     }
-
-    bool IsInPhysicsLayer(GameObject gameObject) => Method.IsInLayer(gameObject, Constants.LAYER.Physics.ToString());
-
-    bool HasEnabledSpriteRenderer(GameObject gameObject) => Method.HasEnabledComponent<SpriteRenderer>(gameObject);
-
-    bool HasEnabledMagneticObjectVisual(GameObject gameObject) => Method.HasEnabledComponent<MagneticObjectVisual>(gameObject);
 
     void OnDrawGizmos()
     {

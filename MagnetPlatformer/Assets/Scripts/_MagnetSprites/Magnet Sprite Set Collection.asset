@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1743cf1ca441e4f948372822e718bf98, type: 3}
   m_Name: Magnet Sprite Set Collection
   m_EditorClassIdentifier: 
-  Free: {fileID: 0}
-  Vertical: {fileID: 0}
-  Horizontal: {fileID: 0}
-  Static: {fileID: 0}
+  Free: {fileID: 11400000, guid: 714ff18c32e06418d8b6511714bba90d, type: 2}
+  Vertical: {fileID: 11400000, guid: 833a3e17fe3b94dee8727d79c4a6ff01, type: 2}
+  Horizontal: {fileID: 11400000, guid: d3ea5940b91304d65a35baa42d23aa80, type: 2}
+  Static: {fileID: 11400000, guid: cce7542e860e34086b127c89187e0c04, type: 2}

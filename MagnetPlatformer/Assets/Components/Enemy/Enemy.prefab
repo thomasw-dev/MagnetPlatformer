@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9063011633283796772}
-  - component: {fileID: 5550528780440810272}
+  - component: {fileID: 2373889749881769618}
   - component: {fileID: 1255547304758826710}
   - component: {fileID: 5857423101529571672}
   m_Layer: 9
@@ -68,7 +68,7 @@ Transform:
   - {fileID: 7906563638889898801}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5550528780440810272
+--- !u!114 &2373889749881769618
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,13 +77,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4653347773498213825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2695815d2dd14403a924e9a4a6e9604f, type: 3}
+  m_Script: {fileID: 11500000, guid: 783b5ce9036154894b7a53ebeeb07d00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: {x: 1, y: 1}
-  physicsLayer:
-    serializedVersion: 2
-    m_Bits: 8
+  _state: 0
 --- !u!50 &1255547304758826710
 Rigidbody2D:
   serializedVersion: 4
@@ -154,7 +151,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
 --- !u!1 &5053878709210015231
 GameObject:
@@ -231,7 +228,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
 --- !u!1 &8474108839864650046
 GameObject:
@@ -307,12 +304,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3d391bd184f894533b2b129c03dea48d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e8384d00ac65a4cbda68ede14eff1cff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -328,7 +325,7 @@ Animator:
   m_GameObject: {fileID: 8474108839864650046}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ffe7a38e900214bf9ad7e984e92add20, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
