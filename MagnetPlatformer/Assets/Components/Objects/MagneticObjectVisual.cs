@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MagneticObjectVisual : MonoBehaviour
 {
-    [SerializeField] MagneticObject _magneticObject;
+    [SerializeField] MagneticObjectController _magneticObject;
     [SerializeField] MagnetSpriteVariant _magneticSpriteVariant;
     [SerializeField] Sprite _alteredChargeTriggerEffect;
 
@@ -34,8 +34,8 @@ public class MagneticObjectVisual : MonoBehaviour
         GameState.Initialize.OnEnter += Initialize;
         _magneticObject.OnCurrentChargeChanged += SetSprite;
         _magneticObject.OnChargeIsConstantChanged += ToggleConstantChargeEffect;
-        _magneticObject.StateController.EnumToState(MagneticObject.EnumState.Normal).OnEnter += SetNormalSpriteColor;
-        _magneticObject.StateController.EnumToState(MagneticObject.EnumState.AlteredCharge).OnEnter += AlteredChargeTriggerEffect;
+        _magneticObject.StateController.EnumToState(MagneticObjectController.EnumState.Normal).OnEnter += SetNormalSpriteColor;
+        _magneticObject.StateController.EnumToState(MagneticObjectController.EnumState.AlteredCharge).OnEnter += AlteredChargeTriggerEffect;
     }
 
     void OnDisable()

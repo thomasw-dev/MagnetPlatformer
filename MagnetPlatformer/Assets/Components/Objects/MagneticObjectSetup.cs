@@ -1,48 +1,85 @@
-using System.Collections.Generic;
 using UnityEngine;
-
-/// <summary>
-/// The centralizaed place to set the size of this object.
-/// When the size changes, it updates:
-/// - The size in Box Collider (Trigger) (in Parent)
-/// - The size in Box Collider (Physics Collider)
-/// - The size in Sprite Renderer
-/// </summary>
 
 public class MagneticObjectSetup : MonoBehaviour
 {
     public Vector2 Size = Vector2.one;
+    public MagneticObject.Type Type;
 
     void OnValidate()
     {
-        UpdateComponentSizes(Size);
+        UpdateSize(Size);
+        UpdateType(Type);
     }
 
-    void UpdateComponentSizes(Vector2 size)
+    void UpdateSize(Vector2 size)
     {
+        // Set the size of Box Collider (Trigger)
+
         GetComponent<BoxCollider2D>().size = size;
 
-        // Get child "Physics Collider"
+        // Get child "Physics Collider" and set the size
+
         GameObject child_PhysicsCollider = Method.GetChildrenMeetCondition(gameObject, IsInPhysicsLayer)[0];
         child_PhysicsCollider.GetComponent<BoxCollider2D>().size = size;
 
-        // Get child "Sprite"
+        bool IsInPhysicsLayer(GameObject gameObject)
+        {
+            return Method.IsInLayer(gameObject, Constants.LAYER.Physics.ToString());
+        }
+
+        // Get child "Sprite" and set the size
+
         GameObject child_SpriteRenderer = Method.GetChildrenMeetCondition(gameObject, HasEnabledSpriteRenderer)[0];
         child_SpriteRenderer.GetComponent<SpriteRenderer>().size = size;
-    }
 
-    bool IsInPhysicsLayer(GameObject gameObject)
-    {
-        return Method.IsInLayer(gameObject, Constants.LAYER.Physics.ToString());
-    }
-
-    bool HasEnabledSpriteRenderer(GameObject gameObject)
-    {
-        if (gameObject.TryGetComponent(out SpriteRenderer spriteRenderer))
+        bool HasEnabledSpriteRenderer(GameObject gameObject)
         {
-            return spriteRenderer.enabled;
+            if (gameObject.TryGetComponent(out SpriteRenderer spriteRenderer))
+            {
+                return spriteRenderer.enabled;
+            }
+            else return false;
         }
-        else return false;
+    }
+
+    void UpdateType(MagneticObject.Type type)
+    {
+        // Update Rigidbody
+
+        Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
+
+        if (type == MagneticObject.Type.Free) SetRigidbodyParameters(RigidbodyType2D.Dynamic, RigidbodyConstraints2D.FreezeRotation);
+        if (type == MagneticObject.Type.Vertical) SetRigidbodyParameters(RigidbodyType2D.Dynamic, RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX);
+        if (type == MagneticObject.Type.Horizontal) SetRigidbodyParameters(RigidbodyType2D.Dynamic, RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY);
+        if (type == MagneticObject.Type.Static) SetRigidbodyParameters(RigidbodyType2D.Static, RigidbodyConstraints2D.FreezeAll);
+        if (type == MagneticObject.Type.Patrol) SetRigidbodyParameters(RigidbodyType2D.Kinematic, RigidbodyConstraints2D.FreezeRotation);
+
+        void SetRigidbodyParameters(RigidbodyType2D bodyType, RigidbodyConstraints2D constraints)
+        {
+            rigidbody.bodyType = bodyType;
+            rigidbody.constraints = constraints;
+        }
+
+        // Update Patrol
+
+        if (type == MagneticObject.Type.Patrol)
+        {
+            // Add Patrol object and component if not already having
+
+
+
+            // Enable the Patrol object and component if exist
+
+
+
+        }
+        else
+        {
+            // Disable the Patrol object if exist
+
+
+
+        }
     }
 
     void OnDrawGizmos()

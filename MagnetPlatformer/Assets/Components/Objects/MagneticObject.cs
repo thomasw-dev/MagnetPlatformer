@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MagneticObject : MonoBehaviour
+public class MagneticObjectController : MonoBehaviour
 {
     public enum EnumState
     {
@@ -188,7 +188,7 @@ public class MagneticObject : MonoBehaviour
         // Calculate the forces
         foreach (var magneticObject in magneticObjectsinEffect)
         {
-            MagneticObject target = magneticObject.GetComponent<MagneticObject>();
+            MagneticObjectController target = magneticObject.GetComponent<MagneticObjectController>();
             Vector2 selfTargetDistance = transform.position - magneticObject.transform.position;
             Vector2 force = MagneticForce.Calculate(_rigidbody.velocity, selfTargetDistance, target.Force);
             force = MagneticForce.AdjustForceByCharge(force, CurrentCharge, target.CurrentCharge);

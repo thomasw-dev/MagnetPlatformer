@@ -97,7 +97,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
                 Debug.Log("Hit: " + hitObject.name);
             }
 
-            if (hitObject.TryGetComponent(out MagneticObject magneticObject))
+            if (hitObject.TryGetComponent(out MagneticObjectController magneticObject))
             {
                 magneticObject.AlterCharge(charge);
             }

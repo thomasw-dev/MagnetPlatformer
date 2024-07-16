@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Object (Vertical)
       objectReference: {fileID: 0}
+    - target: {fileID: 5550528780440810272, guid: d97cec0cd73534dbe848fce1c92c046e, type: 3}
+      propertyPath: Type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7824485931842501048, guid: d97cec0cd73534dbe848fce1c92c046e, type: 3}
       propertyPath: _magneticSpriteVariant
       value: 
