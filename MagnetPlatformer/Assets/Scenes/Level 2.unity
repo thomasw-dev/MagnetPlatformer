@@ -3671,10 +3671,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5232363758396998246, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
-      propertyPath: _jumpForce
-      value: 170
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232363758396998246, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
       propertyPath: _airJumpEnabled
       value: 1
       objectReference: {fileID: 0}
@@ -3717,10 +3713,6 @@ PrefabInstance:
     - target: {fileID: 5859685949880444810, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6086237419897319610, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
-      propertyPath: m_Mass
-      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6605234743775612882, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
       propertyPath: m_Name

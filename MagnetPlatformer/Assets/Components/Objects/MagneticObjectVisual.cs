@@ -34,8 +34,8 @@ public class MagneticObjectVisual : MonoBehaviour
         GameState.Initialize.OnEnter += Initialize;
         _magneticObject.OnCurrentChargeChanged += SetSprite;
         _magneticObject.OnChargeIsConstantChanged += ToggleConstantChargeEffect;
-        _magneticObject.StateController.EnumToState(MagneticObjectController.EnumState.Normal).OnEnter += SetNormalSpriteColor;
-        _magneticObject.StateController.EnumToState(MagneticObjectController.EnumState.AlteredCharge).OnEnter += AlteredChargeTriggerEffect;
+        _magneticObject.StateController.EnumToState(MagneticObjectController.StateEnum.Normal).OnEnter += SetNormalSpriteColor;
+        _magneticObject.StateController.EnumToState(MagneticObjectController.StateEnum.AlteredCharge).OnEnter += AlteredChargeTriggerEffect;
     }
 
     void OnDisable()

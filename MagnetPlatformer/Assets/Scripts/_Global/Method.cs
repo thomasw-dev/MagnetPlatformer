@@ -50,27 +50,4 @@ public static class Method
             GetChildrenRecursive(child.gameObject, ref children);
         }
     }
-
-    public static List<GameObject> GetParentsMeetCondition(GameObject user, Func<GameObject, bool> condition)
-    {
-        List<GameObject> output = new List<GameObject>();
-        List<GameObject> parents = new List<GameObject>();
-        GetParentsRecursive(user, ref parents);
-        foreach (GameObject parent in parents)
-        {
-            if (condition(parent))
-            { output.Add(parent); }
-        }
-        return output;
-    }
-
-    public static void GetParentsRecursive(GameObject user, ref List<GameObject> parents)
-    {
-        GameObject parent = user.transform.parent.gameObject;
-        if (parent != null)
-        {
-            parents.Add(parent.gameObject);
-            GetParentsRecursive(parent, ref parents);
-        }
-    }
 }

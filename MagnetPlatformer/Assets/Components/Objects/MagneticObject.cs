@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class MagneticObjectController : MonoBehaviour
 {
-    public enum EnumState
+    public enum StateEnum
     {
         Normal, AlteredCharge
     }
-    public StateController<EnumState> StateController = new StateController<EnumState>();
-    [SerializeField] EnumState _state; // Inspector
+    public StateController<StateEnum> StateController = new StateController<StateEnum>();
+    [SerializeField] StateEnum _state; // Inspector
 
     [Space(10)]
 
@@ -90,7 +90,7 @@ public class MagneticObjectController : MonoBehaviour
 
     void Start()
     {
-        StateController.ChangeState(EnumState.Normal);
+        StateController.ChangeState(StateEnum.Normal);
         _initialCharge = CurrentCharge;
     }
 
@@ -140,7 +140,7 @@ public class MagneticObjectController : MonoBehaviour
 
     public void AlterCharge(Magnet.Charge charge)
     {
-        if (StateController.CurrentEnum == EnumState.Normal)
+        if (StateController.CurrentEnum == StateEnum.Normal)
         {
             StartCoroutine(AlterChargeForDuration(charge, Duration));
         }
@@ -149,10 +149,10 @@ public class MagneticObjectController : MonoBehaviour
     IEnumerator AlterChargeForDuration(Magnet.Charge charge, float duration)
     {
         SetCharge(charge);
-        StateController.ChangeState(EnumState.AlteredCharge);
+        StateController.ChangeState(StateEnum.AlteredCharge);
         yield return new WaitForSeconds(duration);
         RevertToInitialCharge();
-        StateController.ChangeState(EnumState.Normal);
+        StateController.ChangeState(StateEnum.Normal);
     }
 
     void SetCharge(Magnet.Charge charge)

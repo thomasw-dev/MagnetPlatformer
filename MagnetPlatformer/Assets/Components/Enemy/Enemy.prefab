@@ -81,6 +81,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _state: 0
+  _activeArea: {fileID: 0}
+  _player: {fileID: 0}
+  MoveTargetX: 0
+  _moveSpeed: 1
 --- !u!50 &1255547304758826710
 Rigidbody2D:
   serializedVersion: 4
@@ -89,7 +93,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4653347773498213825}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -241,6 +245,7 @@ GameObject:
   - component: {fileID: 694857898085223978}
   - component: {fileID: 984322971749303477}
   - component: {fileID: 7376751786704307742}
+  - component: {fileID: 5314980281207898191}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -336,3 +341,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5314980281207898191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8474108839864650046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a93d2eab13484574bba09a93eacfd44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemy: {fileID: 2373889749881769618}

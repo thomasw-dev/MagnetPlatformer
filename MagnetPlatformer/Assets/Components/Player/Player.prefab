@@ -505,9 +505,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b038f56c388d0406392716e4f917f695, type: 2}
   - {fileID: 2100000, guid: 2f90b24581c5542529e9d3904f6e6705, type: 2}
   - {fileID: 2100000, guid: d646d880b06344d75921fee6c170fb7e, type: 2}
-  _excludeLayers:
-    serializedVersion: 2
-    m_Bits: 392
 --- !u!120 &3508758447889702787
 LineRenderer:
   serializedVersion: 2
@@ -697,11 +694,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _groundCheckRaycastPoint: {fileID: 5386107735996127393}
-  _groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 768
   _moveSpeed: 1.5
-  _jumpForce: 1600
+  _jumpForce: 170
   _airJumpEnabled: 0
   gizmos: 0
 --- !u!50 &6086237419897319610
@@ -716,7 +710,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.1
   m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 9.81
