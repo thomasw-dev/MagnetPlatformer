@@ -5,7 +5,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
     LineRenderer _lineRenderer;
     [SerializeField] Transform[] points;
     [SerializeField] Material[] _aimRayMaterials;
-    [SerializeField] LayerMask _excludeLayers;
+    LayerMask _excludeLayers;
 
     const float RAYCAST_LENGTH = 100f;
 
@@ -32,6 +32,11 @@ public class MagnetWeaponAimRay : MonoBehaviour
 
     void Start()
     {
+        _excludeLayers = LayerMask.GetMask(
+            Constants.LAYER.Physics.ToString(),
+            Constants.LAYER.Player.ToString(),
+            Constants.LAYER.Environment.ToString()
+        );
         SetupLines(points);
     }
 

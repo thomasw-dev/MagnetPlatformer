@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,37 +9,32 @@ public static class Method
         return gameObject.tag == "Player" ? true : false;
     }
 
-    public static void GetChildRecursive_MatchesLayer(GameObject obj, List<GameObject> listOfChildren, LayerMask layer)
+    public static List<GameObject> GetChildrenMeetCondition(GameObject user, Func<GameObject, bool> condition)
     {
-        if (obj == null) return;
+        List<GameObject> output = new List<GameObject>();
+        List<GameObject> children = new List<GameObject>();
+        GetChildrenRecursive(user, ref children);
+        foreach (GameObject child in children)
+        {
+            if (condition(child))
+            { output.Add(child); }
+        }
+        return output;
+    }
 
+    public static void GetChildrenRecursive(GameObject obj, ref List<GameObject> children)
+    {
         foreach (Transform child in obj.transform)
         {
-            if (child == null) continue;
-            else if (IsInLayer(child.gameObject))
-                listOfChildren.Add(child.gameObject);
-
-            GetChildRecursive_MatchesLayer(child.gameObject, listOfChildren, layer);
-        }
-
-        bool IsInLayer(GameObject obj)
-        {
-            int objLayer = obj.layer;
-            return layer == (layer | (1 << objLayer));
+            if (!child) continue;
+            else children.Add(child.gameObject);
+            GetChildrenRecursive(child.gameObject, ref children);
         }
     }
 
-    public static void GetChildRecursive_ContainsSpriteRenderer(GameObject obj, List<GameObject> listOfChildren)
+    public static bool IsInLayer(GameObject gameObject, string layerName)
     {
-        if (obj == null) return;
-
-        foreach (Transform child in obj.transform)
-        {
-            if (child == null) continue;
-            else if (child.gameObject.TryGetComponent(out SpriteRenderer spriteRenderer))
-                listOfChildren.Add(child.gameObject);
-
-            GetChildRecursive_ContainsSpriteRenderer(child.gameObject, listOfChildren);
-        }
+        int layerMask = LayerMask.GetMask(layerName);
+        return (layerMask & (1 << gameObject.layer)) != 0;
     }
 }

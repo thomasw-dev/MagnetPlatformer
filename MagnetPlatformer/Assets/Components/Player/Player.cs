@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
     [Tooltip("These fields need their values to be assigned in the Inspector.")]
     [Header("Assign Fields")]
     [SerializeField] Transform _groundCheckRaycastPoint;
-    [SerializeField] LayerMask _groundLayerMask;
 
     [Header("Movement")]
     [Range(0.001f, 10f)]
@@ -21,6 +20,7 @@ public class Player : MonoBehaviour
 
     const float MOVE_SPEED_MAX = 15f;
     const float GROUND_CHECK_RAYCAST_LENGTH = 0.5f;
+    LayerMask _groundLayerMask;
 
     Rigidbody2D _rigidbody2D;
 
@@ -64,6 +64,14 @@ public class Player : MonoBehaviour
     void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+    }
+
+    void Start()
+    {
+        _groundLayerMask = LayerMask.GetMask(
+            Constants.LAYER.Environment.ToString(),
+            Constants.LAYER.Magnetic.ToString()
+        );
     }
 
     void Update()
