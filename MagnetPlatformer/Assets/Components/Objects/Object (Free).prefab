@@ -82,6 +82,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 1, y: 1}
+  Type: 0
 --- !u!114 &8600872871196404604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,5 +356,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _magneticObject: {fileID: 8600872871196404604}
-  _magneticSpriteVariant: {fileID: 11400000, guid: 714ff18c32e06418d8b6511714bba90d, type: 2}
+  _spriteCollection: {fileID: 11400000, guid: f96d89555cd7b476ebd948b2a060d2dd, type: 2}
   _alteredChargeTriggerEffect: {fileID: 7482667652216324306, guid: f0b004962529d4331add1e6a2e92bff8, type: 3}

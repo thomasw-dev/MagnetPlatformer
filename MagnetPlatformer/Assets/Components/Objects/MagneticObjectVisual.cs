@@ -4,7 +4,7 @@ using UnityEngine;
 public class MagneticObjectVisual : MonoBehaviour
 {
     [SerializeField] MagneticObjectController _magneticObject;
-    [SerializeField] MagnetSpriteVariant _magneticSpriteVariant;
+    [SerializeField] MagnetSpriteSetCollection _spriteCollection;
     [SerializeField] Sprite _alteredChargeTriggerEffect;
 
     const float ALTERED_CHARGE_TRIGGER_EFFECT_DURATION = 0.06f;
@@ -52,9 +52,9 @@ public class MagneticObjectVisual : MonoBehaviour
 
     void SetSprite(Magnet.Charge charge)
     {
-        if (charge == Magnet.Charge.Neutral) _spriteRenderer.sprite = _magneticSpriteVariant.Neutral;
-        if (charge == Magnet.Charge.Positive) _spriteRenderer.sprite = _magneticSpriteVariant.Positive;
-        if (charge == Magnet.Charge.Negative) _spriteRenderer.sprite = _magneticSpriteVariant.Negative;
+        MagneticObject.Type type = _magneticObject.gameObject.GetComponent<MagneticObjectSetup>().Type;
+        _spriteRenderer.sprite = _spriteCollection.GetSpriteSetByType(type).GetSpriteByCharge(charge);
+
     }
 
     void ToggleConstantChargeEffect(bool state)
@@ -105,9 +105,8 @@ public class MagneticObjectVisual : MonoBehaviour
 
     void SetSprite(SpriteRenderer spriteRenderer, Magnet.Charge charge)
     {
-        if (charge == Magnet.Charge.Neutral) spriteRenderer.sprite = _magneticSpriteVariant.Neutral;
-        if (charge == Magnet.Charge.Positive) spriteRenderer.sprite = _magneticSpriteVariant.Positive;
-        if (charge == Magnet.Charge.Negative) spriteRenderer.sprite = _magneticSpriteVariant.Negative;
+        MagneticObject.Type type = _magneticObject.gameObject.GetComponent<MagneticObjectSetup>().Type;
+        spriteRenderer.sprite = _spriteCollection.GetSpriteSetByType(type).GetSpriteByCharge(charge);
     }
 
     #endregion

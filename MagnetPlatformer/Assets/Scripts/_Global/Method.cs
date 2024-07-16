@@ -9,6 +9,25 @@ public static class Method
         return gameObject.tag == "Player" ? true : false;
     }
 
+    public static bool IsInLayer(GameObject gameObject, string layerName)
+    {
+        int layerMask = LayerMask.GetMask(layerName);
+        return (layerMask & (1 << gameObject.layer)) != 0;
+    }
+
+    public static bool HasEnabledComponent<T>(GameObject gameObject) where T : Component
+    {
+        if (gameObject.TryGetComponent(out T component))
+        {
+            if (component is Behaviour behaviour)
+            {
+                return behaviour.enabled;
+            }
+            else return true;
+        }
+        else return false;
+    }
+
     public static List<GameObject> GetChildrenMeetCondition(GameObject user, Func<GameObject, bool> condition)
     {
         List<GameObject> output = new List<GameObject>();
@@ -22,9 +41,9 @@ public static class Method
         return output;
     }
 
-    public static void GetChildrenRecursive(GameObject obj, ref List<GameObject> children)
+    public static void GetChildrenRecursive(GameObject user, ref List<GameObject> children)
     {
-        foreach (Transform child in obj.transform)
+        foreach (Transform child in user.transform)
         {
             if (!child) continue;
             else children.Add(child.gameObject);
@@ -32,9 +51,26 @@ public static class Method
         }
     }
 
-    public static bool IsInLayer(GameObject gameObject, string layerName)
+    public static List<GameObject> GetParentsMeetCondition(GameObject user, Func<GameObject, bool> condition)
     {
-        int layerMask = LayerMask.GetMask(layerName);
-        return (layerMask & (1 << gameObject.layer)) != 0;
+        List<GameObject> output = new List<GameObject>();
+        List<GameObject> parents = new List<GameObject>();
+        GetParentsRecursive(user, ref parents);
+        foreach (GameObject parent in parents)
+        {
+            if (condition(parent))
+            { output.Add(parent); }
+        }
+        return output;
+    }
+
+    public static void GetParentsRecursive(GameObject user, ref List<GameObject> parents)
+    {
+        GameObject parent = user.transform.parent.gameObject;
+        if (parent != null)
+        {
+            parents.Add(parent.gameObject);
+            GetParentsRecursive(parent, ref parents);
+        }
     }
 }

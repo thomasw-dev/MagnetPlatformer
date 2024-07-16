@@ -5,8 +5,12 @@ public class MagneticObjectSetup : MonoBehaviour
     public Vector2 Size = Vector2.one;
     public MagneticObject.Type Type;
 
+    Magnet.Charge charge;
+
     void OnValidate()
     {
+        charge = GetComponent<MagneticObjectController>().CurrentCharge;
+
         UpdateSize(Size);
         UpdateType(Type);
     }
@@ -22,24 +26,10 @@ public class MagneticObjectSetup : MonoBehaviour
         GameObject child_PhysicsCollider = Method.GetChildrenMeetCondition(gameObject, IsInPhysicsLayer)[0];
         child_PhysicsCollider.GetComponent<BoxCollider2D>().size = size;
 
-        bool IsInPhysicsLayer(GameObject gameObject)
-        {
-            return Method.IsInLayer(gameObject, Constants.LAYER.Physics.ToString());
-        }
-
         // Get child "Sprite" and set the size
 
         GameObject child_SpriteRenderer = Method.GetChildrenMeetCondition(gameObject, HasEnabledSpriteRenderer)[0];
         child_SpriteRenderer.GetComponent<SpriteRenderer>().size = size;
-
-        bool HasEnabledSpriteRenderer(GameObject gameObject)
-        {
-            if (gameObject.TryGetComponent(out SpriteRenderer spriteRenderer))
-            {
-                return spriteRenderer.enabled;
-            }
-            else return false;
-        }
     }
 
     void UpdateType(MagneticObject.Type type)
@@ -52,7 +42,6 @@ public class MagneticObjectSetup : MonoBehaviour
         if (type == MagneticObject.Type.Vertical) SetRigidbodyParameters(RigidbodyType2D.Dynamic, RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX);
         if (type == MagneticObject.Type.Horizontal) SetRigidbodyParameters(RigidbodyType2D.Dynamic, RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY);
         if (type == MagneticObject.Type.Static) SetRigidbodyParameters(RigidbodyType2D.Static, RigidbodyConstraints2D.FreezeAll);
-        if (type == MagneticObject.Type.Patrol) SetRigidbodyParameters(RigidbodyType2D.Kinematic, RigidbodyConstraints2D.FreezeRotation);
 
         void SetRigidbodyParameters(RigidbodyType2D bodyType, RigidbodyConstraints2D constraints)
         {
@@ -60,27 +49,17 @@ public class MagneticObjectSetup : MonoBehaviour
             rigidbody.constraints = constraints;
         }
 
-        // Update Patrol
+        // Update Sprite
 
-        if (type == MagneticObject.Type.Patrol)
-        {
-            // Add Patrol object and component if not already having
-
-
-
-            // Enable the Patrol object and component if exist
-
-
-
-        }
-        else
-        {
-            // Disable the Patrol object if exist
-
-
-
-        }
+        GameObject child_MagneticObjectVisual = Method.GetChildrenMeetCondition(gameObject, HasEnabledMagneticObjectVisual)[0];
+        child_MagneticObjectVisual.GetComponent<MagneticObjectVisual>().UpdateSprite(charge);
     }
+
+    bool IsInPhysicsLayer(GameObject gameObject) => Method.IsInLayer(gameObject, Constants.LAYER.Physics.ToString());
+
+    bool HasEnabledSpriteRenderer(GameObject gameObject) => Method.HasEnabledComponent<SpriteRenderer>(gameObject);
+
+    bool HasEnabledMagneticObjectVisual(GameObject gameObject) => Method.HasEnabledComponent<MagneticObjectVisual>(gameObject);
 
     void OnDrawGizmos()
     {

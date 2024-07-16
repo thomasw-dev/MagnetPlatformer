@@ -113,11 +113,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1255547304758826710, guid: d97cec0cd73534dbe848fce1c92c046e, type: 3}
       propertyPath: m_BodyType
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4653347773498213825, guid: d97cec0cd73534dbe848fce1c92c046e, type: 3}
       propertyPath: m_Name
       value: Object (Patrol Trigger)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5550528780440810272, guid: d97cec0cd73534dbe848fce1c92c046e, type: 3}
+      propertyPath: Type
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7824485931842501048, guid: d97cec0cd73534dbe848fce1c92c046e, type: 3}
       propertyPath: _magneticSpriteVariant

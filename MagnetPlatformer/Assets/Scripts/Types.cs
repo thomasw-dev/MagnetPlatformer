@@ -10,7 +10,6 @@ public static class MagneticObject
         Free,
         Vertical,
         Horizontal,
-        Static,
-        Patrol
+        Static
     }
 }
