@@ -10,5 +10,5 @@ public static class MagneticObject
 
 public static class Move
 {
-    public enum Direction { Left, Right }
+    public enum Direction { None, Left, Right }
 }

@@ -49,13 +49,20 @@ public class GameManager : MonoBehaviour
         _goalRemaining--;
         if (_goalRemaining == 0)
         {
-            GameState.ChangeState(GameState.Win);
+            if (Mod.EnableWin)
+            {
+                GameState.ChangeState(GameState.Win);
+            }
         }
     }
 
     void Death()
     {
         if (GameState.CurrentState != GameState.Play) { return; }
-        GameState.ChangeState(GameState.Lose);
+
+        if (Mod.EnableDeath)
+        {
+            GameState.ChangeState(GameState.Lose);
+        }
     }
 }

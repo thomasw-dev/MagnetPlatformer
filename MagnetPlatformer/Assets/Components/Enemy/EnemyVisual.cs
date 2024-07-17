@@ -26,6 +26,7 @@ public class EnemyVisual : MonoBehaviour
 
     void ChangeMoveDirection(Move.Direction direction)
     {
+        if (direction == Move.Direction.None) _animator.SetTrigger("Idle");
         if (direction == Move.Direction.Left) _animator.SetTrigger("MoveLeft");
         if (direction == Move.Direction.Right) _animator.SetTrigger("MoveRight");
     }

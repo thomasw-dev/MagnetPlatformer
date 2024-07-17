@@ -190,6 +190,10 @@ public class MagneticObjectController : MonoBehaviour
         {
             MagneticObjectController target = magneticObject.GetComponent<MagneticObjectController>();
             Vector2 selfTargetDistance = transform.position - magneticObject.transform.position;
+
+            if (gameObject.tag == "Debug")
+                Debug.Log($"{_rigidbody.velocity} | {selfTargetDistance} | {target.Force}");
+
             Vector2 force = MagneticForce.Calculate(_rigidbody.velocity, selfTargetDistance, target.Force);
             force = MagneticForce.AdjustForceByCharge(force, CurrentCharge, target.CurrentCharge);
             forces.Add(force);
