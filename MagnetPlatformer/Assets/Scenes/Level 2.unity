@@ -8750,6 +8750,10 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2860681490777944747, guid: d97cec0cd73534dbe848fce1c92c046e, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 4653347773498213825, guid: d97cec0cd73534dbe848fce1c92c046e, type: 3}
       propertyPath: m_Name
       value: Object (Free)

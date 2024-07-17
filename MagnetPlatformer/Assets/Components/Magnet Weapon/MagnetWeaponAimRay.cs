@@ -7,6 +7,8 @@ public class MagnetWeaponAimRay : MonoBehaviour
     [SerializeField] Material[] _aimRayMaterials;
     LayerMask _excludeLayers;
 
+    const float LINE_WIDTH_WIDE = 1f;
+    const float LINE_WIDTH_THIN = 0.1f;
     const float RAYCAST_LENGTH = 100f;
 
     void Awake()
@@ -19,6 +21,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
         GameState.Initialize.OnEnter += Initialize;
         InputManager.OnMagnetWeaponSetCharge += SetLineVisual;
         MagnetWeapon.OnFireWeapon += ShootRay;
+        MagnetWeapon.OnFireWeaponStop += ShootRayStop;
         GameState.Play.OnExit += Disable;
     }
 
@@ -27,6 +30,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
         GameState.Initialize.OnEnter -= Initialize;
         InputManager.OnMagnetWeaponSetCharge -= SetLineVisual;
         MagnetWeapon.OnFireWeapon -= ShootRay;
+        MagnetWeapon.OnFireWeaponStop -= ShootRayStop;
         GameState.Play.OnExit -= Disable;
     }
 
@@ -64,9 +68,9 @@ public class MagnetWeaponAimRay : MonoBehaviour
         float width = GetAimRayWidthByCharge(charge);
         float GetAimRayWidthByCharge(Magnet.Charge charge) => charge switch
         {
-            Magnet.Charge.Neutral => 0.05f,
-            Magnet.Charge.Positive => 1f,
-            Magnet.Charge.Negative => 1f,
+            Magnet.Charge.Neutral => LINE_WIDTH_THIN,
+            Magnet.Charge.Positive => LINE_WIDTH_THIN,
+            Magnet.Charge.Negative => LINE_WIDTH_THIN,
             _ => 1f
         };
         _lineRenderer.startWidth = width;
@@ -84,6 +88,9 @@ public class MagnetWeaponAimRay : MonoBehaviour
 
     void ShootRay(Magnet.Charge charge)
     {
+        _lineRenderer.startWidth = LINE_WIDTH_WIDE;
+        _lineRenderer.endWidth = LINE_WIDTH_WIDE;
+
         Vector2 origin = transform.position;
         Vector2 direction = transform.up;
         RaycastHit2D hit = Physics2D.Raycast(origin, direction, RAYCAST_LENGTH, ~_excludeLayers);
@@ -102,6 +109,12 @@ public class MagnetWeaponAimRay : MonoBehaviour
                 magneticObject.AlterCharge(charge);
             }
         }
+    }
+
+    void ShootRayStop()
+    {
+        _lineRenderer.startWidth = LINE_WIDTH_THIN;
+        _lineRenderer.endWidth = LINE_WIDTH_THIN;
     }
 
     void Disable()

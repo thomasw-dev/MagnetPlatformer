@@ -6,6 +6,8 @@ public class MagnetWeapon : MonoBehaviour
     [SerializeField] Transform _attachTo;
 
     public static event Action<Magnet.Charge> OnFireWeapon;
+    public static event Action OnFireWeaponStop;
+
     public static Magnet.Charge CurrentCharge = Magnet.Charge.Neutral;
     [SerializeField] Magnet.Charge _currentCharge; // Inspector
 
@@ -22,15 +24,28 @@ public class MagnetWeapon : MonoBehaviour
     void OnEnable()
     {
         InputManager.OnMagnetWeaponSetCharge += InputSetCharge;
-        InputManager.OnMagnetWeaponSetCharge += FireWeapon;
+        MagnetMouseControl.OnLeftButtonDown += FireWeapon;
+        MagnetMouseControl.OnLeftButtonUp += FireWeaponStop;
+        MagnetMouseControl.OnRightButtonDown += FireWeapon;
+        MagnetMouseControl.OnRightButtonUp += FireWeaponStop;
+        GameState.Play.OnEnter += EnterPlay;
         GameState.Play.OnExit += Restore;
     }
 
     void OnDisable()
     {
         InputManager.OnMagnetWeaponSetCharge -= InputSetCharge;
-        InputManager.OnMagnetWeaponSetCharge -= FireWeapon;
+        MagnetMouseControl.OnLeftButtonDown -= FireWeapon;
+        MagnetMouseControl.OnLeftButtonUp -= FireWeaponStop;
+        MagnetMouseControl.OnRightButtonDown -= FireWeapon;
+        MagnetMouseControl.OnRightButtonUp -= FireWeaponStop;
+        GameState.Play.OnEnter -= EnterPlay;
         GameState.Play.OnExit -= Restore;
+    }
+
+    void EnterPlay()
+    {
+        SetCharge(Magnet.Charge.Positive);
     }
 
     void Update()
@@ -82,11 +97,13 @@ public class MagnetWeapon : MonoBehaviour
         };
     }
 
-    void FireWeapon(Magnet.Charge charge)
+    void FireWeapon()
     {
-        if (charge == Magnet.Charge.Neutral) return;
-        OnFireWeapon?.Invoke(charge);
+        if (CurrentCharge == Magnet.Charge.Neutral) return;
+        OnFireWeapon?.Invoke(CurrentCharge);
     }
+
+    void FireWeaponStop() => OnFireWeaponStop?.Invoke();
 
     void Restore() => SetCharge(Magnet.Charge.Neutral);
 }

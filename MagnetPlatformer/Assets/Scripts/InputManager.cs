@@ -17,22 +17,27 @@ public class InputManager : MonoBehaviour
     const KeyCode MOVE_LEFT_KEY = KeyCode.A;
     const KeyCode MOVE_RIGHT_KEY = KeyCode.D;
     const KeyCode JUMP_KEY = KeyCode.Space;
+    const KeyCode POSITIVE_CHARGE_KEY = KeyCode.Q;
+    const KeyCode NEGATIVE_CHARGE_KEY = KeyCode.E;
 
+    Magnet.Charge _toggleCharge = Magnet.Charge.Neutral;
 
     void OnEnable()
     {
-        MagnetMouseControl.OnLeftButtonDown += MagnetSetCharge_Positive;
-        MagnetMouseControl.OnLeftButtonUp += MagnetSetCharge_Neutral;
-        MagnetMouseControl.OnRightButtonDown += MagnetSetCharge_Negative;
-        MagnetMouseControl.OnRightButtonUp += MagnetSetCharge_Neutral;
+        GameState.Play.OnEnter += EnterPlay;
+        //MagnetMouseControl.OnLeftButtonDown += MagnetSetCharge_Positive;
+        //MagnetMouseControl.OnLeftButtonUp += MagnetSetCharge_Neutral;
+        //MagnetMouseControl.OnRightButtonDown += MagnetSetCharge_Negative;
+        //MagnetMouseControl.OnRightButtonUp += MagnetSetCharge_Neutral;
     }
 
     void OnDisable()
     {
-        MagnetMouseControl.OnLeftButtonDown -= MagnetSetCharge_Positive;
-        MagnetMouseControl.OnLeftButtonUp -= MagnetSetCharge_Neutral;
-        MagnetMouseControl.OnRightButtonDown -= MagnetSetCharge_Negative;
-        MagnetMouseControl.OnRightButtonUp -= MagnetSetCharge_Neutral;
+        GameState.Play.OnEnter -= EnterPlay;
+        //MagnetMouseControl.OnLeftButtonDown -= MagnetSetCharge_Positive;
+        //MagnetMouseControl.OnLeftButtonUp -= MagnetSetCharge_Neutral;
+        //MagnetMouseControl.OnRightButtonDown -= MagnetSetCharge_Negative;
+        //MagnetMouseControl.OnRightButtonUp -= MagnetSetCharge_Neutral;
     }
 
     void Update()
@@ -47,8 +52,16 @@ public class InputManager : MonoBehaviour
 
         if (GameState.CurrentState == GameState.Play)
         {
-            MovementInput();
+            MovementKeysInput();
+            SetChargeKeysInput();
         }
+    }
+
+    void EnterPlay()
+    {
+        // Simulate setting charge to positive
+        OnMagnetWeaponSetCharge?.Invoke(Magnet.Charge.Positive);
+        _toggleCharge = Magnet.Charge.Positive;
     }
 
     bool CheckAnyKeyInput()
@@ -61,7 +74,7 @@ public class InputManager : MonoBehaviour
         else return false;
     }
 
-    void MovementInput()
+    void MovementKeysInput()
     {
         // Move Left
         if (Input.GetKey(MOVE_LEFT_KEY))
@@ -81,6 +94,25 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(JUMP_KEY))
         {
             OnJumpInput?.Invoke();
+        }
+    }
+
+    void SetChargeKeysInput()
+    {
+        // Set Positive Charge
+        /*if (Input.GetKeyDown(POSITIVE_CHARGE_KEY))
+        {
+            OnMagnetWeaponSetCharge?.Invoke(Magnet.Charge.Positive);
+        }*/
+
+        // Set Negative Charge
+        if (Input.GetKeyDown(NEGATIVE_CHARGE_KEY))
+        {
+            if (_toggleCharge == Magnet.Charge.Positive)
+                _toggleCharge = Magnet.Charge.Negative;
+            else _toggleCharge = Magnet.Charge.Positive;
+
+            OnMagnetWeaponSetCharge?.Invoke(_toggleCharge);
         }
     }
 
