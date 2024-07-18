@@ -17,27 +17,18 @@ public class InputManager : MonoBehaviour
     const KeyCode MOVE_LEFT_KEY = KeyCode.A;
     const KeyCode MOVE_RIGHT_KEY = KeyCode.D;
     const KeyCode JUMP_KEY = KeyCode.Space;
-    const KeyCode POSITIVE_CHARGE_KEY = KeyCode.Q;
-    const KeyCode NEGATIVE_CHARGE_KEY = KeyCode.E;
+    const KeyCode TOGGLE_CHARGE_KEY = KeyCode.E;
 
-    Magnet.Charge _toggleCharge = Magnet.Charge.Neutral;
+    Magnet.Charge _toggleCharge = Magnet.Charge.Positive;
 
     void OnEnable()
     {
         GameState.Play.OnEnter += EnterPlay;
-        //MagnetMouseControl.OnLeftButtonDown += MagnetSetCharge_Positive;
-        //MagnetMouseControl.OnLeftButtonUp += MagnetSetCharge_Neutral;
-        //MagnetMouseControl.OnRightButtonDown += MagnetSetCharge_Negative;
-        //MagnetMouseControl.OnRightButtonUp += MagnetSetCharge_Neutral;
     }
 
     void OnDisable()
     {
         GameState.Play.OnEnter -= EnterPlay;
-        //MagnetMouseControl.OnLeftButtonDown -= MagnetSetCharge_Positive;
-        //MagnetMouseControl.OnLeftButtonUp -= MagnetSetCharge_Neutral;
-        //MagnetMouseControl.OnRightButtonDown -= MagnetSetCharge_Negative;
-        //MagnetMouseControl.OnRightButtonUp -= MagnetSetCharge_Neutral;
     }
 
     void Update()
@@ -59,9 +50,8 @@ public class InputManager : MonoBehaviour
 
     void EnterPlay()
     {
-        // Simulate setting charge to positive
-        OnMagnetWeaponSetCharge?.Invoke(Magnet.Charge.Positive);
-        _toggleCharge = Magnet.Charge.Positive;
+        // Initial charge
+        OnMagnetWeaponSetCharge?.Invoke(_toggleCharge);
     }
 
     bool CheckAnyKeyInput()
@@ -99,36 +89,13 @@ public class InputManager : MonoBehaviour
 
     void SetChargeKeysInput()
     {
-        // Set Positive Charge
-        /*if (Input.GetKeyDown(POSITIVE_CHARGE_KEY))
+        // Toggle Charge (Positive / Negative)
+        if (Input.GetKeyDown(TOGGLE_CHARGE_KEY))
         {
-            OnMagnetWeaponSetCharge?.Invoke(Magnet.Charge.Positive);
-        }*/
-
-        // Set Negative Charge
-        if (Input.GetKeyDown(NEGATIVE_CHARGE_KEY))
-        {
-            if (_toggleCharge == Magnet.Charge.Positive)
-                _toggleCharge = Magnet.Charge.Negative;
-            else _toggleCharge = Magnet.Charge.Positive;
+            // Flip it between Positive and Negative 
+            _toggleCharge = _toggleCharge == Magnet.Charge.Positive ? Magnet.Charge.Negative : Magnet.Charge.Positive;
 
             OnMagnetWeaponSetCharge?.Invoke(_toggleCharge);
         }
-    }
-
-    void MagnetSetCharge_Neutral()
-    {
-        if (GameState.CurrentState != GameState.Play) { return; }
-        OnMagnetWeaponSetCharge?.Invoke(Magnet.Charge.Neutral);
-    }
-    void MagnetSetCharge_Positive()
-    {
-        if (GameState.CurrentState != GameState.Play) { return; }
-        OnMagnetWeaponSetCharge?.Invoke(Magnet.Charge.Positive);
-    }
-    void MagnetSetCharge_Negative()
-    {
-        if (GameState.CurrentState != GameState.Play) { return; }
-        OnMagnetWeaponSetCharge?.Invoke(Magnet.Charge.Negative);
     }
 }

@@ -61,30 +61,30 @@ public class Enemy : MonoBehaviour
     {
         _state = StateController.CurrentEnum; // Inspector
 
-        if (StateController.CurrentEnum == StateEnum.Idle)
+        if (GameState.CurrentState == GameState.Play)
         {
-            IdleMovement();
-        }
+            if (StateController.CurrentEnum == StateEnum.Idle)
+            {
+                IdleMovement();
+            }
 
-        if (StateController.CurrentEnum == StateEnum.Chase)
-        {
-            MoveTargetX = _player.transform.position.x;
-            MoveDirection = UpdateMoveDirection(transform.position.x, MoveTargetX);
-            ChaseMovement();
+            if (StateController.CurrentEnum == StateEnum.Chase)
+            {
+                MoveTargetX = _player.transform.position.x;
+                MoveDirection = UpdateMoveDirection(transform.position.x, MoveTargetX);
+                ChaseMovement();
+            }
         }
     }
 
     void Idle()
     {
-        if (GameState.CurrentState != GameState.Play) { return; }
-
         StateController.ChangeState(StateEnum.Idle);
+        OnMoveDirectionChange.Invoke(Move.Direction.None);
     }
 
     void Chase()
     {
-        if (GameState.CurrentState != GameState.Play) { return; }
-
         StateController.ChangeState(StateEnum.Chase);
         OnMoveDirectionChange.Invoke(MoveDirection);
     }
@@ -100,7 +100,6 @@ public class Enemy : MonoBehaviour
         if (MoveDirection == Move.Direction.None) move = Vector2.zero;
         if (MoveDirection == Move.Direction.Left) move = Vector2.left * _moveSpeed;
         if (MoveDirection == Move.Direction.Right) move = Vector2.right * _moveSpeed;
-        //transform.Translate(move * Time.deltaTime * _moveSpeed);
         _rigidbody.velocity = move;
     }
 
@@ -124,4 +123,9 @@ public class Enemy : MonoBehaviour
     }
 
     void ExitPlay() => StateController.ChangeState(StateEnum.Idle);
+
+    void OnDrawGizmosSelected()
+    {
+        _activeArea.DrawGizmos();
+    }
 }

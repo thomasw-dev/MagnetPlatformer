@@ -24,7 +24,7 @@ public class EnemyActiveArea : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos()
+    public void DrawGizmos()
     {
         BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
         Gizmos.color = Color.magenta;
