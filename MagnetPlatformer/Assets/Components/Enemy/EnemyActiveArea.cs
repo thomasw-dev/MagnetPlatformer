@@ -12,7 +12,7 @@ public class EnemyActiveArea : MonoBehaviour
     {
         if (Method.IsPlayerObject(col.gameObject))
         {
-            OnPlayerEnter.Invoke();
+            OnPlayerEnter?.Invoke();
         }
     }
 
@@ -20,7 +20,7 @@ public class EnemyActiveArea : MonoBehaviour
     {
         if (Method.IsPlayerObject(col.gameObject))
         {
-            OnPlayerExit.Invoke();
+            OnPlayerExit?.Invoke();
         }
     }
 

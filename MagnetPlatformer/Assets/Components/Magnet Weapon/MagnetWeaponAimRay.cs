@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class MagnetWeaponAimRay : MonoBehaviour
 {
-    LineRenderer _lineRenderer;
     [SerializeField] Transform[] points;
     [SerializeField] Material[] _aimRayMaterials;
-    LayerMask _excludeLayers;
+
+    LineRenderer _lineRenderer;
+    LayerMask _includeLayer;
 
     const float LINE_WIDTH_WIDE = 1f;
     const float LINE_WIDTH_THIN = 0.1f;
@@ -36,11 +37,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
 
     void Start()
     {
-        _excludeLayers = LayerMask.GetMask(
-            Constants.LAYER.Physics.ToString(),
-            Constants.LAYER.Player.ToString(),
-            Constants.LAYER.Environment.ToString()
-        );
+        _includeLayer = LayerMask.GetMask(Constants.LAYER.Magnetic.ToString());
         SetupLines(points);
     }
 
@@ -93,7 +90,9 @@ public class MagnetWeaponAimRay : MonoBehaviour
 
         Vector2 origin = transform.position;
         Vector2 direction = transform.up;
-        RaycastHit2D hit = Physics2D.Raycast(origin, direction, RAYCAST_LENGTH, ~_excludeLayers);
+
+        // Only shoot and detect on the Magnetic layer
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, RAYCAST_LENGTH, _includeLayer);
 
         if (hit.collider != null)
         {
