@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Header("Injections")]
-    [SerializeField] GroundCheck _groundCheck;
+    //[Header("Injections")]
+    //public UnitGroundCheck GroundCheck;
 
     [Tooltip("These fields need their values to be assigned in the Inspector.")]
     [Header("Assign Fields")]
@@ -93,14 +93,14 @@ public class Player : MonoBehaviour
             _rigidbody2D.velocity = new Vector2(_velocityX, _rigidbody2D.velocity.y);
         }
 
-        _isGrounded = GroundCheck();
+        //_isGrounded = GroundCheck.IsGrounded();
     }
 
-    bool GroundCheck()
+    /*bool GroundCheck()
     {
         RaycastHit2D hit = Physics2D.Raycast(_groundCheckRaycastPoint.position, Vector2.down, GROUND_CHECK_RAYCAST_LENGTH, _groundLayerMask);
         return hit.collider != null ? true : false;
-    }
+    }*/
 
     void Initialize()
     {

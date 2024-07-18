@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-using System;
+using UnityEngine;
 
-public class GroundCheck : MonoBehaviour
+public class UnitGroundCheck : MonoBehaviour
 {
     LayerMask _groundLayer;
     const float RADIUS = 0.5f;
