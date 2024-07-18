@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Injections")]
+    [SerializeField] GroundCheck _groundCheck;
+
     [Tooltip("These fields need their values to be assigned in the Inspector.")]
     [Header("Assign Fields")]
     [SerializeField] Transform _groundCheckRaycastPoint;
@@ -78,6 +79,11 @@ public class Player : MonoBehaviour
     {
         // _isInputEnabled is only true when GameState is Playing
         _isInputEnabled = GameState.CurrentState == GameState.Play ? true : false;
+
+        /*if (_groundCheck.IsGrounded())
+        {
+
+        }*/
     }
 
     void FixedUpdate()

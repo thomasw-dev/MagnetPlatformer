@@ -2922,6 +2922,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5232363758396998246, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
+      propertyPath: _groundCheck
+      value: 
+      objectReference: {fileID: -6555061226496361151, guid: 22b77a9adda134ce4862f521b0cfb69d, type: 3}
+    - target: {fileID: 5232363758396998246, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
       propertyPath: _airJumpEnabled
       value: 1
       objectReference: {fileID: 0}

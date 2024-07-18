@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8106182458384445459
+--- !u!1 &8958277579113341186
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2651545244892141801}
-  - component: {fileID: 3288894726432862664}
-  - component: {fileID: 2822302842360481922}
+  - component: {fileID: 3006394143574767259}
+  - component: {fileID: 7757092426310773681}
   m_Layer: 0
-  m_Name: Systems
+  m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2651545244892141801
+--- !u!4 &3006394143574767259
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8106182458384445459}
+  m_GameObject: {fileID: 8958277579113341186}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -33,32 +32,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3288894726432862664
+--- !u!114 &7757092426310773681
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8106182458384445459}
+  m_GameObject: {fileID: 8958277579113341186}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1be1a71f323f4f3abe58239e708bef5, type: 3}
+  m_Script: {fileID: 11500000, guid: dd3931ff1c2c1405f836fe696f1df4d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameState: 1
-  _magnetWeaponHit: 0
-  _magneticForceOnSelected: 0
---- !u!114 &2822302842360481922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8106182458384445459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6985eb317d71b4c96be6752f27119744, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enableWin: 0
-  _enableDeath: 0
+  _groundCheck: {fileID: -6555061226496361151, guid: 22b77a9adda134ce4862f521b0cfb69d, type: 3}
