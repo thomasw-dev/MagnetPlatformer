@@ -22,4 +22,9 @@ public static class MagneticForce
         if (selfCharge == Magnet.Charge.Negative && targetCharge == Magnet.Charge.Negative) return force;
         return Vector2.zero;
     }
+
+    /*public static Vector2 GravityForce(float mass)
+    {
+
+    }*/
 }

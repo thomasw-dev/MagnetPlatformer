@@ -17,7 +17,7 @@ namespace NewMagneticForce
         [Range(0f, 5f)]
         public float Gain = 1f;
 
-        [Range(0f, 10f)]
+        [Range(0f, 50f)]
         public float Radius = 5f;
 
         [Space(10)]
