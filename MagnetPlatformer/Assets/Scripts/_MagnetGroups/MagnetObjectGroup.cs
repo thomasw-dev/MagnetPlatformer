@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Magnet Object Group", order = 1)]
+[CreateAssetMenu(fileName = "Magnet Object Group", order = Constants.MAGNET_OBJECT_GROUP)]
 public class MagnetObjectGroup : RuntimeSet<GameObject>
 {
     private List<GameObject> _items = new();

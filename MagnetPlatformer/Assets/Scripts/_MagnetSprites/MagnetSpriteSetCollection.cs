@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Magnet Sprite Set Collection", order = 3)]
+[CreateAssetMenu(fileName = "Magnet Sprite Set Collection", order = Constants.MAGNET_SPRITE_SET_COLLECTION)]
 public class MagnetSpriteSetCollection : ScriptableObject
 {
     public MagnetSpriteSet Free;

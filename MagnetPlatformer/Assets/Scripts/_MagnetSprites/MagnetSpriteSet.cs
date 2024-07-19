@@ -1,7 +1,6 @@
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Magnet Sprite Set", order = 2)]
+[CreateAssetMenu(fileName = "Magnet Sprite Set", order = Constants.MAGNET_SPRITE_SET)]
 public class MagnetSpriteSet : ScriptableObject
 {
     public Sprite Neutral;

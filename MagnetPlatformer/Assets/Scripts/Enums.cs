@@ -12,3 +12,8 @@ public static class Move
 {
     public enum Direction { None, Left, Right }
 }
+
+public static class GizmosMode
+{
+    public enum Display { Off, OnSelected, Persistent }
+}

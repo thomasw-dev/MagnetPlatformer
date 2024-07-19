@@ -7,39 +7,19 @@ using UnityEngine;
 /// </summary>
 
 [RequireComponent(typeof(Collider2D))]
-public class MagneticInteraction : MonoBehaviour
+public class MagneticInteractionController : MonoBehaviour
 {
     // These fields are required to be assigned in order for this module to function.
     [Header("Dependencies")]
 
     [SerializeField] Rigidbody2D _rigidbody;
-
-    [Header("Emission")]
-
-    public bool EmitForce = true;
-
-    [Range(0f, 1000f)]
-    public float Force = 1f;
-
-    [Range(0f, 50f)]
-    public float Radius = 10f;
-
-    [Header("Reaction")]
-
-    public bool ReactToForce = true;
-
-    [Header("Others")]
-
-    public bool UseGravity = true;
-
-    [Header("Gizmos")]
-
-    public bool EmissionRadius = true;
+    public MagneticInteractionConfig Config;
 
     void Awake()
     {
         // Dependencies null checks
         if (_rigidbody == null) Debug.LogError($"Dependency missing: Rigidbody is not assigned.", this);
+        if (Config == null) Debug.LogError($"Dependency missing: Config is not assigned.", this);
     }
 
     void Reset()
@@ -49,17 +29,17 @@ public class MagneticInteraction : MonoBehaviour
 
     void Update()
     {
-        if (EmitForce)
+        if (Config.EmitForce)
         {
             EmitMagneticForce();
         }
 
-        if (ReactToForce)
+        if (Config.ReactToForce)
         {
             ReactToMagneticForce();
         }
 
-        if (UseGravity)
+        if (Config.UseGravity)
         {
             //_rigidbody.AddForce(GravityForce(_rigidbody.mass));
         }
@@ -83,7 +63,7 @@ public class MagneticInteraction : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        if (EmissionRadius)
+        if (Config.EmissionRadius)
         {
             /*switch (CurrentCharge)
             {
@@ -91,7 +71,7 @@ public class MagneticInteraction : MonoBehaviour
                 case Magnet.Charge.Positive: Gizmos.color = Color.red; break;
                 case Magnet.Charge.Negative: Gizmos.color = Color.blue; break;
             }*/
-            Gizmos.DrawWireSphere(transform.position, Radius);
+            Gizmos.DrawWireSphere(transform.position, Config.Radius);
         }
     }
 }
