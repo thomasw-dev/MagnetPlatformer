@@ -1,11 +1,8 @@
 using UnityEngine;
 
-public class MagneticInteractionConfig : MonoBehaviour
+[CreateAssetMenu(fileName = "Magnetic Interaction Config", order = Constants.MAGNETIC_INTERACTION_CONFIG)]
+public class MagneticInteractionConfig : ScriptableObject
 {
-    // These fields are required to be assigned in order for this module to function.
-    [Header("Dependencies")]
-    public MagneticInteractionParameters Instance;
-
     [Header("Emission")]
 
     public bool EmitForce = true;
@@ -27,16 +24,4 @@ public class MagneticInteractionConfig : MonoBehaviour
     [Header("Gizmos")]
 
     public bool EmissionRadius = true;
-
-    [ContextMenu("Load Values From Instance")]
-    void LoadValuesFromInstance()
-    {
-        Instance.EmitForce = EmitForce;
-    }
-
-    [ContextMenu("Save Values To Instance")]
-    void SaveValuesToInstance()
-    {
-
-    }
 }

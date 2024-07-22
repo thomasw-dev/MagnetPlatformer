@@ -1,13 +1,13 @@
 using UnityEngine;
 
-[RequireComponent(typeof(MagneticInteractionConfig))]
+[RequireComponent(typeof(MagneticInteractionValues))]
 public class MagneticInteractionGizmos : MonoBehaviour
 {
     void OnDrawGizmosSelected()
     {
-        MagneticInteractionConfig Config = GetComponent<MagneticInteractionConfig>();
+        MagneticInteractionValues Values = GetComponent<MagneticInteractionValues>();
 
-        if (Config.EmissionRadius)
+        if (Values.EmissionRadius)
         {
             /*switch (CurrentCharge)
             {
@@ -15,7 +15,7 @@ public class MagneticInteractionGizmos : MonoBehaviour
                 case Magnet.Charge.Positive: Gizmos.color = Color.red; break;
                 case Magnet.Charge.Negative: Gizmos.color = Color.blue; break;
             }*/
-            Gizmos.DrawWireSphere(transform.position, Config.Radius);
+            Gizmos.DrawWireSphere(transform.position, Values.Radius);
         }
     }
 }

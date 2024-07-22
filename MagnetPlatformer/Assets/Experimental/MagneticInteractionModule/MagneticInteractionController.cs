@@ -13,13 +13,13 @@ public class MagneticInteractionController : MonoBehaviour
     [Header("Dependencies")]
 
     [SerializeField] Rigidbody2D _rigidbody;
-    public MagneticInteractionConfig Config;
+    public MagneticInteractionValues Values;
 
     void Awake()
     {
         // Dependencies null checks
         if (_rigidbody == null) Debug.LogError($"Dependency missing: Rigidbody is not assigned.", this);
-        if (Config == null) Debug.LogError($"Dependency missing: Config is not assigned.", this);
+        if (Values == null) Debug.LogError($"Dependency missing: Config is not assigned.", this);
     }
 
     void Reset()
@@ -29,17 +29,17 @@ public class MagneticInteractionController : MonoBehaviour
 
     void Update()
     {
-        if (Config.EmitForce)
+        if (Values.EmitForce)
         {
             EmitMagneticForce();
         }
 
-        if (Config.ReactToForce)
+        if (Values.ReactToForce)
         {
             ReactToMagneticForce();
         }
 
-        if (Config.UseGravity)
+        if (Values.UseGravity)
         {
             //_rigidbody.AddForce(GravityForce(_rigidbody.mass));
         }
@@ -63,7 +63,7 @@ public class MagneticInteractionController : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        if (Config.EmissionRadius)
+        if (Values.EmissionRadius)
         {
             /*switch (CurrentCharge)
             {
@@ -71,7 +71,7 @@ public class MagneticInteractionController : MonoBehaviour
                 case Magnet.Charge.Positive: Gizmos.color = Color.red; break;
                 case Magnet.Charge.Negative: Gizmos.color = Color.blue; break;
             }*/
-            Gizmos.DrawWireSphere(transform.position, Config.Radius);
+            Gizmos.DrawWireSphere(transform.position, Values.Radius);
         }
     }
 }
