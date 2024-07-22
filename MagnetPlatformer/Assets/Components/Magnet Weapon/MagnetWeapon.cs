@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class MagnetWeapon : MonoBehaviour
@@ -15,6 +16,13 @@ public class MagnetWeapon : MonoBehaviour
     SpriteRenderer _spriteRenderer;
 
     bool _isInputEnabled = true;
+
+    // Reload Cooldown
+    const int AMMO = 6;
+    const float RELOAD_DURATION = 2.0f;
+    [SerializeField] int _ammo = AMMO;
+    [SerializeField] bool _canFireWeapon = true;
+    Magnet.Charge _prevCharge;
 
     void Awake()
     {
@@ -100,7 +108,31 @@ public class MagnetWeapon : MonoBehaviour
     void FireWeapon()
     {
         if (CurrentCharge == Magnet.Charge.Neutral) return;
+
+        if (!_canFireWeapon) return;
+
+        _ammo--;
+        if (_ammo == 0)
+        {
+            StartCoroutine(Reload());
+        }
+
         OnFireWeapon?.Invoke(CurrentCharge);
+    }
+
+    IEnumerator Reload()
+    {
+        Debug.Log("Enter cooldown");
+        _canFireWeapon = false;
+        _prevCharge = CurrentCharge;
+        CurrentCharge = Magnet.Charge.Neutral;
+
+        yield return new WaitForSeconds(RELOAD_DURATION);
+
+        _ammo = AMMO;
+        CurrentCharge = _prevCharge;
+        _canFireWeapon = true;
+        Debug.Log("Exit cooldown");
     }
 
     void FireWeaponStop() => OnFireWeaponStop?.Invoke();

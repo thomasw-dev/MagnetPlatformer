@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1574889837641476310}
   - component: {fileID: 2388068656366889780}
   m_Layer: 0
-  m_Name: Magnet Weapon
+  m_Name: Magnet Weapon *
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,6 +54,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 598bff8ba0313421583314954f7a5ee7, type: 3}
   - {fileID: 21300000, guid: a0fa1369bd23a49569e487c9030dc10c, type: 3}
   - {fileID: 21300000, guid: b458e88f2c53a42b8bb722cd2e073605, type: 3}
+  _ammo: 6
+  _canFireWeapon: 1
 --- !u!212 &3106436653813674396
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -464,7 +466,7 @@ GameObject:
   - component: {fileID: 7140180393406394614}
   - component: {fileID: 3508758447889702787}
   m_Layer: 0
-  m_Name: Aim Ray
+  m_Name: Aim Ray *
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

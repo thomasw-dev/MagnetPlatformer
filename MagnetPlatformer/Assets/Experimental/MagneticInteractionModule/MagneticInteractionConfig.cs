@@ -17,10 +17,6 @@ public class MagneticInteractionConfig : ScriptableObject
 
     public bool ReactToForce = true;
 
-    [Header("Others")]
-
-    public bool UseGravity = true;
-
     [Header("Gizmos")]
 
     public bool EmissionRadius = true;

@@ -53,6 +53,10 @@ public class GameManager : MonoBehaviour
             {
                 GameState.ChangeState(GameState.Win);
             }
+            else
+            {
+                Debug.Log("Win is detected, but disabled by mods.");
+            }
         }
     }
 
@@ -63,6 +67,10 @@ public class GameManager : MonoBehaviour
         if (Mod.EnableDeath)
         {
             GameState.ChangeState(GameState.Lose);
+        }
+        else
+        {
+            Debug.Log("Lose is detected, but disabled by mods.");
         }
     }
 }
