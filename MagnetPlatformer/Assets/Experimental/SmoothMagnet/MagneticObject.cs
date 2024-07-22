@@ -70,7 +70,7 @@ namespace NewMagneticForce
 
         void FixedUpdate()
         {
-            GravityForce();
+            //GravityForce();
 
             if (!_isActive) { return; }
 
@@ -90,11 +90,11 @@ namespace NewMagneticForce
             }
         }
 
-        void GravityForce()
+        /*void GravityForce()
         {
             Vector2 gravityForce = MagneticForce.Calculate(_rigidbody.velocity, Vector2.down, 1f);
             _rigidbody.AddForce(gravityForce);
-        }
+        }*/
 
         [ContextMenu("Reset")]
         void Reset()
@@ -127,7 +127,7 @@ namespace NewMagneticForce
     public static class Magnetic
     {
         const float PUSH_VELOCITY = 10f;
-        const float MAX_VELOCITY = 100f;
+        const float MAX_VELOCITY = 10f;
         const float MAX_FORCE = 100f;
 
         public static Vector2 Calculate(Vector2 selfRigidbodyVelocity, Vector2 selfTargetDistance, float targetGain)

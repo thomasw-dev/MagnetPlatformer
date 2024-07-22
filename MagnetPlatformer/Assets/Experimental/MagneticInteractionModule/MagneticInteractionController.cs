@@ -4,6 +4,7 @@ using UnityEngine;
 /// Objects having this module will intreact with magnetic forces:
 /// - Emit magnetic forces
 /// - React to magnetic forces
+/// - Fall down by gravity
 /// </summary>
 
 [RequireComponent(typeof(Collider2D))]
@@ -41,7 +42,8 @@ public class MagneticInteractionController : MonoBehaviour
 
         if (Values.UseGravity)
         {
-            //_rigidbody.AddForce(GravityForce(_rigidbody.mass));
+            Vector2 gravityForce = MagneticForce.Calculate(_rigidbody.velocity, Vector2.down, 1f);
+            _rigidbody.AddForce(gravityForce);
         }
     }
 
@@ -53,25 +55,5 @@ public class MagneticInteractionController : MonoBehaviour
     void ReactToMagneticForce()
     {
 
-    }
-
-    void GravityForce(float mass)
-    {
-        Vector2 gravityForce = MagneticForce.Calculate(_rigidbody.velocity, Vector2.down, 1f) * _rigidbody.mass;
-        _rigidbody.AddForce(gravityForce);
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        if (Values.EmissionRadius)
-        {
-            /*switch (CurrentCharge)
-            {
-                case Magnet.Charge.Neutral: return;
-                case Magnet.Charge.Positive: Gizmos.color = Color.red; break;
-                case Magnet.Charge.Negative: Gizmos.color = Color.blue; break;
-            }*/
-            Gizmos.DrawWireSphere(transform.position, Values.Radius);
-        }
     }
 }

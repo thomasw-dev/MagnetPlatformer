@@ -391,6 +391,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1846472628}
+  - component: {fileID: 1846472631}
   - component: {fileID: 1846472630}
   - component: {fileID: 1846472629}
   m_Layer: 9
@@ -473,10 +474,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 5000012682319992584}
+  Config: {fileID: 0}
+--- !u!114 &1846472631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846472627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a033294d6c0404ed28bbdc508cbcd202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Instance: {fileID: 0}
   EmitForce: 1
   Force: 1
   Radius: 10
   ReactToForce: 1
+  UseGravity: 1
+  EmissionRadius: 1
 --- !u!1 &1309983978176357409
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,6 +17,7 @@ public class InputManager : MonoBehaviour
     const KeyCode MOVE_LEFT_KEY = KeyCode.A;
     const KeyCode MOVE_RIGHT_KEY = KeyCode.D;
     const KeyCode JUMP_KEY = KeyCode.Space;
+    const KeyCode JUMP_KEY_ALT = KeyCode.W;
     const KeyCode TOGGLE_CHARGE_KEY = KeyCode.E;
 
     Magnet.Charge _toggleCharge = Magnet.Charge.Positive;
@@ -81,7 +82,7 @@ public class InputManager : MonoBehaviour
         else OnMoveRightInputStop?.Invoke();
 
         // Jump
-        if (Input.GetKeyDown(JUMP_KEY))
+        if (Input.GetKeyDown(JUMP_KEY) || Input.GetKeyDown(JUMP_KEY_ALT))
         {
             OnJumpInput?.Invoke();
         }
