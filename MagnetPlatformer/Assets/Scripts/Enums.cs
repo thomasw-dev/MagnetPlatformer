@@ -15,5 +15,5 @@ public static class Move
 
 public static class GizmosOverride
 {
-    public enum Type { Off, OnSelected, Persistent }
+    public enum Type { NoOverride, Hidden, OnSelected, Persistent }
 }

@@ -2,29 +2,20 @@ using UnityEngine;
 
 public class DebugManager : MonoBehaviour
 {
-    [Header("Magnetic Interaction Gizmos")]
+    [Header("Magnetic Interaction")]
+    [SerializeField] bool _netForceGizmos;
+    [SerializeField] bool _emissionRadiusGizmos;
+    public static MagneticInteractionGizmosSettings MagneticInteractionGizmosSettings;
+
+    void OnValidate()
+    {
+        MagneticInteractionGizmosSettings.NetForce = _netForceGizmos;
+        MagneticInteractionGizmosSettings.EmissionRadius = _emissionRadiusGizmos;
+    }
+}
+
+public struct MagneticInteractionGizmosSettings
+{
     public bool NetForce;
     public bool EmissionRadius;
-
-    void Update()
-    {
-        // Magnetic Interaction Gizmos
-        MagneticInteractionGizmos[] magneticInteractionGizmos = FindObjectsOfType<MagneticInteractionGizmos>();
-        if (NetForce)
-        {
-            foreach (MagneticInteractionGizmos gizmos in magneticInteractionGizmos)
-            {
-                if (gizmos.NetForce == GizmosOverride.Type.Off)
-                    gizmos.DrawEmissionRadius();
-            }
-        }
-        if (EmissionRadius)
-        {
-            foreach (MagneticInteractionGizmos gizmos in magneticInteractionGizmos)
-            {
-                if (gizmos.EmissionRadius == GizmosOverride.Type.Off)
-                    gizmos.DrawEmissionRadius();
-            }
-        }
-    }
 }

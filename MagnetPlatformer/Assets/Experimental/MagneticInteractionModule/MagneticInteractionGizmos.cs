@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(MagneticInteractionValues))]
@@ -7,34 +8,59 @@ public class MagneticInteractionGizmos : MonoBehaviour
     public GizmosOverride.Type NetForce;
     public GizmosOverride.Type EmissionRadius;
 
-    void OnDrawGizmosSelected()
+    MagneticInteractionGizmosSettings _localSettings;
+    public struct MagneticInteractionGizmosSettings
     {
-        if (EmissionRadius == GizmosOverride.Type.OnSelected) DrawNetForce();
-        if (EmissionRadius == GizmosOverride.Type.OnSelected) DrawEmissionRadius();
+        public GizmosOverride.Type NetForce;
+        public GizmosOverride.Type EmissionRadius;
     }
 
-    void OnDrawGizmos()
+    void OnValidate()
     {
-        if (EmissionRadius == GizmosOverride.Type.Persistent) DrawNetForce();
-        if (EmissionRadius == GizmosOverride.Type.Persistent) DrawEmissionRadius();
+        _localSettings.NetForce = NetForce;
+        _localSettings.EmissionRadius = EmissionRadius;
     }
 
-    MagneticInteractionValues GetValue()
+    bool SettingEnabled(GizmosOverride.Type local, bool master)
+    {
+        if (local == GizmosOverride.Type.NoOverride)
+        {
+            return master;
+        }
+        else
+        {
+            if (local == GizmosOverride.Type.Hidden) return false;
+            if (local == GizmosOverride.Type.OnSelected) return Selection.activeGameObject == gameObject;
+            if (local == GizmosOverride.Type.Persistent) return true;
+        }
+        return false;
+    }
+
+    MagneticInteractionValues GetValues()
     {
         return GetComponent<MagneticInteractionValues>();
     }
 
-    public void DrawNetForce()
+    void OnDrawGizmos()
     {
-        const float LENGTH_MAX = 5f;
-        float length = Method.Map(GetValue().Force, 0, MagneticForce.MAX_FORCE, 0, LENGTH_MAX);
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, length);
-    }
+        if (SettingEnabled(_localSettings.NetForce, DebugManager.MagneticInteractionGizmosSettings.NetForce))
+            DrawNetForce();
 
-    public void DrawEmissionRadius()
-    {
-        Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(transform.position, GetValue().Radius);
+        if (SettingEnabled(_localSettings.EmissionRadius, DebugManager.MagneticInteractionGizmosSettings.EmissionRadius))
+            DrawEmissionRadius();
+
+        void DrawNetForce()
+        {
+            const float LENGTH_MAX = 5f;
+            float length = Method.Map(GetValues().Force, 0, MagneticForce.MAX_FORCE, 0, LENGTH_MAX);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, length);
+        }
+
+        void DrawEmissionRadius()
+        {
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(transform.position, GetValues().Radius);
+        }
     }
 }

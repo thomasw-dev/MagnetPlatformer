@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbd22ca45e9c41488131ca14652a630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetForce: 0
-  EmissionRadius: 1
+  _netForceGizmos: 0
+  _emissionRadiusGizmos: 0
 --- !u!4 &26762368
 Transform:
   m_ObjectHideFlags: 0
