@@ -123,6 +123,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &26762366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 26762368}
+  - component: {fileID: 26762367}
+  m_Layer: 0
+  m_Name: Debug Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &26762367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26762366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bbd22ca45e9c41488131ca14652a630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetForce: 0
+  EmissionRadius: 1
+--- !u!4 &26762368
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26762366}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &108254440
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,8 +437,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1846472628}
-  - component: {fileID: 1846472631}
   - component: {fileID: 1846472630}
+  - component: {fileID: 1846472631}
+  - component: {fileID: 1846472632}
   - component: {fileID: 1846472629}
   m_Layer: 9
   m_Name: Magnetic Interaction
@@ -474,7 +521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 5000012682319992584}
-  Config: {fileID: 0}
+  Values: {fileID: 1846472631}
 --- !u!114 &1846472631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,13 +534,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a033294d6c0404ed28bbdc508cbcd202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Instance: {fileID: 0}
   EmitForce: 1
   Force: 1
   Radius: 10
   ReactToForce: 1
   UseGravity: 1
   EmissionRadius: 1
+--- !u!114 &1846472632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846472627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8f054fc87f334a86802a3edb453dde2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetForce: 0
+  EmissionRadius: 0
 --- !u!1 &1309983978176357409
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,7 +646,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1484788960001491999}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -754,3 +814,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1298796023}
   - {fileID: 3011023055303855866}
+  - {fileID: 26762368}

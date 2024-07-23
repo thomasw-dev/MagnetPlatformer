@@ -13,7 +13,7 @@ public static class Move
     public enum Direction { None, Left, Right }
 }
 
-public static class GizmosMode
+public static class GizmosOverride
 {
-    public enum Display { Off, OnSelected, Persistent }
+    public enum Type { Off, OnSelected, Persistent }
 }

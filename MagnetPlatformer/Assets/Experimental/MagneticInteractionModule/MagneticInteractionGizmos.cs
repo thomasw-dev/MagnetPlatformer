@@ -1,39 +1,40 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MagneticInteractionValues))]
 public class MagneticInteractionGizmos : MonoBehaviour
 {
-    public bool EmissionRadius = true;
+    [Header("Gizmos Overrides")]
+    public GizmosOverride.Type NetForce;
+    public GizmosOverride.Type EmissionRadius;
 
-    List<bool> gizmosPersistent = new List<bool>();
-    List<bool> gizmosSelected = new List<bool>();
-
-    void OnValidate()
+    void OnDrawGizmosSelected()
     {
-
+        if (EmissionRadius == GizmosOverride.Type.OnSelected) DrawNetForce();
+        if (EmissionRadius == GizmosOverride.Type.OnSelected) DrawEmissionRadius();
     }
 
     void OnDrawGizmos()
     {
-
+        if (EmissionRadius == GizmosOverride.Type.Persistent) DrawNetForce();
+        if (EmissionRadius == GizmosOverride.Type.Persistent) DrawEmissionRadius();
     }
 
-    void OnDrawGizmosSelected()
+    MagneticInteractionValues GetValue()
     {
-        DrawEmissionRadius();
+        return GetComponent<MagneticInteractionValues>();
     }
 
-    MagneticInteractionConfig GetConfig()
+    public void DrawNetForce()
     {
-        return GetComponent<MagneticInteractionConfig>();
+        const float LENGTH_MAX = 5f;
+        float length = Method.Map(GetValue().Force, 0, MagneticForce.MAX_FORCE, 0, LENGTH_MAX);
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, length);
     }
 
-    void DrawEmissionRadius()
+    public void DrawEmissionRadius()
     {
-        if (EmissionRadius)
-        {
-            Gizmos.DrawWireSphere(transform.position, GetConfig().Radius);
-        }
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, GetValue().Radius);
     }
 }

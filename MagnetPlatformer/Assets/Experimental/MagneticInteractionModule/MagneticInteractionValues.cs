@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class MagneticInteractionValues : MonoBehaviour
 {
-    // These fields are required to be assigned in order for this module to function.
-    [Header("Dependencies")]
-    public MagneticInteractionConfig Config;
-
     [Header("Emission")]
 
     public bool EmitForce = true;
@@ -27,16 +23,4 @@ public class MagneticInteractionValues : MonoBehaviour
     [Header("Gizmos")]
 
     public bool EmissionRadius = true;
-
-    [ContextMenu("Load Values From Instance")]
-    void LoadValuesFromInstance()
-    {
-        Method.AssignFields(Config, this);
-    }
-
-    [ContextMenu("Save Values To Instance")]
-    void SaveValuesToInstance()
-    {
-        Method.AssignFields(this, Config);
-    }
 }

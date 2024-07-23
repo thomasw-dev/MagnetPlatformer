@@ -15,5 +15,4 @@ public static class Constants
     public const int MAGNET_OBJECT_GROUP = 1;
     public const int MAGNET_SPRITE_SET = 2;
     public const int MAGNET_SPRITE_SET_COLLECTION = 3;
-    public const int MAGNETIC_INTERACTION_CONFIG = 4;
 }
