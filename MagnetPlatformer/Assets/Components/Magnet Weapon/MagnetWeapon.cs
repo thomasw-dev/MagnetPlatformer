@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class MagnetWeapon : MonoBehaviour
 {
+    public enum StateEnum
+    {
+        Available, Cooldown, Reload
+    }
+    public StateController<StateEnum> StateController = new StateController<StateEnum>();
+    [SerializeField] StateEnum _state; // Inspector
+
     [SerializeField] Transform _attachTo;
 
     public static event Action<Magnet.Charge> OnFireWeapon;
@@ -19,9 +26,14 @@ public class MagnetWeapon : MonoBehaviour
 
     // Reload Cooldown
     const int AMMO = 6;
+    [Range(0, AMMO)]
+    public int Ammo = AMMO;
+    const float COOLDOWN_DURATION = 1.0f;
+    [Range(0, COOLDOWN_DURATION)]
+    [SerializeField] float _cooldownDuration = 0.25f;
     const float RELOAD_DURATION = 2.0f;
-    [SerializeField] int _ammo = AMMO;
-    [SerializeField] bool _canFireWeapon = true;
+    [Range(0, RELOAD_DURATION)]
+    [SerializeField] float _reloadDuration = RELOAD_DURATION;
     Magnet.Charge _prevCharge;
 
     void Awake()
@@ -56,11 +68,17 @@ public class MagnetWeapon : MonoBehaviour
         SetCharge(Magnet.Charge.Positive);
     }
 
+    void Start()
+    {
+        StateController.ChangeState(StateEnum.Available);
+    }
+
     void Update()
     {
         // _isInputEnabled is only true when GameState is Playing
         _isInputEnabled = GameState.CurrentState == GameState.Play ? true : false;
 
+        _state = StateController.CurrentEnum;
         _currentCharge = CurrentCharge;
 
         AimSelfAtCursor();
@@ -109,12 +127,16 @@ public class MagnetWeapon : MonoBehaviour
     {
         if (CurrentCharge == Magnet.Charge.Neutral) return;
 
-        if (!_canFireWeapon) return;
+        if (StateController.CurrentEnum != StateEnum.Available) return;
 
-        _ammo--;
-        if (_ammo == 0)
+        Ammo--;
+        if (Ammo == 0)
         {
             StartCoroutine(Reload());
+        }
+        else
+        {
+            StartCoroutine(Cooldown());
         }
 
         OnFireWeapon?.Invoke(CurrentCharge);
@@ -122,17 +144,27 @@ public class MagnetWeapon : MonoBehaviour
 
     IEnumerator Reload()
     {
-        Debug.Log("Enter cooldown");
-        _canFireWeapon = false;
+        StateController.ChangeState(StateEnum.Reload);
         _prevCharge = CurrentCharge;
         CurrentCharge = Magnet.Charge.Neutral;
 
         yield return new WaitForSeconds(RELOAD_DURATION);
 
-        _ammo = AMMO;
+        Ammo = AMMO;
         CurrentCharge = _prevCharge;
-        _canFireWeapon = true;
-        Debug.Log("Exit cooldown");
+        StateController.ChangeState(StateEnum.Available);
+    }
+
+    IEnumerator Cooldown()
+    {
+        StateController.ChangeState(StateEnum.Cooldown);
+        _prevCharge = CurrentCharge;
+        CurrentCharge = Magnet.Charge.Neutral;
+
+        yield return new WaitForSeconds(COOLDOWN_DURATION);
+
+        CurrentCharge = _prevCharge;
+        StateController.ChangeState(StateEnum.Available);
     }
 
     void FireWeaponStop() => OnFireWeaponStop?.Invoke();

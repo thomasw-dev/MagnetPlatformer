@@ -35,7 +35,7 @@ public class MagneticObjectAlterChargeTimer : MonoBehaviour
     void StartCountdown()
     {
         float duration = _magneticObject.Duration;
-        DOTween.To(() => duration, x => duration = x, 0f, 5f)
+        DOTween.To(() => duration, x => duration = x, 0f, _magneticObject.Duration)
             .SetEase(Ease.Linear) // Optional: Set the easing function
             .OnUpdate(() => _countdown = duration);
     }
