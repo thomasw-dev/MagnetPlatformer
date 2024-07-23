@@ -22,9 +22,9 @@ public class AmmoText : MonoBehaviour
         if (_magnetWeapon.StateController.CurrentEnum == MagnetWeapon.StateEnum.Cooldown)
         {
             _ammoText.color = Color.grey;
-            _ammoText.text = $"Cooldown";
+            _ammoText.text = $"Ammo: {_magnetWeapon.Ammo}\n(Cooldown: {_magnetWeapon.Ammo})";
         }
-        if (_magnetWeapon.StateController.CurrentEnum == MagnetWeapon.StateEnum.Reload)
+        if (_magnetWeapon.StateController.CurrentEnum == MagnetWeapon.StateEnum.Refill)
         {
             _ammoText.color = Color.yellow;
             _ammoText.text = $"Reload";

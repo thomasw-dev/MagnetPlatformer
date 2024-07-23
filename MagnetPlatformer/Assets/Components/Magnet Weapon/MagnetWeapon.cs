@@ -6,7 +6,7 @@ public class MagnetWeapon : MonoBehaviour
 {
     public enum StateEnum
     {
-        Available, Cooldown, Reload
+        Available, Cooldown, Refill
     }
     public StateController<StateEnum> StateController = new StateController<StateEnum>();
     [SerializeField] StateEnum _state; // Inspector
@@ -24,16 +24,20 @@ public class MagnetWeapon : MonoBehaviour
 
     bool _isInputEnabled = true;
 
-    // Reload Cooldown
-    const int AMMO = 6;
-    [Range(0, AMMO)]
-    public int Ammo = AMMO;
+    // Ammo, Cooldown, Refill
+
+    const int AMMO_MAX = 6;
+    [Range(0, AMMO_MAX)]
+    public int Ammo = AMMO_MAX;
+
     const float COOLDOWN_DURATION = 1.0f;
     [Range(0, COOLDOWN_DURATION)]
     [SerializeField] float _cooldownDuration = 0.25f;
+
     const float RELOAD_DURATION = 2.0f;
     [Range(0, RELOAD_DURATION)]
     [SerializeField] float _reloadDuration = RELOAD_DURATION;
+
     Magnet.Charge _prevCharge;
 
     void Awake()
@@ -127,32 +131,12 @@ public class MagnetWeapon : MonoBehaviour
     {
         if (CurrentCharge == Magnet.Charge.Neutral) return;
 
-        if (StateController.CurrentEnum != StateEnum.Available) return;
+        if (Ammo == 0) return;
 
         Ammo--;
-        if (Ammo == 0)
-        {
-            StartCoroutine(Reload());
-        }
-        else
-        {
-            StartCoroutine(Cooldown());
-        }
+        StartCoroutine(Cooldown());
 
         OnFireWeapon?.Invoke(CurrentCharge);
-    }
-
-    IEnumerator Reload()
-    {
-        StateController.ChangeState(StateEnum.Reload);
-        _prevCharge = CurrentCharge;
-        CurrentCharge = Magnet.Charge.Neutral;
-
-        yield return new WaitForSeconds(RELOAD_DURATION);
-
-        Ammo = AMMO;
-        CurrentCharge = _prevCharge;
-        StateController.ChangeState(StateEnum.Available);
     }
 
     IEnumerator Cooldown()
