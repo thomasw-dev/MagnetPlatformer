@@ -36,10 +36,7 @@ public class MagneticInteractionGizmos : MonoBehaviour
         return false;
     }
 
-    MagneticInteractionValues GetValues()
-    {
-        return GetComponent<MagneticInteractionValues>();
-    }
+    MagneticInteractionValues GetValues() => GetComponent<MagneticInteractionValues>();
 
     void OnDrawGizmos()
     {
