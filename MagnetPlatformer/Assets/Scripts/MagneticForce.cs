@@ -22,4 +22,20 @@ public static class MagneticForce
         if (selfCharge == Magnet.Charge.Negative && targetCharge == Magnet.Charge.Negative) return force;
         return Vector2.zero;
     }
+
+    public static ChargedForce ConvertToChargedForce(Vector2 force, Magnet.Charge selfCharge, Magnet.Charge targetCharge)
+    {
+        if (selfCharge == Magnet.Charge.Positive && targetCharge == Magnet.Charge.Positive) return new ChargedForce { Relation = ChargedForce.RelationType.Repel, Vector = force };
+        if (selfCharge == Magnet.Charge.Positive && targetCharge == Magnet.Charge.Negative) return new ChargedForce { Relation = ChargedForce.RelationType.Attract, Vector = -force };
+        if (selfCharge == Magnet.Charge.Negative && targetCharge == Magnet.Charge.Positive) return new ChargedForce { Relation = ChargedForce.RelationType.Attract, Vector = -force };
+        if (selfCharge == Magnet.Charge.Negative && targetCharge == Magnet.Charge.Negative) return new ChargedForce { Relation = ChargedForce.RelationType.Repel, Vector = force };
+        return new ChargedForce { Relation = ChargedForce.RelationType.Neutral, Vector = Vector2.zero };
+    }
+}
+
+public struct ChargedForce
+{
+    public enum RelationType { Neutral, Attract, Repel }
+    public RelationType Relation;
+    public Vector2 Vector;
 }

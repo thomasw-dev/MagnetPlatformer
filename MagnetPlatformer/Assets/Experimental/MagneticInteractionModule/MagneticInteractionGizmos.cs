@@ -5,19 +5,33 @@ using UnityEngine;
 public class MagneticInteractionGizmos : MonoBehaviour
 {
     [Header("Gizmos Overrides")]
-    public GizmosOverride.Type NetForce;
+    public GizmosOverride.Type ReactionForces;
+    public GizmosOverride.Type NetReactionForce;
     public GizmosOverride.Type EmissionRadius;
 
     MagneticInteractionGizmosSettings _localSettings;
     public struct MagneticInteractionGizmosSettings
     {
-        public GizmosOverride.Type NetForce;
+        public GizmosOverride.Type ReactionForces;
+        public GizmosOverride.Type NetReactionForce;
         public GizmosOverride.Type EmissionRadius;
     }
 
+    const float FORCE_LENGTH_MAX = 5f;
+
+    static Color EMISSION_RADIUS_COLOR = Color.white;
+    static Color ATTRACTION_FORCE_COLOR = Color.green;
+    static Color REPULSION_FORCE_COLOR = Color.yellow;
+    static Color NET_FORCE_COLOR = Color.magenta;
+
+    MagneticInteractionController GetController() => GetComponent<MagneticInteractionController>();
+
+    MagneticInteractionValues GetValues() => GetComponent<MagneticInteractionValues>();
+
     void OnValidate()
     {
-        _localSettings.NetForce = NetForce;
+        _localSettings.ReactionForces = ReactionForces;
+        _localSettings.NetReactionForce = NetReactionForce;
         _localSettings.EmissionRadius = EmissionRadius;
     }
 
@@ -36,28 +50,40 @@ public class MagneticInteractionGizmos : MonoBehaviour
         return false;
     }
 
-    MagneticInteractionValues GetValues() => GetComponent<MagneticInteractionValues>();
-
     void OnDrawGizmos()
     {
-        if (SettingEnabled(_localSettings.NetForce, DebugManager.MagneticInteractionGizmosSettings.NetForce))
-            DrawNetForce();
+        if (SettingEnabled(_localSettings.ReactionForces, DebugManager.MagneticInteractionGizmosSettings.ReactionForces))
+            DrawReactionForces();
+
+        if (SettingEnabled(_localSettings.NetReactionForce, DebugManager.MagneticInteractionGizmosSettings.NetReactionForce))
+            DrawNetReactionForce();
 
         if (SettingEnabled(_localSettings.EmissionRadius, DebugManager.MagneticInteractionGizmosSettings.EmissionRadius))
             DrawEmissionRadius();
 
-        void DrawNetForce()
+        void DrawReactionForces()
         {
-            const float LENGTH_MAX = 5f;
-            float length = Method.Map(GetValues().Force, 0, MagneticForce.MAX_FORCE, 0, LENGTH_MAX);
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(transform.position, length);
+            for (int i = 0; i < GetController().ReactionForces.Count; i++)
+            {
+                ChargedForce reactionForce = GetController().ReactionForces[i];
+                float clampedMagnitude = Method.Map(reactionForce.Vector.magnitude, -MagneticForce.MAX_FORCE, MagneticForce.MAX_FORCE, -FORCE_LENGTH_MAX, FORCE_LENGTH_MAX);
+                Gizmos.color = reactionForce.Relation == ChargedForce.RelationType.Attract ? ATTRACTION_FORCE_COLOR : REPULSION_FORCE_COLOR;
+                Gizmos.DrawRay(transform.position, Vector2.ClampMagnitude(reactionForce.Vector, clampedMagnitude));
+            }
+        }
+
+        void DrawNetReactionForce()
+        {
+            Vector2 netReactionForce = GetController().NetReactionForce;
+            float clampedMagnitude = Method.Map(netReactionForce.magnitude, -MagneticForce.MAX_FORCE, MagneticForce.MAX_FORCE, -FORCE_LENGTH_MAX, FORCE_LENGTH_MAX);
+            Gizmos.color = NET_FORCE_COLOR;
+            Gizmos.DrawRay(transform.position, Vector2.ClampMagnitude(netReactionForce, clampedMagnitude));
         }
 
         void DrawEmissionRadius()
         {
-            Gizmos.color = Color.white;
-            Gizmos.DrawWireSphere(transform.position, GetValues().Radius);
+            Gizmos.color = EMISSION_RADIUS_COLOR;
+            Gizmos.DrawWireSphere(transform.position, GetValues().EmissionRadius);
         }
     }
 }

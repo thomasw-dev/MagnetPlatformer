@@ -11,21 +11,16 @@ public class MagneticInteractionValues : MonoBehaviour
     [Header("Emission")]
 
     public bool EmitForce = true;
+    public float EmissionForce = 10f;
+    public float EmissionRadius = 10f;
 
-    public float Force = 10f;
-    public float Radius = 10f;
-
-    [Header("Others")]
-
-    public bool UseGravity = true;
+    MagneticInteractionController GetController() => GetComponent<MagneticInteractionController>();
 
     void OnValidate()
     {
         SetChargeByBools();
         UpdateChargeBools(GetController().CurrentCharge);
     }
-
-    MagneticInteractionController GetController() => GetComponent<MagneticInteractionController>();
 
     void SetChargeByBools()
     {
