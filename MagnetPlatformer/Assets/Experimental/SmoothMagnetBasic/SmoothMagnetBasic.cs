@@ -4,7 +4,7 @@ namespace Experimental.SmoothMagnetBasic
 {
     public class SmoothMagnetBasic : MonoBehaviour
     {
-        [SerializeField] Transform target;
+        [SerializeField] Transform[] targets;
         [SerializeField] float _pushVelocity = 2.5f;
         [SerializeField] float _maxVelocity = 15.0f;
         [SerializeField] float _maxForce = 40.0f;
@@ -29,11 +29,14 @@ namespace Experimental.SmoothMagnetBasic
         {
             if (_isActive)
             {
-                Vector2 distance = target.position - transform.position;
-                Vector2 targetVelocity = Vector2.ClampMagnitude(_pushVelocity * distance, _maxVelocity);
-                Vector2 error = targetVelocity - _rigidbody.velocity;
-                Vector2 force = Vector2.ClampMagnitude(_gain * error, _maxForce);
-                _rigidbody.AddForce(force);
+                for (int i = 0; i < targets.Length; i++)
+                {
+                    Vector2 distance = targets[i].position - transform.position;
+                    Vector2 targetVelocity = Vector2.ClampMagnitude(_pushVelocity * distance, _maxVelocity);
+                    Vector2 error = targetVelocity - _rigidbody.velocity;
+                    Vector2 force = Vector2.ClampMagnitude(_gain * error, _maxForce);
+                    _rigidbody.AddForce(force);
+                }
             }
         }
 

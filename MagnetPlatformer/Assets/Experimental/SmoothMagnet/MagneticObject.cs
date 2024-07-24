@@ -127,7 +127,7 @@ namespace NewMagneticForce
     public static class Magnetic
     {
         const float PUSH_VELOCITY = 10f;
-        const float MAX_VELOCITY = 10f;
+        const float MAX_VELOCITY = 40f;
         const float MAX_FORCE = 100f;
 
         public static Vector2 Calculate(Vector2 selfRigidbodyVelocity, Vector2 selfTargetDistance, float targetGain)

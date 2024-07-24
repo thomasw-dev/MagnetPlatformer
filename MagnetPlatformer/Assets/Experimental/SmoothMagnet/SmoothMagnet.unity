@@ -1205,7 +1205,7 @@ MonoBehaviour:
   - {fileID: 1985761387}
   - {fileID: 925139104}
   - {fileID: 375221960}
-  Gain: 1
+  Gain: 5
   Radius: 16
   _neutral: 0
   _positive: 1
@@ -1406,7 +1406,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1238518069
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2337,7 +2337,7 @@ MonoBehaviour:
   - {fileID: 1985761387}
   - {fileID: 925139104}
   - {fileID: 375221960}
-  Gain: 1
+  Gain: 5
   Radius: 16
   _neutral: 0
   _positive: 1
