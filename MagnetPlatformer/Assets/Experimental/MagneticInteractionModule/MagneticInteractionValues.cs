@@ -12,10 +12,7 @@ public class MagneticInteractionValues : MonoBehaviour
 
     public bool EmitForce = true;
 
-    [Range(0f, 1000f)]
-    public float Force = 1f;
-
-    [Range(0f, 50f)]
+    public float Force = 10f;
     public float Radius = 10f;
 
     [Header("Others")]

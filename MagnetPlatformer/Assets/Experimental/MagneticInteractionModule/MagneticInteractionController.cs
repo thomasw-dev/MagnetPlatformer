@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 /// <summary>
 /// Objects having this module will intreact with magnetic forces:
@@ -11,11 +13,9 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class MagneticInteractionController : MonoBehaviour
 {
-    // State
-    public enum StateEnum
-    {
-        Normal, AlteredCharge
-    }
+    // State --------
+
+    public enum StateEnum { Normal, AlteredCharge }
     public StateController<StateEnum> StateController = new StateController<StateEnum>();
     [SerializeField] StateEnum _state; // Inspector
 
@@ -25,7 +25,8 @@ public class MagneticInteractionController : MonoBehaviour
     [SerializeField] Rigidbody2D _rigidbody;
     public MagneticInteractionValues Values;
 
-    // Charge
+    // Charge --------
+
     public Magnet.Charge CurrentCharge
     {
         get { return _currentCharge; }
@@ -37,7 +38,17 @@ public class MagneticInteractionController : MonoBehaviour
     }
     Magnet.Charge _currentCharge;
     Magnet.Charge _initialCharge;
+
     public event Action<Magnet.Charge> OnCurrentChargeChanged;
+
+    // Forces --------
+
+    // The list of controllers it is emitting magnetic force to
+    List<MagneticInteractionController> _magneticInteractionControllers = new();
+    List<Vector2> Forces = new List<Vector2>();
+    Vector2 NetForce;
+
+    public event Action<Vector2, Magnet.Charge> OnEmitMagneticForce;
 
     void Awake()
     {
@@ -69,6 +80,29 @@ public class MagneticInteractionController : MonoBehaviour
 
     void EmitMagneticForce()
     {
-        // Find magnetic objects within circle radius
+        // Find all magnetic interaction controllers found within circle diameter, update the existing list to them and sub/unsubscribe to their Actions
+
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, Values.Radius * 2, LayerMask.GetMask(Constants.LAYER.Magnetic.ToString()));
+        foreach (var col in cols)
+        {
+            // If it is an active gameObject and has an enabled MagneticInteractionController
+            if (col.gameObject.TryGetComponent(out MagneticInteractionController foundController) && foundController.isActiveAndEnabled)
+            {
+                // If it is not in the list, add it and make it subscribe to react to the force
+                if (!_magneticInteractionControllers.Contains(foundController))
+                {
+                    _magneticInteractionControllers.Add(foundController);
+                    OnEmitMagneticForce += foundController.ReactToMagneticForce;
+                }
+            }
+        }
+
+        // Calculate the force for each magnetic object in effect
+
+    }
+
+    void ReactToMagneticForce(Vector2 force, Magnet.Charge charge)
+    {
+        // Calculate the force for each magnetic object in effect
     }
 }
