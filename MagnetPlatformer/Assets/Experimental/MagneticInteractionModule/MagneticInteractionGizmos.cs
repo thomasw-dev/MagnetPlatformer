@@ -52,35 +52,37 @@ public class MagneticInteractionGizmos : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (SettingEnabled(_localSettings.ReactionForces, DebugManager.MagneticInteractionGizmosSettings.ReactionForces))
-            DrawReactionForces();
-
         if (SettingEnabled(_localSettings.NetReactionForce, DebugManager.MagneticInteractionGizmosSettings.NetReactionForce))
-            DrawNetReactionForce();
+            Draw_NetAppliedForce();
+
+        if (SettingEnabled(_localSettings.ReactionForces, DebugManager.MagneticInteractionGizmosSettings.ReactionForces))
+            Draw_AppliedForces();
 
         if (SettingEnabled(_localSettings.EmissionRadius, DebugManager.MagneticInteractionGizmosSettings.EmissionRadius))
-            DrawEmissionRadius();
+            Draw_EmissionRadius();
 
-        void DrawReactionForces()
+        void Draw_AppliedForces()
         {
-            for (int i = 0; i < GetController().ReactionForces.Count; i++)
+            for (int i = 0; i < GetController().AppliedForces.Count; i++)
             {
-                ChargedForce reactionForce = GetController().ReactionForces[i];
+                ChargedForce reactionForce = GetController().AppliedForces[i];
                 float clampedMagnitude = Method.Map(reactionForce.Vector.magnitude, -MagneticForce.MAX_FORCE, MagneticForce.MAX_FORCE, -FORCE_LENGTH_MAX, FORCE_LENGTH_MAX);
                 Gizmos.color = reactionForce.Relation == ChargedForce.RelationType.Attract ? ATTRACTION_FORCE_COLOR : REPULSION_FORCE_COLOR;
                 Gizmos.DrawRay(transform.position, Vector2.ClampMagnitude(reactionForce.Vector, clampedMagnitude));
             }
         }
 
-        void DrawNetReactionForce()
+        void Draw_NetAppliedForce()
         {
-            Vector2 netReactionForce = GetController().NetReactionForce;
+            if (GetController().AppliedForces.Count <= 1) { return; }
+
+            Vector2 netReactionForce = GetController().NetAppliedForce;
             float clampedMagnitude = Method.Map(netReactionForce.magnitude, -MagneticForce.MAX_FORCE, MagneticForce.MAX_FORCE, -FORCE_LENGTH_MAX, FORCE_LENGTH_MAX);
             Gizmos.color = NET_FORCE_COLOR;
             Gizmos.DrawRay(transform.position, Vector2.ClampMagnitude(netReactionForce, clampedMagnitude));
         }
 
-        void DrawEmissionRadius()
+        void Draw_EmissionRadius()
         {
             Gizmos.color = EMISSION_RADIUS_COLOR;
             Gizmos.DrawWireSphere(transform.position, GetValues().EmissionRadius);

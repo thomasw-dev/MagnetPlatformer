@@ -25,6 +25,22 @@ public class MagneticInteractionController : MonoBehaviour
     [Tooltip("The list of controllers emitting magnetic forces towards this controller.")]
     public List<MagneticInteractionController> EmittingControllers = new();
 
+    public event Action<MagneticInteractionController> OnEmitMagneticForce;
+
+    [HideInInspector] public List<ChargedForce> AppliedForces = new();
+    [HideInInspector] public Vector2 NetAppliedForce
+    {
+        get
+        {
+            Vector2 netForce = Vector2.zero;
+            foreach (ChargedForce force in AppliedForces)
+            {
+                netForce += force.Vector;
+            }
+            return netForce;
+        }
+    }
+
     // Charge
 
     public Magnet.Charge CurrentCharge
@@ -40,13 +56,6 @@ public class MagneticInteractionController : MonoBehaviour
     Magnet.Charge _initialCharge;
 
     public event Action<Magnet.Charge> OnCurrentChargeChanged;
-
-    // Reaction Forces
-
-    [HideInInspector] public List<ChargedForce> ReactionForces = new();
-    [HideInInspector] public Vector2 NetReactionForce;
-
-    public event Action<MagneticInteractionController> OnEmitMagneticForce;
 
     // --------------------
 
@@ -70,14 +79,11 @@ public class MagneticInteractionController : MonoBehaviour
     void Update()
     {
         UpdateReactingControllers();
-        UpdateNetReactionForce();
         _state = StateController.CurrentEnum;
     }
 
     void FixedUpdate()
     {
-        //ReactionForces.Clear();
-
         if (Values.EmitForce)
         {
             OnEmitMagneticForce?.Invoke(this);
@@ -91,8 +97,8 @@ public class MagneticInteractionController : MonoBehaviour
         Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, Values.EmissionRadius, LayerMask.GetMask(Constants.LAYER.Magnetic.ToString()));
         foreach (var col in cols)
         {
-            // If there is a found controller (active gameObject and component enabled)
-            if (col.gameObject.TryGetComponent(out MagneticInteractionController foundController) && foundController.isActiveAndEnabled)
+            // If there is a found controller (not self, active gameObject and component enabled)
+            if (col.gameObject != gameObject && col.gameObject.TryGetComponent(out MagneticInteractionController foundController) && foundController.isActiveAndEnabled)
             {
                 foundControllers.Add(foundController);
             }
@@ -108,14 +114,11 @@ public class MagneticInteractionController : MonoBehaviour
                 ReactingControllers.Add(foundController);
                 foundController.EmittingControllers.Add(this);
 
+                // Add an entry to the applied forces list in the found controller as it has a new emitting controller
+                foundController.AppliedForces.Add(new ChargedForce());
+
                 // Subscribe: make the found controller start reacting to the magnetic force emitted from this controller
                 OnEmitMagneticForce += foundController.ReactToMagneticForce;
-
-                /*if (!foundController.EmittingControllers.Contains(this))
-                {
-                    foundController.EmittingControllers.Add(this);
-                    ReactionForces = new List<ChargedForce>(EmittingControllers.Count);
-                }*/
             }
         }
 
@@ -127,16 +130,15 @@ public class MagneticInteractionController : MonoBehaviour
             {
                 // Unbind the relationship between these two controllers
                 ReactingControllers.Remove(reactingController);
+
+                // Remove the applied force in the reacting controller at the index of the emitting controller being removed
+                int index = reactingController.EmittingControllers.IndexOf(this);
+                reactingController.AppliedForces.RemoveAt(index);
+
                 reactingController.EmittingControllers.Remove(this);
 
                 // Unsubscribe: make the reacting controller stop reacting to the magnetic force emitted from this controller
                 OnEmitMagneticForce -= reactingController.ReactToMagneticForce;
-
-                /*if (reactingController.EmittingControllers.Contains(this))
-                {
-                    reactingController.EmittingControllers.Remove(this);
-                    reactingController.ReactionForces = new List<ChargedForce>(reactingController.EmittingControllers.Count);
-                }*/
             }
         }
     }
@@ -149,24 +151,12 @@ public class MagneticInteractionController : MonoBehaviour
         ChargedForce chargedForce = MagneticForce.ConvertToChargedForce(magneticforce, CurrentCharge, emittingController.CurrentCharge);
         _rigidbody.AddForce(chargedForce.Vector);
 
-        /*
         // Find the index of the emittingController in the list
         int index = EmittingControllers.IndexOf(emittingController);
-        // Update the reaction force value
+        // Update the applied force value
         if (index != -1)
         {
-            ReactionForces[index] = chargedForce;
+            AppliedForces[index] = chargedForce;
         }
-        */
-    }
-
-    void UpdateNetReactionForce()
-    {
-        Vector2 netForce = Vector2.zero;
-        foreach (ChargedForce force in ReactionForces)
-        {
-            netForce += force.Vector;
-        }
-        NetReactionForce = netForce;
     }
 }
