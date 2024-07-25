@@ -1310,9 +1310,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a033294d6c0404ed28bbdc508cbcd202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neutral: 0
+  _neutral: 1
   _positive: 0
-  _negative: 1
+  _negative: 0
   EmitForce: 1
   EmissionForce: 10
   EmissionRadius: 10
@@ -1582,8 +1582,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a033294d6c0404ed28bbdc508cbcd202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neutral: 0
-  _positive: 1
+  _neutral: 1
+  _positive: 0
   _negative: 0
   EmitForce: 1
   EmissionForce: 10
@@ -1724,7 +1724,7 @@ Transform:
   m_GameObject: {fileID: 1484788960001491999}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.15, y: -2.6, z: 0}
+  m_LocalPosition: {x: 1.15, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1923,7 +1923,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1298796023}
+  - {fileID: 26762368}
   - {fileID: 3011023055303855866}
   - {fileID: 1767317467}
   - {fileID: 1873469660}
-  - {fileID: 26762368}

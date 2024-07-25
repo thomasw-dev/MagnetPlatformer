@@ -88,7 +88,7 @@ public class MagneticInteractionController : MonoBehaviour
     {
         // The list of magnetic interaction controllers found by the circle radius check
         List<MagneticInteractionController> foundControllers = new();
-        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, Values.EmissionRadius * 2, LayerMask.GetMask(Constants.LAYER.Magnetic.ToString()));
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, Values.EmissionRadius, LayerMask.GetMask(Constants.LAYER.Magnetic.ToString()));
         foreach (var col in cols)
         {
             // If there is a found controller (active gameObject and component enabled)
@@ -104,9 +104,18 @@ public class MagneticInteractionController : MonoBehaviour
             // If a found controller is not in the list of reacting controllers
             if (!ReactingControllers.Contains(foundController))
             {
+                // Bind the relationship between these two controllers
                 ReactingControllers.Add(foundController);
-                // Make the found controller start reacting to the magnetic force emitted from this controller
+                foundController.EmittingControllers.Add(this);
+
+                // Subscribe: make the found controller start reacting to the magnetic force emitted from this controller
                 OnEmitMagneticForce += foundController.ReactToMagneticForce;
+
+                /*if (!foundController.EmittingControllers.Contains(this))
+                {
+                    foundController.EmittingControllers.Add(this);
+                    ReactionForces = new List<ChargedForce>(EmittingControllers.Count);
+                }*/
             }
         }
 
@@ -116,28 +125,39 @@ public class MagneticInteractionController : MonoBehaviour
             // If a reacting controller is not detected by the circle radius check (no longer in the area)
             if (!foundControllers.Contains(reactingController))
             {
+                // Unbind the relationship between these two controllers
                 ReactingControllers.Remove(reactingController);
-                // Make the reacting controller stop reacting to the magnetic force emitted from this controller
+                reactingController.EmittingControllers.Remove(this);
+
+                // Unsubscribe: make the reacting controller stop reacting to the magnetic force emitted from this controller
                 OnEmitMagneticForce -= reactingController.ReactToMagneticForce;
+
+                /*if (reactingController.EmittingControllers.Contains(this))
+                {
+                    reactingController.EmittingControllers.Remove(this);
+                    reactingController.ReactionForces = new List<ChargedForce>(reactingController.EmittingControllers.Count);
+                }*/
             }
         }
     }
 
     void ReactToMagneticForce(MagneticInteractionController emittingController)
     {
-        if (!EmittingControllers.Contains(emittingController))
-        {
-            EmittingControllers.Add(emittingController);
-        }
-
         // Add force to rigidbody
         Vector2 distance = transform.position - emittingController.transform.position;
         Vector2 magneticforce = MagneticForce.Calculate(_rigidbody.velocity, distance, emittingController.Values.EmissionForce);
         ChargedForce chargedForce = MagneticForce.ConvertToChargedForce(magneticforce, CurrentCharge, emittingController.CurrentCharge);
         _rigidbody.AddForce(chargedForce.Vector);
 
-        // Add the force to the list of reaction forces
-        ReactionForces.Add(chargedForce);
+        /*
+        // Find the index of the emittingController in the list
+        int index = EmittingControllers.IndexOf(emittingController);
+        // Update the reaction force value
+        if (index != -1)
+        {
+            ReactionForces[index] = chargedForce;
+        }
+        */
     }
 
     void UpdateNetReactionForce()
