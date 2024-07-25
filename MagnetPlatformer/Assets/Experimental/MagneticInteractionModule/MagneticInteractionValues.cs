@@ -10,7 +10,6 @@ public class MagneticInteractionValues : MonoBehaviour
 
     [Header("Emission")]
 
-    public bool EmitForce = true;
     public float EmissionForce = 10f;
     public float EmissionRadius = 10f;
 

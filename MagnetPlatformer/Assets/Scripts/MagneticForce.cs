@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public static class MagneticForce
@@ -33,6 +34,7 @@ public static class MagneticForce
     }
 }
 
+[Serializable]
 public struct ChargedForce
 {
     public enum RelationType { Neutral, Attract, Repel }

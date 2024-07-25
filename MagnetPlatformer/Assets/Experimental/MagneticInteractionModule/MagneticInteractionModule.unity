@@ -621,7 +621,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: f0b004962529d4331add1e6a2e92bff8, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.67, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -705,7 +705,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: f0b004962529d4331add1e6a2e92bff8, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.67, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
@@ -817,7 +817,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.1, g: 0.1, b: 0.1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -981,11 +981,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a033294d6c0404ed28bbdc508cbcd202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neutral: 1
-  _positive: 0
+  _neutral: 0
+  _positive: 1
   _negative: 0
-  EmitForce: 1
-  EmissionForce: 10
+  EmissionForce: 1
   EmissionRadius: 10
 --- !u!114 &1314192224
 MonoBehaviour:
@@ -1004,6 +1003,7 @@ MonoBehaviour:
   Values: {fileID: 1314192223}
   ReactingControllers: []
   EmittingControllers: []
+  AppliedForces: []
 --- !u!114 &1314192225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1325,11 +1325,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a033294d6c0404ed28bbdc508cbcd202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neutral: 1
-  _positive: 0
+  _neutral: 0
+  _positive: 1
   _negative: 0
-  EmitForce: 1
-  EmissionForce: 10
+  EmissionForce: 1
   EmissionRadius: 10
 --- !u!114 &1651761947
 MonoBehaviour:
@@ -1348,6 +1347,7 @@ MonoBehaviour:
   Values: {fileID: 1651761946}
   ReactingControllers: []
   EmittingControllers: []
+  AppliedForces: []
 --- !u!114 &1651761948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1415,7 +1415,7 @@ Transform:
   m_GameObject: {fileID: 1767317465}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.15, y: 2.43, z: 0}
+  m_LocalPosition: {x: 3.5700002, y: 1.48, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1598,6 +1598,7 @@ MonoBehaviour:
   Values: {fileID: 1846472631}
   ReactingControllers: []
   EmittingControllers: []
+  AppliedForces: []
 --- !u!114 &1846472631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1610,10 +1611,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a033294d6c0404ed28bbdc508cbcd202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neutral: 1
+  _neutral: 0
   _positive: 0
-  _negative: 0
-  EmitForce: 1
+  _negative: 1
   EmissionForce: 10
   EmissionRadius: 10
 --- !u!114 &1846472632
@@ -1698,7 +1698,7 @@ Transform:
   m_GameObject: {fileID: 1873469658}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.17, y: 1.44, z: 0}
+  m_LocalPosition: {x: -3.75, y: 0.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1766,7 +1766,7 @@ Transform:
   m_GameObject: {fileID: 1484788960001491999}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.15, y: 10, z: 0}
+  m_LocalPosition: {x: 0.24, y: -1.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1798,11 +1798,11 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1484788960001491999}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 5
   m_LinearDrag: 1
   m_AngularDrag: 1
   m_GravityScale: 0
@@ -1874,7 +1874,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: f0b004962529d4331add1e6a2e92bff8, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0.67, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2

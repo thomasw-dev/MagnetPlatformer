@@ -27,7 +27,7 @@ public class MagneticInteractionController : MonoBehaviour
 
     public event Action<MagneticInteractionController> OnEmitMagneticForce;
 
-    [HideInInspector] public List<ChargedForce> AppliedForces = new();
+    public List<ChargedForce> AppliedForces = new();
     [HideInInspector] public Vector2 NetAppliedForce
     {
         get
@@ -93,10 +93,7 @@ public class MagneticInteractionController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Values.EmitForce)
-        {
-            OnEmitMagneticForce?.Invoke(this);
-        }
+        OnEmitMagneticForce?.Invoke(this);
     }
 
     void UpdateReactingControllers()
@@ -134,17 +131,16 @@ public class MagneticInteractionController : MonoBehaviour
         // Check each reacting controller
         foreach (var reactingController in ReactingControllers.ToArray())
         {
-            // If a reacting controller is not detected by the circle radius check (no longer in the area)
-            if (!foundControllers.Contains(reactingController))
+            // If a reacting controller is not detected by the circle radius check (no longer in the area), or it is disabled
+            if (!foundControllers.Contains(reactingController) || !reactingController.isActiveAndEnabled)
             {
-                // Unbind the relationship between these two controllers
-                ReactingControllers.Remove(reactingController);
-
                 // Remove the applied force in the reacting controller at the index of the emitting controller being removed
                 int index = reactingController.EmittingControllers.IndexOf(this);
                 reactingController.AppliedForces.RemoveAt(index);
 
+                // Unbind the relationship between these two controllers
                 reactingController.EmittingControllers.Remove(this);
+                ReactingControllers.Remove(reactingController);
 
                 // Unsubscribe: make the reacting controller stop reacting to the magnetic force emitted from this controller
                 OnEmitMagneticForce -= reactingController.ReactToMagneticForce;
