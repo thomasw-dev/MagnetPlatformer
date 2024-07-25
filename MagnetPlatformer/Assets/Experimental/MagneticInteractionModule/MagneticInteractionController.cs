@@ -80,6 +80,16 @@ public class MagneticInteractionController : MonoBehaviour
         DependenciesNullCheck();
     }
 
+    void OnEnable()
+    {
+        // TODO: "resume" relationship with in-range controllers? (not sure if need to)
+    }
+
+    void OnDisable()
+    {
+        // TODO: clear the relationships with the controllers
+    }
+
     void Start()
     {
         StateController.ChangeState(StateEnum.Normal);
@@ -87,7 +97,7 @@ public class MagneticInteractionController : MonoBehaviour
 
     void Update()
     {
-        UpdateReactingControllers();
+        UpdateInteractionControllers();
         _state = StateController.CurrentEnum;
     }
 
@@ -96,7 +106,7 @@ public class MagneticInteractionController : MonoBehaviour
         OnEmitMagneticForce?.Invoke(this);
     }
 
-    void UpdateReactingControllers()
+    void UpdateInteractionControllers()
     {
         // The list of magnetic interaction controllers found by the circle radius check
         List<MagneticInteractionController> foundControllers = new();
