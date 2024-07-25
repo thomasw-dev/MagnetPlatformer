@@ -28,7 +28,8 @@ public class MagneticInteractionController : MonoBehaviour
     public event Action<MagneticInteractionController> OnEmitMagneticForce;
 
     public List<ChargedForce> AppliedForces = new();
-    [HideInInspector] public Vector2 NetAppliedForce
+    [HideInInspector]
+    public Vector2 NetAppliedForce
     {
         get
         {
@@ -80,14 +81,22 @@ public class MagneticInteractionController : MonoBehaviour
         DependenciesNullCheck();
     }
 
-    void OnEnable()
-    {
-        // TODO: "resume" relationship with in-range controllers? (not sure if need to)
-    }
-
     void OnDisable()
     {
-        // TODO: clear the relationships with the controllers
+        // Remove this controller from the emitting controllers list in each reacting controller
+        foreach (var reactingController in ReactingControllers.ToArray())
+        {
+            // Remove the applied force in the reacting controller at the index of the emitting controller being removed
+            int index = reactingController.EmittingControllers.IndexOf(this);
+            reactingController.AppliedForces.RemoveAt(index);
+
+            // Unbind the relationship between these two controllers
+            reactingController.EmittingControllers.Remove(this);
+            ReactingControllers.Remove(reactingController);
+
+            // Unsubscribe: make the reacting controller stop reacting to the magnetic force emitted from this controller
+            OnEmitMagneticForce -= reactingController.ReactToMagneticForce;
+        }
     }
 
     void Start()

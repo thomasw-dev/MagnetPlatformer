@@ -3,9 +3,9 @@ using UnityEngine;
 
 public static class MagneticForce
 {
-    public const float PUSH_VELOCITY = 10f;
-    public const float MAX_VELOCITY = 100f;
-    public const float MAX_FORCE = 100f;
+    public const float PUSH_VELOCITY = 10f; // 10f
+    public const float MAX_VELOCITY = 100f; // 100f
+    public const float MAX_FORCE = 1000f; // 100f
 
     public static Vector2 Calculate(Vector2 selfRigidbodyVelocity, Vector2 selfTargetDistance, float targetGain)
     {
