@@ -25,27 +25,24 @@ public class MagneticInteractionValues : MonoBehaviour
     void SetChargeByBools()
     {
         Magnet.Charge currentCharge = GetController().CurrentCharge;
-        Magnet.Charge setCharge = Magnet.Charge.Neutral;
 
         if (currentCharge == Magnet.Charge.Neutral)
         {
-            if (_positive && !_negative) setCharge = Magnet.Charge.Positive;
-            if (!_positive && _negative) setCharge = Magnet.Charge.Negative;
+            if (_positive && !_negative) GetController().CurrentCharge = Magnet.Charge.Positive;
+            if (!_positive && _negative) GetController().CurrentCharge = Magnet.Charge.Negative;
         }
 
         else if (currentCharge == Magnet.Charge.Positive)
         {
-            if (_neutral && !_negative) setCharge = Magnet.Charge.Neutral;
-            if (!_neutral && _negative) setCharge = Magnet.Charge.Negative;
+            if (_neutral && !_negative) GetController().CurrentCharge = Magnet.Charge.Neutral;
+            if (!_neutral && _negative) GetController().CurrentCharge = Magnet.Charge.Negative;
         }
 
         else if (currentCharge == Magnet.Charge.Negative)
         {
-            if (_neutral && !_positive) setCharge = Magnet.Charge.Neutral;
-            if (!_neutral && _positive) setCharge = Magnet.Charge.Positive;
+            if (_neutral && !_positive) GetController().CurrentCharge = Magnet.Charge.Neutral;
+            if (!_neutral && _positive) GetController().CurrentCharge = Magnet.Charge.Positive;
         }
-
-        GetController().CurrentCharge = setCharge;
     }
 
     void UpdateChargeBools(Magnet.Charge charge)

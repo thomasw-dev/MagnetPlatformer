@@ -55,20 +55,29 @@ public class MagneticInteractionController : MonoBehaviour
     Magnet.Charge _currentCharge;
     Magnet.Charge _initialCharge;
 
-    public event Action<Magnet.Charge> OnCurrentChargeChanged;
+    public Action<Magnet.Charge> OnCurrentChargeChanged;
 
     // --------------------
 
-    void Awake()
+    bool DependenciesNullCheck()
     {
-        // Dependencies null checks
-        if (_rigidbody == null) Debug.LogError($"Dependency missing: Rigidbody is not assigned.", this);
-        if (Values == null) Debug.LogError($"Dependency missing: Config is not assigned.", this);
+        bool pass = true;
+        if (_rigidbody == null)
+        {
+            Debug.LogError($"Dependency missing: Rigidbody is not assigned.", this);
+            pass = false;
+        }
+        if (Values == null)
+        {
+            Debug.LogError($"Dependency missing: Config is not assigned.", this);
+            pass = false;
+        }
+        return pass;
     }
 
-    void Reset()
+    void Awake()
     {
-        gameObject.layer = LayerMask.NameToLayer(Constants.LAYER.Magnetic.ToString());
+        DependenciesNullCheck();
     }
 
     void Start()

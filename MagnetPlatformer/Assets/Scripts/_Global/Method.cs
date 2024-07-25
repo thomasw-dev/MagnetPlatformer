@@ -77,4 +77,17 @@ public static class Method
             }
         }
     }
+
+    public static bool IsMethodSubscribed(Action action, Action method)
+    {
+        Delegate[] subscribers = action.GetInvocationList();
+        foreach (Delegate subscriber in subscribers)
+        {
+            if (subscriber.Target == method.Target && subscriber.Method == method.Method)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -179,6 +179,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 37956848}
+  - component: {fileID: 37956849}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -202,6 +203,21 @@ Transform:
   - {fileID: 987211616}
   m_Father: {fileID: 795627617}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &37956849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37956847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecca5b9ca18f547299b81f031314e43c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _magneticInteractionController: {fileID: 1314192224}
+  _spriteRenderer: {fileID: 987211617}
+  _updateToCurrentCharge: 1
 --- !u!1 &61399444
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +1019,6 @@ MonoBehaviour:
   Values: {fileID: 1314192223}
   ReactingControllers: []
   EmittingControllers: []
-  NetReactionForce: {x: 0, y: 0}
 --- !u!1 &1483232619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,6 +1195,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1629394762}
+  - component: {fileID: 1629394763}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -1203,6 +1219,21 @@ Transform:
   - {fileID: 820445020}
   m_Father: {fileID: 1609786651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1629394763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629394761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecca5b9ca18f547299b81f031314e43c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _magneticInteractionController: {fileID: 1651761947}
+  _spriteRenderer: {fileID: 820445021}
+  _updateToCurrentCharge: 1
 --- !u!1 &1651761942
 GameObject:
   m_ObjectHideFlags: 0
@@ -1333,7 +1364,6 @@ MonoBehaviour:
   Values: {fileID: 1651761946}
   ReactingControllers: []
   EmittingControllers: []
-  NetReactionForce: {x: 0, y: 0}
 --- !u!1 &1767317465
 GameObject:
   m_ObjectHideFlags: 0
@@ -1569,7 +1599,6 @@ MonoBehaviour:
   Values: {fileID: 1846472631}
   ReactingControllers: []
   EmittingControllers: []
-  NetReactionForce: {x: 0, y: 0}
 --- !u!114 &1846472631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1911,6 +1940,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4158728086394086127}
+  - component: {fileID: 8859825449668189855}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -1918,6 +1948,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8859825449668189855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8859825449668189854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecca5b9ca18f547299b81f031314e43c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _magneticInteractionController: {fileID: 1846472630}
+  _spriteRenderer: {fileID: 6459850797443646827}
+  _updateToCurrentCharge: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
