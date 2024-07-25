@@ -26,19 +26,21 @@ public class MagnetWeapon : MonoBehaviour
 
     // Ammo, Cooldown, Refill
 
+    [SerializeField] bool _costAmmoOnMagneticOnly = true;
+
     const int AMMO_MAX = 6;
     [Range(0, AMMO_MAX)]
     public int Ammo = AMMO_MAX;
 
     const float COOLDOWN_DURATION = 1.0f;
     [Range(0, COOLDOWN_DURATION)]
-    [SerializeField] float _cooldownDuration = 0.25f;
+    [SerializeField] float _cooldownDuration = 1.0f;
+    [SerializeField] bool _isCoolingDown = false;
 
-    const float RELOAD_DURATION = 2.0f;
-    [Range(0, RELOAD_DURATION)]
-    [SerializeField] float _reloadDuration = RELOAD_DURATION;
-
-    Magnet.Charge _prevCharge;
+    const float REFILL_ONE_DURATION = 0.5f;
+    [Range(0, REFILL_ONE_DURATION)]
+    [SerializeField] float _refillOneDuration = REFILL_ONE_DURATION;
+    [SerializeField] bool _isRefilling = false;
 
     void Awake()
     {
@@ -52,6 +54,7 @@ public class MagnetWeapon : MonoBehaviour
         MagnetMouseControl.OnLeftButtonUp += FireWeaponStop;
         MagnetMouseControl.OnRightButtonDown += FireWeapon;
         MagnetMouseControl.OnRightButtonUp += FireWeaponStop;
+        MagnetWeaponAimRay.OnHitMagneticObject += CostAmmo;
         GameState.Play.OnEnter += EnterPlay;
         GameState.Play.OnExit += Restore;
     }
@@ -63,6 +66,7 @@ public class MagnetWeapon : MonoBehaviour
         MagnetMouseControl.OnLeftButtonUp -= FireWeaponStop;
         MagnetMouseControl.OnRightButtonDown -= FireWeapon;
         MagnetMouseControl.OnRightButtonUp -= FireWeaponStop;
+        MagnetWeaponAimRay.OnHitMagneticObject -= CostAmmo;
         GameState.Play.OnEnter -= EnterPlay;
         GameState.Play.OnExit -= Restore;
     }
@@ -129,26 +133,55 @@ public class MagnetWeapon : MonoBehaviour
 
     void FireWeapon()
     {
-        if (CurrentCharge == Magnet.Charge.Neutral) return;
-
         if (Ammo == 0) return;
 
-        Ammo--;
-        StartCoroutine(Cooldown());
-
         OnFireWeapon?.Invoke(CurrentCharge);
+
+        if (!_costAmmoOnMagneticOnly)
+        {
+            CostAmmo();
+        }
+    }
+
+    void CostAmmo()
+    {
+        if (!_costAmmoOnMagneticOnly) { return; }
+
+        if (Ammo > 0) Ammo--;
+
+        if (_isCoolingDown) StopCoroutine(Cooldown());
+        if (_isRefilling) StopCoroutine(Refill());
+        StartCoroutine(Cooldown());
     }
 
     IEnumerator Cooldown()
     {
+        Debug.Log("Start Cooldown");
+        _isCoolingDown = true;
         StateController.ChangeState(StateEnum.Cooldown);
-        _prevCharge = CurrentCharge;
-        CurrentCharge = Magnet.Charge.Neutral;
-
         yield return new WaitForSeconds(COOLDOWN_DURATION);
+        StartCoroutine(Refill());
+        _isCoolingDown = false;
+    }
 
-        CurrentCharge = _prevCharge;
-        StateController.ChangeState(StateEnum.Available);
+    IEnumerator Refill()
+    {
+        Debug.Log("Start Refill");
+        _isRefilling = true;
+        StateController.ChangeState(StateEnum.Refill);
+        yield return new WaitForSeconds(REFILL_ONE_DURATION);
+        Ammo++;
+        Ammo = Mathf.Clamp(Ammo, 0, AMMO_MAX);
+        Debug.Log("Add Ammo");
+        if (Ammo < AMMO_MAX)
+        {
+            yield return StartCoroutine(Refill());
+        }
+        else
+        {
+            _isRefilling = false;
+            yield break;
+        }
     }
 
     void FireWeaponStop() => OnFireWeaponStop?.Invoke();

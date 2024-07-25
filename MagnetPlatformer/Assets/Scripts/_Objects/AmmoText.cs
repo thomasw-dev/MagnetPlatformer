@@ -21,13 +21,13 @@ public class AmmoText : MonoBehaviour
         }
         if (_magnetWeapon.StateController.CurrentEnum == MagnetWeapon.StateEnum.Cooldown)
         {
-            _ammoText.color = Color.grey;
-            _ammoText.text = $"Ammo: {_magnetWeapon.Ammo}\n(Cooldown: {_magnetWeapon.Ammo})";
+            _ammoText.color = Color.white;
+            _ammoText.text = $"Ammo: {_magnetWeapon.Ammo}\n<size=36><color=yellow>Cooldown";
         }
         if (_magnetWeapon.StateController.CurrentEnum == MagnetWeapon.StateEnum.Refill)
         {
-            _ammoText.color = Color.yellow;
-            _ammoText.text = $"Reload";
+            _ammoText.color = Color.white;
+            _ammoText.text = $"Ammo: {_magnetWeapon.Ammo}\n<size=36><color=green>Refill";
         }
     }
 }

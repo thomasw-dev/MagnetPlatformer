@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 public class MagnetWeaponAimRay : MonoBehaviour
 {
     [SerializeField] Transform[] points;
     [SerializeField] Material[] _aimRayMaterials;
+
+    public static event Action OnHitMagneticObject;
 
     LineRenderer _lineRenderer;
     LayerMask _includeLayer;
@@ -106,6 +109,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
             if (hitObject.TryGetComponent(out MagneticObjectController magneticObject))
             {
                 magneticObject.AlterCharge(charge);
+                OnHitMagneticObject?.Invoke();
             }
         }
     }

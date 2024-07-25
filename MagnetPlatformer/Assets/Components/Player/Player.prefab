@@ -48,14 +48,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b37fc7055971a49859702a6ef72107b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _state: 0
   _attachTo: {fileID: 245742681034946597}
   _currentCharge: 0
   _magnetSprites:
   - {fileID: 21300000, guid: 598bff8ba0313421583314954f7a5ee7, type: 3}
   - {fileID: 21300000, guid: a0fa1369bd23a49569e487c9030dc10c, type: 3}
   - {fileID: 21300000, guid: b458e88f2c53a42b8bb722cd2e073605, type: 3}
-  _ammo: 6
-  _canFireWeapon: 1
+  Ammo: 6
+  _cooldownDuration: 1
+  _isCoolingDown: 0
+  _refillOneDuration: 0.5
+  _isRefilling: 0
+  _costAmmoOnMagneticOnly: 1
 --- !u!212 &3106436653813674396
 SpriteRenderer:
   m_ObjectHideFlags: 0
