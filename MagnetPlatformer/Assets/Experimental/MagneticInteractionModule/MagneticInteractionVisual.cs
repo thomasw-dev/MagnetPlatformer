@@ -5,7 +5,6 @@ public class MagneticInteractionVisual : MonoBehaviour
     [Header("Dependencies")]
     // These fields are required to be assigned in order for this module to function.
 
-    [SerializeField] MagneticInteractionController _magneticInteractionController;
     [SerializeField] SpriteRenderer _spriteRenderer;
 
     [Header("Subscription")]
@@ -16,14 +15,12 @@ public class MagneticInteractionVisual : MonoBehaviour
     static Color POSITIVE_COLOR = new Color(0.67f, 0, 0, 1.0f);
     static Color NEGATIVE_COLOR = new Color(0, 0, 0.67f, 1.0f);
 
+    MagneticInteractionController GetController() => GetComponent<MagneticInteractionController>();
+
+
     bool DependenciesNullCheck()
     {
         bool pass = true;
-        if (_magneticInteractionController == null)
-        {
-            Debug.LogError($"Dependency missing: MagneticInteractionController is not assigned.", this);
-            pass = false;
-        }
         if (_spriteRenderer == null)
         {
             Debug.LogError($"Dependency missing: SpriteRenderer is not assigned.", this);
@@ -44,17 +41,17 @@ public class MagneticInteractionVisual : MonoBehaviour
             }
             else
             {
-                _magneticInteractionController.OnCurrentChargeChanged += SetColorByCharge;
+                GetController().OnCurrentChargeChanged += SetColorByCharge;
                 _isSubscribed = true;
 
                 // Call it once to update it instantly
-                SetColorByCharge(_magneticInteractionController.CurrentCharge); //
+                SetColorByCharge(GetController().CurrentCharge);
             }
         }
         // Unsubscribe
         else if (!_updateToCurrentCharge && _isSubscribed)
         {
-            _magneticInteractionController.OnCurrentChargeChanged -= SetColorByCharge;
+            GetController().OnCurrentChargeChanged -= SetColorByCharge;
             _isSubscribed = false;
         }
     }
@@ -63,14 +60,14 @@ public class MagneticInteractionVisual : MonoBehaviour
     {
         if (!DependenciesNullCheck()) { return; }
 
-        _magneticInteractionController.OnCurrentChargeChanged += SetColorByCharge;
+        GetController().OnCurrentChargeChanged += SetColorByCharge;
     }
 
     void OnDisable()
     {
         if (!DependenciesNullCheck()) { return; }
 
-        _magneticInteractionController.OnCurrentChargeChanged -= SetColorByCharge;
+        GetController().OnCurrentChargeChanged -= SetColorByCharge;
     }
 
     void SetColorByCharge(Magnet.Charge charge)

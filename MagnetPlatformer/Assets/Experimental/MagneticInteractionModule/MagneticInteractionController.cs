@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(MagneticInteractionValues), typeof(Collider2D))]
 public class MagneticInteractionController : MonoBehaviour
 {
     // State
