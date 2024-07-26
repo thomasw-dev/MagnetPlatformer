@@ -249,7 +249,7 @@ public class MagneticObjectController : MonoBehaviour
         {
             switch (CurrentCharge)
             {
-                case Magnet.Charge.Neutral: return;
+                case Magnet.Charge.Neutral: Gizmos.color = Color.grey; break;
                 case Magnet.Charge.Positive: Gizmos.color = Color.red; break;
                 case Magnet.Charge.Negative: Gizmos.color = Color.blue; break;
             }
