@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 1468896158}
   - component: {fileID: 1468896157}
   m_Layer: 0
-  m_Name: My Coroutine
+  m_Name: My Tween
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e47b4d682f3e04ccb888c90c9fd4b233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inCoroutine: 0
+  value: 3
 --- !u!4 &1468896158
 Transform:
   m_ObjectHideFlags: 0
