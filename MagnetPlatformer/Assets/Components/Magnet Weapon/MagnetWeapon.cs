@@ -67,7 +67,7 @@ public class MagnetWeapon : MonoBehaviour
         MagnetMouseControl.OnLeftButtonUp += FireWeaponStop;
         MagnetMouseControl.OnRightButtonDown += FireWeapon;
         MagnetMouseControl.OnRightButtonUp += FireWeaponStop;
-        MagnetWeaponAimRay.OnHitMagneticObject += CostAmmo;
+        MagnetWeaponAimRay.OnAlterMagneticObjectCharge += CostAmmo;
         GameState.Play.OnEnter += EnterPlay;
         GameState.Play.OnExit += Restore;
     }
@@ -79,7 +79,7 @@ public class MagnetWeapon : MonoBehaviour
         MagnetMouseControl.OnLeftButtonUp -= FireWeaponStop;
         MagnetMouseControl.OnRightButtonDown -= FireWeapon;
         MagnetMouseControl.OnRightButtonUp -= FireWeaponStop;
-        MagnetWeaponAimRay.OnHitMagneticObject -= CostAmmo;
+        MagnetWeaponAimRay.OnAlterMagneticObjectCharge -= CostAmmo;
         GameState.Play.OnEnter -= EnterPlay;
         GameState.Play.OnExit -= Restore;
     }
@@ -146,7 +146,7 @@ public class MagnetWeapon : MonoBehaviour
 
     void FireWeapon()
     {
-        if (Ammo == 0) return;
+        if (Ammo <= 0) return;
 
         OnFireWeapon?.Invoke(CurrentCharge);
 
@@ -158,8 +158,6 @@ public class MagnetWeapon : MonoBehaviour
 
     void CostAmmo()
     {
-        if (!_costAmmoOnMagneticOnly) { return; }
-
         if (Ammo > 0) Ammo--;
 
         if (_refillTween != null && _refillTween.IsActive())
@@ -215,36 +213,6 @@ public class MagnetWeapon : MonoBehaviour
             });
 
         _refillTween.Play();
-    }
-
-    IEnumerator Cooldown()
-    {
-        Debug.Log("Start Cooldown");
-        //_isCoolingDown = true;
-        StateController.ChangeState(StateEnum.Cooldown);
-        yield return new WaitForSeconds(COOLDOWN_DURATION);
-        StartCoroutine(Refill());
-        //_isCoolingDown = false;
-    }
-
-    IEnumerator Refill()
-    {
-        Debug.Log("Start Refill");
-        //_isRefilling = true;
-        StateController.ChangeState(StateEnum.Refill);
-        yield return new WaitForSeconds(REFILL_ONE_DURATION);
-        Ammo++;
-        Ammo = Mathf.Clamp(Ammo, 0, AMMO_MAX);
-        Debug.Log("Add Ammo");
-        if (Ammo < AMMO_MAX)
-        {
-            yield return StartCoroutine(Refill());
-        }
-        else
-        {
-            //_isRefilling = false;
-            yield break;
-        }
     }
 
     void FireWeaponStop() => OnFireWeaponStop?.Invoke();

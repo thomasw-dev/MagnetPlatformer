@@ -7,6 +7,7 @@ public class MagnetWeaponAimRay : MonoBehaviour
     [SerializeField] Material[] _aimRayMaterials;
 
     public static event Action OnHitMagneticObject;
+    public static event Action OnAlterMagneticObjectCharge;
 
     LineRenderer _lineRenderer;
     LayerMask _includeLayer;
@@ -108,8 +109,12 @@ public class MagnetWeaponAimRay : MonoBehaviour
 
             if (hitObject.TryGetComponent(out MagneticObjectController magneticObject))
             {
-                magneticObject.AlterCharge(charge);
                 OnHitMagneticObject?.Invoke();
+                if (magneticObject.StateController.CurrentEnum != MagneticObjectController.StateEnum.AlteredCharge)
+                {
+                    OnAlterMagneticObjectCharge?.Invoke();
+                }
+                magneticObject.AlterCharge(charge);
             }
         }
     }
