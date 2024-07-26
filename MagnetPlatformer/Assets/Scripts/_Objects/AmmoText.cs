@@ -14,20 +14,21 @@ public class AmmoText : MonoBehaviour
 
     void Update()
     {
+        int ammo = _magnetWeapon.Ammo;
+        string bullets = new string('•', ammo);
+
         if (_magnetWeapon.StateController.CurrentEnum == MagnetWeapon.StateEnum.Available)
-        {
-            _ammoText.color = Color.white;
-            _ammoText.text = $"Ammo: {_magnetWeapon.Ammo}";
+        { 
+            _ammoText.text = $"<size=28><color=white> \n<size=72><color=white><b>{ammo} {bullets}";
         }
         if (_magnetWeapon.StateController.CurrentEnum == MagnetWeapon.StateEnum.Cooldown)
         {
-            _ammoText.color = Color.white;
-            _ammoText.text = $"Ammo: {_magnetWeapon.Ammo}\n<size=36><color=yellow>Cooldown";
+            _ammoText.text = $"<size=28><color=yellow>Cooldown\n<size=72><color=white><b>{ammo} {bullets}";
+
         }
         if (_magnetWeapon.StateController.CurrentEnum == MagnetWeapon.StateEnum.Refill)
         {
-            _ammoText.color = Color.white;
-            _ammoText.text = $"Ammo: {_magnetWeapon.Ammo}\n<size=36><color=green>Refill";
+            _ammoText.text = $"<size=28><color=green>Refill\n<size=72><color=white><b>{ammo} {bullets}";
         }
     }
 }

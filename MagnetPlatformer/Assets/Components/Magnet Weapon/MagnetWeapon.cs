@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 public class MagnetWeapon : MonoBehaviour
@@ -28,19 +29,31 @@ public class MagnetWeapon : MonoBehaviour
 
     [SerializeField] bool _costAmmoOnMagneticOnly = true;
 
+    // Ammo
     const int AMMO_MAX = 6;
+
     [Range(0, AMMO_MAX)]
     public int Ammo = AMMO_MAX;
 
+    // Cooldown
     const float COOLDOWN_DURATION = 1.0f;
+    Tweener _cooldownTween;
+
     [Range(0, COOLDOWN_DURATION)]
     [SerializeField] float _cooldownDuration = 1.0f;
-    [SerializeField] bool _isCoolingDown = false;
 
+    [Range(0, COOLDOWN_DURATION)]
+    [SerializeField] float _coolDownBar;
+
+    // Refill
     const float REFILL_ONE_DURATION = 0.5f;
+    Tweener _refillTween;
+
     [Range(0, REFILL_ONE_DURATION)]
     [SerializeField] float _refillOneDuration = REFILL_ONE_DURATION;
-    [SerializeField] bool _isRefilling = false;
+
+    [Range(0, AMMO_MAX)]
+    [SerializeField] float _refillBar;
 
     void Awake()
     {
@@ -149,25 +162,75 @@ public class MagnetWeapon : MonoBehaviour
 
         if (Ammo > 0) Ammo--;
 
-        if (_isCoolingDown) StopCoroutine(Cooldown());
-        if (_isRefilling) StopCoroutine(Refill());
-        StartCoroutine(Cooldown());
+        if (_refillTween != null && _refillTween.IsActive())
+        {
+            _refillTween.Kill();
+        }
+
+        if (_cooldownTween != null && _cooldownTween.IsActive())
+        {
+            _cooldownTween.Kill();
+        }
+
+        CooldownTween();
+    }
+
+    void CooldownTween()
+    {
+        _cooldownTween = DOTween.To(x => _coolDownBar = x, 0, _cooldownDuration, _cooldownDuration)
+            .SetEase(Ease.Linear)
+            .SetAutoKill(false)
+            .OnPlay(() =>
+            {
+                StateController.ChangeState(StateEnum.Cooldown);
+            })
+            .OnUpdate(() =>
+            {
+
+            })
+            .OnComplete(() =>
+            {
+                RefillTween();
+            });
+
+        _cooldownTween.Play();
+    }
+
+    void RefillTween()
+    {
+        _refillTween = DOTween.To(x => _refillBar = x, Ammo, AMMO_MAX, _refillOneDuration * (AMMO_MAX - Ammo))
+            .SetEase(Ease.Linear)
+            .SetAutoKill(false)
+            .OnPlay(() =>
+            {
+                StateController.ChangeState(StateEnum.Refill);
+            })
+            .OnUpdate(() =>
+            {
+                Ammo = Mathf.FloorToInt(_refillBar);
+            })
+            .OnComplete(() =>
+            {
+                StateController.ChangeState(StateEnum.Available);
+            });
+
+        _refillTween.Play();
     }
 
     IEnumerator Cooldown()
     {
         Debug.Log("Start Cooldown");
-        _isCoolingDown = true;
+        //_isCoolingDown = true;
         StateController.ChangeState(StateEnum.Cooldown);
         yield return new WaitForSeconds(COOLDOWN_DURATION);
         StartCoroutine(Refill());
-        _isCoolingDown = false;
+        //_isCoolingDown = false;
     }
 
     IEnumerator Refill()
     {
         Debug.Log("Start Refill");
-        _isRefilling = true;
+        //_isRefilling = true;
         StateController.ChangeState(StateEnum.Refill);
         yield return new WaitForSeconds(REFILL_ONE_DURATION);
         Ammo++;
@@ -179,7 +242,7 @@ public class MagnetWeapon : MonoBehaviour
         }
         else
         {
-            _isRefilling = false;
+            //_isRefilling = false;
             yield break;
         }
     }

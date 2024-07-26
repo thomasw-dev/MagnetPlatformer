@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     bool _isMovingLeft = false;
     bool _isMovingRight = false;
     bool _isGrounded = false;
+    bool _isJumping = false;
     float _velocityX;
 
     [Space(10)]
@@ -87,6 +88,11 @@ public class Player : MonoBehaviour
             _rigidbody2D.velocity = new Vector2(_velocityX, _rigidbody2D.velocity.y);
         }
 
+        // Just touched the ground, player can jump again
+        if (!_isGrounded && GroundCheck())
+        {
+            _isJumping = false;
+        }
         _isGrounded = GroundCheck();
     }
 
@@ -149,9 +155,10 @@ public class Player : MonoBehaviour
         if (_isGrounded) canJump = true;
         else canJump = _airJumpEnabled ? true : false;
 
-        if (canJump)
+        if (canJump && !_isJumping)
         {
             _rigidbody2D.AddForce(Vector2.up * _jumpForce);
+            _isJumping = true;
         }
     }
 
