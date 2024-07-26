@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public static class MagneticForce
@@ -32,12 +31,4 @@ public static class MagneticForce
         if (selfCharge == Magnet.Charge.Negative && targetCharge == Magnet.Charge.Negative) return new ChargedForce { Relation = ChargedForce.RelationType.Repel, Vector = force };
         return new ChargedForce { Relation = ChargedForce.RelationType.Neutral, Vector = Vector2.zero };
     }
-}
-
-[Serializable]
-public struct ChargedForce
-{
-    public enum RelationType { Neutral, Attract, Repel }
-    public RelationType Relation;
-    public Vector2 Vector;
 }

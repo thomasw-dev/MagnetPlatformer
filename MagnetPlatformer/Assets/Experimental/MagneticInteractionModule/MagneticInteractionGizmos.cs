@@ -17,7 +17,8 @@ public class MagneticInteractionGizmos : MonoBehaviour
         public GizmosOverride.Type EmissionRadius;
     }
 
-    const float FORCE_LENGTH_MAX = 5f;
+    const float FORCE_MAGNITUDE_MAX = 5000f;
+    const float FORCE_LENGTH = 5f;
 
     static Color EMISSION_RADIUS_COLOR = Color.white;
     static Color ATTRACTION_FORCE_COLOR = Color.green;
@@ -66,9 +67,8 @@ public class MagneticInteractionGizmos : MonoBehaviour
             for (int i = 0; i < GetController().AppliedForces.Count; i++)
             {
                 ChargedForce reactionForce = GetController().AppliedForces[i];
-                float clampedMagnitude = Method.Map(reactionForce.Vector.magnitude, -MagneticForce.MAX_FORCE, MagneticForce.MAX_FORCE, -FORCE_LENGTH_MAX, FORCE_LENGTH_MAX);
                 Gizmos.color = reactionForce.Relation == ChargedForce.RelationType.Attract ? ATTRACTION_FORCE_COLOR : REPULSION_FORCE_COLOR;
-                Gizmos.DrawRay(transform.position, Vector2.ClampMagnitude(reactionForce.Vector, clampedMagnitude));
+                Gizmos.DrawRay(transform.position, Vector2.ClampMagnitude(reactionForce.Vector, reactionForce.Vector.magnitude / FORCE_MAGNITUDE_MAX * FORCE_LENGTH));
             }
         }
 
@@ -77,9 +77,8 @@ public class MagneticInteractionGizmos : MonoBehaviour
             if (GetController().AppliedForces.Count <= 1) { return; }
 
             Vector2 netReactionForce = GetController().NetAppliedForce;
-            float clampedMagnitude = Method.Map(netReactionForce.magnitude, -MagneticForce.MAX_FORCE, MagneticForce.MAX_FORCE, -FORCE_LENGTH_MAX, FORCE_LENGTH_MAX);
             Gizmos.color = NET_FORCE_COLOR;
-            Gizmos.DrawRay(transform.position, Vector2.ClampMagnitude(netReactionForce, clampedMagnitude));
+            Gizmos.DrawRay(transform.position, Vector2.ClampMagnitude(netReactionForce, netReactionForce.magnitude / FORCE_MAGNITUDE_MAX * FORCE_LENGTH));
         }
 
         void Draw_EmissionRadius()

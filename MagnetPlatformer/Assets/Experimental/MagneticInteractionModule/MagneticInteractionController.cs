@@ -170,10 +170,10 @@ public class MagneticInteractionController : MonoBehaviour
     void ReactToMagneticForce(MagneticInteractionController emittingController)
     {
         // Add force to rigidbody
-        Vector2 distance = transform.position - emittingController.transform.position;
-        Vector2 magneticforce = MagneticForce.Calculate(_rigidbody.velocity, distance, emittingController.Values.EmissionForce);
-        ChargedForce chargedForce = MagneticForce.ConvertToChargedForce(magneticforce, CurrentCharge, emittingController.CurrentCharge);
+        Vector2 magneticforce = MagneticInteractionPhysics.Calculate(transform.position, emittingController.transform.position, emittingController.Values.EmissionGain);
+        ChargedForce chargedForce = MagneticInteractionPhysics.ConvertToChargedForce(magneticforce, CurrentCharge, emittingController.CurrentCharge);
         _rigidbody.AddForce(chargedForce.Vector);
+        Debug.Log(chargedForce.Vector.magnitude);
 
         // Find the index of the emittingController in the list
         int index = EmittingControllers.IndexOf(emittingController);

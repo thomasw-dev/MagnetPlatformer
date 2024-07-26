@@ -984,7 +984,7 @@ MonoBehaviour:
   _neutral: 0
   _positive: 1
   _negative: 0
-  EmissionForce: 1
+  EmissionGain: 0
   EmissionRadius: 10
 --- !u!114 &1314192224
 MonoBehaviour:
@@ -1328,8 +1328,8 @@ MonoBehaviour:
   _neutral: 0
   _positive: 1
   _negative: 0
-  EmissionForce: 1
-  EmissionRadius: 50
+  EmissionGain: 0
+  EmissionRadius: 20
 --- !u!114 &1651761947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1614,7 +1614,7 @@ MonoBehaviour:
   _neutral: 0
   _positive: 0
   _negative: 1
-  EmissionForce: 1
+  EmissionGain: 0
   EmissionRadius: 5
 --- !u!114 &1846472632
 MonoBehaviour:
@@ -1766,7 +1766,7 @@ Transform:
   m_GameObject: {fileID: 1484788960001491999}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.2, y: 1.5, z: 0}
+  m_LocalPosition: {x: 14.5, y: 29.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

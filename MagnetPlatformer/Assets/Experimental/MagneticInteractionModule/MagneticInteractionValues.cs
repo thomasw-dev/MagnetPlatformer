@@ -10,7 +10,9 @@ public class MagneticInteractionValues : MonoBehaviour
 
     [Header("Emission")]
 
-    public float EmissionForce = 10f;
+    [Range(-MagneticInteractionPhysics.DISTANCE_MULTIPLIER, MagneticInteractionPhysics.DISTANCE_MULTIPLIER)]
+    public float EmissionGain = 0f;
+
     public float EmissionRadius = 10f;
 
     MagneticInteractionController GetController() => GetComponent<MagneticInteractionController>();
