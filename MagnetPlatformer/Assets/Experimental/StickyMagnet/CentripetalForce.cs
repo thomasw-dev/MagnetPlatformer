@@ -5,6 +5,7 @@ public class CentripetalForce : MonoBehaviour
     public Transform targetObject; // The object towards which the target object is attracted
     public float distanceMultiplier = 0.1f; // Multiplier for force based on distance
     [SerializeField] float _radius = 10f;
+    [SerializeField] bool _attract = true;
 
     Rigidbody2D rb;
 
@@ -22,8 +23,18 @@ public class CentripetalForce : MonoBehaviour
         {
             rb.GetComponent<RigidbodyMoveKeys>().enabled = false;
 
-            float forceMagnitude = 1 / distance * Mathf.Pow(distanceMultiplier, 6);
-            Vector3 force = direction.normalized * forceMagnitude;
+            Vector3 force = Vector3.zero;
+
+            if (_attract)
+            {
+                float forceMagnitude = 1 / distance * Mathf.Pow(distanceMultiplier, 6);
+                force = direction.normalized * forceMagnitude;
+            }
+            else
+            {
+                float forceMagnitude = 1 / distance * Mathf.Pow(distanceMultiplier, 6);
+                force = direction.normalized * forceMagnitude * -1;
+            }
 
             rb.AddForce(force, ForceMode2D.Force);
         }
