@@ -10,6 +10,11 @@ public static class Method
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
 
+    public static GameObject GetPlayerObject()
+    {
+        return GameObject.FindWithTag("Player");
+    }
+
     public static bool IsPlayerObject(GameObject gameObject)
     {
         return gameObject.tag == "Player" ? true : false;
