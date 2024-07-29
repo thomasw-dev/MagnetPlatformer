@@ -6,70 +6,93 @@ public class BoxColliderSetter : MonoBehaviour
     PivotPoint CurrentPivot;
 
     public PivotPoint Pivot; // Inspector
-    public Vector2 Size;
+    public Vector2 Size = Vector2.one;
 
     BoxCollider2D GetCollider() => GetComponent<BoxCollider2D>();
 
     void OnValidate()
     {
+        void OffsetTransform(float x, float y)
+        {
+            transform.localPosition += transform.localScale.x * Vector3.right * x;
+            transform.localPosition += transform.localScale.y * Vector3.up * y;
+        }
+
         if (Pivot != CurrentPivot)
         {
-            // Center to...
-
-            if (CurrentPivot == PivotPoint.Center && Pivot == PivotPoint.TopLeft)
+            if (CurrentPivot == PivotPoint.Center)
             {
-                transform.localPosition -= Vector3.right * (Size.x / 2);
-                transform.localPosition += Vector3.up * (Size.y / 2);
+                if (Pivot == PivotPoint.TopLeft)
+                    OffsetTransform(-Size.x / 2, Size.y / 2);
+
+                if (Pivot == PivotPoint.TopRight)
+                    OffsetTransform(Size.x / 2, Size.y / 2);
+
+                if (Pivot == PivotPoint.BottomLeft)
+                    OffsetTransform(-Size.x / 2, -Size.y / 2);
+
+                if (Pivot == PivotPoint.BottomRight)
+                    OffsetTransform(Size.x / 2, -Size.y / 2);
             }
 
-            if (CurrentPivot == PivotPoint.Center && Pivot == PivotPoint.TopRight)
+            if (CurrentPivot == PivotPoint.TopLeft)
             {
-                transform.localPosition += Vector3.right * (Size.x / 2);
-                transform.localPosition += Vector3.up * (Size.y / 2);
+                if (Pivot == PivotPoint.Center)
+                    OffsetTransform(Size.x / 2, -Size.y / 2);
+
+                if (Pivot == PivotPoint.TopRight)
+                    OffsetTransform(Size.x, 0);
+
+                if (Pivot == PivotPoint.BottomLeft)
+                    OffsetTransform(0, -Size.y);
+
+                if (Pivot == PivotPoint.BottomRight)
+                    OffsetTransform(Size.x, -Size.y);
             }
 
-            if (CurrentPivot == PivotPoint.Center && Pivot == PivotPoint.BottomLeft)
+            if (CurrentPivot == PivotPoint.TopRight)
             {
-                transform.localPosition -= Vector3.right * (Size.x / 2);
-                transform.localPosition -= Vector3.up * (Size.y / 2);
+                if (Pivot == PivotPoint.Center)
+                    OffsetTransform(-Size.x / 2, -Size.y / 2);
+
+                if (Pivot == PivotPoint.TopLeft)
+                    OffsetTransform(-Size.x, 0);
+
+                if (Pivot == PivotPoint.BottomLeft)
+                    OffsetTransform(-Size.x, -Size.y);
+
+                if (Pivot == PivotPoint.BottomRight)
+                    OffsetTransform(0, -Size.y);
             }
 
-            if (CurrentPivot == PivotPoint.Center && Pivot == PivotPoint.BottomRight)
+            if (CurrentPivot == PivotPoint.BottomLeft)
             {
-                transform.localPosition += Vector3.right * (Size.x / 2);
-                transform.localPosition -= Vector3.up * (Size.y / 2);
+                if (Pivot == PivotPoint.Center)
+                    OffsetTransform(Size.x / 2, Size.y / 2);
+
+                if (Pivot == PivotPoint.TopLeft)
+                    OffsetTransform(0, Size.y);
+
+                if (Pivot == PivotPoint.TopRight)
+                    OffsetTransform(Size.x, Size.y);
+
+                if (Pivot == PivotPoint.BottomRight)
+                    OffsetTransform(Size.x, 0);
             }
 
-            // Top Left to...
-
-            if (CurrentPivot == PivotPoint.TopLeft && Pivot == PivotPoint.Center)
+            if (CurrentPivot == PivotPoint.BottomRight)
             {
-                transform.localPosition += Vector3.right * (Size.x / 2);
-                transform.localPosition -= Vector3.up * (Size.y / 2);
-            }
+                if (Pivot == PivotPoint.Center)
+                    OffsetTransform(-Size.x / 2, Size.y / 2);
 
-            // Top Right to...
+                if (Pivot == PivotPoint.TopLeft)
+                    OffsetTransform(-Size.x, Size.y);
 
-            if (CurrentPivot == PivotPoint.TopRight && Pivot == PivotPoint.Center)
-            {
-                transform.localPosition -= Vector3.right * (Size.x / 2);
-                transform.localPosition -= Vector3.up * (Size.y / 2);
-            }
+                if (Pivot == PivotPoint.TopRight)
+                    OffsetTransform(0, Size.y);
 
-            // Bottom Left to...
-
-            if (CurrentPivot == PivotPoint.BottomLeft && Pivot == PivotPoint.Center)
-            {
-                transform.localPosition += Vector3.right * (Size.x / 2);
-                transform.localPosition += Vector3.up * (Size.y / 2);
-            }
-
-            // Bottom Right to...
-
-            if (CurrentPivot == PivotPoint.BottomRight && Pivot == PivotPoint.Center)
-            {
-                transform.localPosition -= Vector3.right * (Size.x / 2);
-                transform.localPosition += Vector3.up * (Size.y / 2);
+                if (Pivot == PivotPoint.BottomLeft)
+                    OffsetTransform(-Size.x, 0);
             }
         }
 
@@ -92,7 +115,7 @@ public class BoxColliderSetter : MonoBehaviour
             case PivotPoint.BottomRight:
                 GetCollider().offset = new Vector2(-Size.x / 2, Size.y / 2);
                 break;
-           default:
+            default:
                 break;
         }
 
