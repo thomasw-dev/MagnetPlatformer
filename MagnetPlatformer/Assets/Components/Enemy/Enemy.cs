@@ -91,7 +91,7 @@ public class Enemy : MonoBehaviour
 
     void IdleMovement()
     {
-        _rigidbody.velocity = Vector2.zero;
+        //_rigidbody.velocity = Vector2.zero;
     }
 
     void ChaseMovement()
