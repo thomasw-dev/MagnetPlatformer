@@ -110,10 +110,10 @@ public class MagnetWeaponAimRay : MonoBehaviour
             if (hitObject.TryGetComponent(out MagneticObjectController magneticObject))
             {
                 OnHitMagneticObject?.Invoke();
-                if (magneticObject.StateController.CurrentEnum != MagneticObjectController.StateEnum.AlteredCharge)
-                {
+                //if (magneticObject.StateController.CurrentEnum != MagneticObjectController.StateEnum.AlteredCharge)
+                //{
                     OnAlterMagneticObjectCharge?.Invoke();
-                }
+                //}
                 magneticObject.AlterCharge(charge);
             }
         }

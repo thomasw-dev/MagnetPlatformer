@@ -140,10 +140,10 @@ public class MagneticObjectController : MonoBehaviour
 
     public void AlterCharge(Magnet.Charge charge)
     {
-        if (StateController.CurrentEnum == StateEnum.Normal)
-        {
+        //if (StateController.CurrentEnum == StateEnum.Normal)
+        //{
             StartCoroutine(AlterChargeForDuration(charge, Duration));
-        }
+        //}
     }
 
     IEnumerator AlterChargeForDuration(Magnet.Charge charge, float duration)

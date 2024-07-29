@@ -152,10 +152,10 @@ public class Player : MonoBehaviour
         if (!_isInputEnabled) { return; }
 
         bool canJump;
-        if (_isGrounded) canJump = true;
+        if (_isGrounded && !_isJumping) canJump = true;
         else canJump = _airJumpEnabled ? true : false;
 
-        if (canJump && !_isJumping)
+        if (canJump)
         {
             _rigidbody2D.AddForce(Vector2.up * _jumpForce);
             _isJumping = true;
