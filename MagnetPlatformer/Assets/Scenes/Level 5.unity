@@ -2934,25 +2934,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1939517711}
     m_Modifications:
+    - target: {fileID: 386660612010382122, guid: 22d0f961796a54e76ae15ebffcd68dd2, type: 3}
+      propertyPath: Size.x
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 386660612010382122, guid: 22d0f961796a54e76ae15ebffcd68dd2, type: 3}
+      propertyPath: Size.y
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 713398881190037035, guid: 22d0f961796a54e76ae15ebffcd68dd2, type: 3}
       propertyPath: m_Name
       value: Area 1
       objectReference: {fileID: 0}
     - target: {fileID: 6061220996213329675, guid: 22d0f961796a54e76ae15ebffcd68dd2, type: 3}
       propertyPath: m_Size.x
-      value: 24
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 6061220996213329675, guid: 22d0f961796a54e76ae15ebffcd68dd2, type: 3}
       propertyPath: m_Size.y
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 6061220996213329675, guid: 22d0f961796a54e76ae15ebffcd68dd2, type: 3}
-      propertyPath: m_Offset.x
-      value: -4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6061220996213329675, guid: 22d0f961796a54e76ae15ebffcd68dd2, type: 3}
-      propertyPath: m_Offset.y
-      value: -2
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 8147738437837867826, guid: 22d0f961796a54e76ae15ebffcd68dd2, type: 3}
       propertyPath: m_LocalPosition.x
