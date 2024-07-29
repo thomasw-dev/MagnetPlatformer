@@ -1,18 +1,115 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // State
+
+    public enum StateEnum
     {
-        
+        Idle, Chase
+    }
+    public StateController<StateEnum> StateController = new StateController<StateEnum>();
+    [SerializeField] StateEnum _state; // Inspector
+
+    [HideInInspector] public float MoveTargetX;
+
+    [Range(1f, 10f)]
+    [SerializeField] float _moveSpeed = 1.0f;
+
+    Move.Direction _moveDirection;
+    public Move.Direction MoveDirection
+    {
+        get { return _moveDirection; }
+        set
+        {
+            if (value != _moveDirection) OnMoveDirectionChange.Invoke(value);
+            _moveDirection = value;
+        }
+    }
+    public event Action<Move.Direction> OnMoveDirectionChange;
+
+    const float DISTANCE_CLOSE_CUTOFF = 0.1f;
+
+    Rigidbody2D _rigidbody;
+    GameObject _target;
+
+    // --------------------
+
+    void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _target = Method.GetPlayerObject();
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        StateController.ChangeState(StateEnum.Idle);
+    }
+
     void Update()
     {
-        
+        _state = StateController.CurrentEnum; // Inspector
+
+        if (GameState.CurrentState == GameState.Play)
+        {
+            if (StateController.CurrentEnum == StateEnum.Idle)
+            {
+                IdleMovement();
+            }
+
+            if (StateController.CurrentEnum == StateEnum.Chase)
+            {
+                //MoveTargetX = _player.transform.position.x;
+                MoveDirection = UpdateMoveDirection(transform.position.x, MoveTargetX);
+                ChaseMovement();
+            }
+        }
+    }
+
+    void Idle()
+    {
+        StateController.ChangeState(StateEnum.Idle);
+        OnMoveDirectionChange.Invoke(Move.Direction.None);
+    }
+
+    void Chase()
+    {
+        StateController.ChangeState(StateEnum.Chase);
+        OnMoveDirectionChange.Invoke(MoveDirection);
+    }
+
+    void IdleMovement()
+    {
+        //_rigidbody.velocity = Vector2.zero;
+    }
+
+    void ChaseMovement()
+    {
+        Vector2 move = Vector2.zero;
+        if (MoveDirection == Move.Direction.None) move = Vector2.zero;
+        if (MoveDirection == Move.Direction.Left) move = Vector2.left * _moveSpeed;
+        if (MoveDirection == Move.Direction.Right) move = Vector2.right * _moveSpeed;
+        _rigidbody.velocity = move;
+    }
+
+    Move.Direction UpdateMoveDirection(float selfX, float targetX)
+    {
+        if (Mathf.Abs(selfX - targetX) >= DISTANCE_CLOSE_CUTOFF)
+        {
+            if (selfX >= targetX)
+                return Move.Direction.Left;
+            else return Move.Direction.Right;
+        }
+        else return Move.Direction.None;
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (Method.IsPlayerObject(col.gameObject))
+        {
+            GameEvent.Raise(GameEvent.Event.Death);
+            StateController.ChangeState(StateEnum.Idle);
+        }
     }
 }
