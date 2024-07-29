@@ -20,7 +20,9 @@ public class MagneticInteractionGizmos : MonoBehaviour
     const float FORCE_MAGNITUDE_MAX = 5000f;
     const float FORCE_LENGTH = 5f;
 
-    static Color EMISSION_RADIUS_COLOR = Color.white;
+    static Color EMISSION_RADIUS_COLOR_NEUTRAL = Color.grey;
+    static Color EMISSION_RADIUS_COLOR_POSITIVE = Color.red;
+    static Color EMISSION_RADIUS_COLOR_NEGATIVE = Color.blue;
     static Color ATTRACTION_FORCE_COLOR = Color.green;
     static Color REPULSION_FORCE_COLOR = Color.yellow;
     static Color NET_FORCE_COLOR = Color.magenta;
@@ -83,7 +85,9 @@ public class MagneticInteractionGizmos : MonoBehaviour
 
         void Draw_EmissionRadius()
         {
-            Gizmos.color = EMISSION_RADIUS_COLOR;
+            if (GetController().CurrentCharge == Magnet.Charge.Neutral) Gizmos.color = EMISSION_RADIUS_COLOR_NEUTRAL;
+            if (GetController().CurrentCharge == Magnet.Charge.Positive) Gizmos.color = EMISSION_RADIUS_COLOR_POSITIVE;
+            if (GetController().CurrentCharge == Magnet.Charge.Negative) Gizmos.color = EMISSION_RADIUS_COLOR_NEGATIVE;
             Gizmos.DrawWireSphere(transform.position, GetValues().EmissionRadius);
         }
     }
