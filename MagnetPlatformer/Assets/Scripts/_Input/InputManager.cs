@@ -12,7 +12,8 @@ public class InputManager : MonoBehaviour
     public static event Action OnMoveRightInputStop;
     public static event Action OnJumpInput;
 
-    public static event Action<Magnet.Charge> OnMagnetWeaponSetCharge;
+    public static event Action<Magnet.Charge> OnMagnetGunSetCharge;
+    public static event Action OnToggleChargeInput;
 
     const KeyCode MOVE_LEFT_KEY = KeyCode.A;
     const KeyCode MOVE_RIGHT_KEY = KeyCode.D;
@@ -44,28 +45,28 @@ public class InputManager : MonoBehaviour
 
         if (GameState.CurrentState == GameState.Play)
         {
-            MovementKeysInput();
-            SetChargeKeysInput();
+            GameplayInputs();
         }
     }
 
     void EnterPlay()
     {
         // Initial charge
-        OnMagnetWeaponSetCharge?.Invoke(_toggleCharge);
+        OnMagnetGunSetCharge?.Invoke(_toggleCharge);
     }
 
     bool CheckAnyKeyInput()
     {
         if (Input.anyKeyDown)
         {
+            // Exclude Esc from any keys
             if (Input.GetKeyDown(KeyCode.Escape)) return false;
             return true;
         }
         else return false;
     }
 
-    void MovementKeysInput()
+    void GameplayInputs()
     {
         // Move Left
         if (Input.GetKey(MOVE_LEFT_KEY))
@@ -86,17 +87,16 @@ public class InputManager : MonoBehaviour
         {
             OnJumpInput?.Invoke();
         }
-    }
 
-    void SetChargeKeysInput()
-    {
         // Toggle Charge (Positive / Negative)
         if (Input.GetKeyDown(TOGGLE_CHARGE_KEY))
         {
             // Flip it between Positive and Negative 
             _toggleCharge = _toggleCharge == Magnet.Charge.Positive ? Magnet.Charge.Negative : Magnet.Charge.Positive;
 
-            OnMagnetWeaponSetCharge?.Invoke(_toggleCharge);
+            OnMagnetGunSetCharge?.Invoke(_toggleCharge);
+
+            OnToggleChargeInput?.Invoke();
         }
     }
 }

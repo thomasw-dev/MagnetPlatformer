@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class MagnetWeaponAimRay : MonoBehaviour
+public class MagnetGunVisual : MonoBehaviour
 {
     [SerializeField] Transform[] points;
     [SerializeField] Material[] _aimRayMaterials;
@@ -24,18 +24,18 @@ public class MagnetWeaponAimRay : MonoBehaviour
     void OnEnable()
     {
         GameState.Initialize.OnEnter += Initialize;
-        InputManager.OnMagnetWeaponSetCharge += SetLineVisual;
-        MagnetWeapon.OnFireWeapon += ShootRay;
-        MagnetWeapon.OnFireWeaponStop += ShootRayStop;
+        InputManager.OnMagnetGunSetCharge += SetLineVisual;
+        MagnetGunController.OnFireWeapon += ShootRay;
+        MagnetGunController.OnFireWeaponStop += ShootRayStop;
         GameState.Play.OnExit += Disable;
     }
 
     void OnDisable()
     {
         GameState.Initialize.OnEnter -= Initialize;
-        InputManager.OnMagnetWeaponSetCharge -= SetLineVisual;
-        MagnetWeapon.OnFireWeapon -= ShootRay;
-        MagnetWeapon.OnFireWeaponStop -= ShootRayStop;
+        InputManager.OnMagnetGunSetCharge -= SetLineVisual;
+        MagnetGunController.OnFireWeapon -= ShootRay;
+        MagnetGunController.OnFireWeaponStop -= ShootRayStop;
         GameState.Play.OnExit -= Disable;
     }
 

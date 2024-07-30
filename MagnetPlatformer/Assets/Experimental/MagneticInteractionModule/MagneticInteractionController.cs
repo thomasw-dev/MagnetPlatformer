@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MagneticInteractionValues), typeof(Collider2D))]
 public class MagneticInteractionController : MonoBehaviour
 {
     // State
@@ -14,8 +13,8 @@ public class MagneticInteractionController : MonoBehaviour
     [Header("Dependencies")]
     // These fields are required to be assigned in order for this module to function.
 
-    [SerializeField] Rigidbody2D _rigidbody;
     public MagneticInteractionValues Values;
+    [SerializeField] Rigidbody2D _rigidbody;
 
     [Header("Interactions")]
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -79,6 +77,8 @@ public class Player : MonoBehaviour
     {
         // _isInputEnabled is only true when GameState is Playing
         _isInputEnabled = GameState.CurrentState == GameState.Play ? true : false;
+
+
     }
 
     void FixedUpdate()

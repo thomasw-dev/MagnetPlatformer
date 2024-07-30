@@ -1244,13 +1244,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 470146935077431739, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
-      propertyPath: _cooldownDuration
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 470146935077431739, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
-      propertyPath: _refillOneDuration
-      value: 0.2
-      objectReference: {fileID: 0}
+      propertyPath: _mouseArea
+      value: 
+      objectReference: {fileID: 412302075}
     - target: {fileID: 5232363758396998246, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
       propertyPath: gizmos
       value: 1
@@ -1326,7 +1322,7 @@ GameObject:
   m_Component:
   - component: {fileID: 394945154}
   m_Layer: 5
-  m_Name: Click Areas
+  m_Name: Mouse Areas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1361,11 +1357,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 412302071}
+  - component: {fileID: 412302075}
   - component: {fileID: 412302074}
   - component: {fileID: 412302073}
-  - component: {fileID: 412302075}
   m_Layer: 5
-  m_Name: Magnet Mouse Control Area
+  m_Name: Magnet Gun Mouse Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1434,7 +1430,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 412302070}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ae55f14168a6497ea6f978f1b49a9ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ed71230f4fe84461bf3bb299f8cd693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &434886798
@@ -4465,7 +4461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65b312080e54c4d2bb151ddbfc97f88f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _magnetWeapon: {fileID: 801916390}
+  _magnetGun: {fileID: 801916390}
 --- !u!1 &1928031948
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AmmoText : MonoBehaviour
 {
-    [SerializeField] MagnetWeapon _magnetWeapon;
+    [SerializeField] MagnetGunController _magnetGun;
 
     TMP_Text _ammoText;
 
@@ -14,20 +14,20 @@ public class AmmoText : MonoBehaviour
 
     void Update()
     {
-        int ammo = _magnetWeapon.Ammo;
+        int ammo = _magnetGun.Values.Ammo;
         string bullets = new string('•', ammo);
         string ammoColor = ammo == 0 ? "red" : "white";
 
-        if (_magnetWeapon.StateController.CurrentEnum == MagnetWeapon.StateEnum.Available)
+        if (_magnetGun.StateController.CurrentEnum == MagnetGunController.StateEnum.Available)
         { 
             _ammoText.text = $"<size=28><color=white> \n<size=72><color={ammoColor}>{ammo} {bullets}";
         }
-        if (_magnetWeapon.StateController.CurrentEnum == MagnetWeapon.StateEnum.Cooldown)
+        if (_magnetGun.StateController.CurrentEnum == MagnetGunController.StateEnum.Cooldown)
         {
             _ammoText.text = $"<size=28><color=yellow>Cooldown\n<size=72><color={ammoColor}>{ammo} {bullets}";
 
         }
-        if (_magnetWeapon.StateController.CurrentEnum == MagnetWeapon.StateEnum.Refill)
+        if (_magnetGun.StateController.CurrentEnum == MagnetGunController.StateEnum.Refill)
         {
             _ammoText.text = $"<size=28><color=green>Refill\n<size=72><color={ammoColor}>{ammo} {bullets}";
         }

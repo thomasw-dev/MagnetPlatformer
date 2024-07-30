@@ -2,12 +2,12 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MagnetMouseControl : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class MouseArea : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    public static event Action OnLeftButtonDown;
-    public static event Action OnLeftButtonUp;
-    public static event Action OnRightButtonDown;
-    public static event Action OnRightButtonUp;
+    public event Action OnLeftButtonDown;
+    public event Action OnLeftButtonUp;
+    public event Action OnRightButtonDown;
+    public event Action OnRightButtonUp;
 
     public void OnPointerDown(PointerEventData eventData)
     {

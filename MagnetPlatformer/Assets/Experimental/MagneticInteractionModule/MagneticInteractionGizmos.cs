@@ -1,7 +1,6 @@
 using UnityEditor;
 using UnityEngine;
 
-[RequireComponent(typeof(MagneticInteractionValues))]
 public class MagneticInteractionGizmos : MonoBehaviour
 {
     [Header("Gizmos Overrides")]

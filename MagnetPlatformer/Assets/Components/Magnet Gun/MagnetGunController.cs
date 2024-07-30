@@ -1,59 +1,48 @@
 using System;
-using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public class MagnetWeapon : MonoBehaviour
+public class MagnetGunController : MonoBehaviour
 {
-    public enum StateEnum
-    {
-        Available, Cooldown, Refill
-    }
+    public enum StateEnum { Available, Cooldown, Refill }
     public StateController<StateEnum> StateController = new StateController<StateEnum>();
     [SerializeField] StateEnum _state; // Inspector
 
-    [SerializeField] Transform _attachTo;
+    [Header("Dependencies")]
+    // These fields are required to be assigned in order for this module to function.
+
+    public MagnetGunValues Values;
+    [SerializeField] Transform _attachPoint;
+    [SerializeField] MagnetGunMouseArea _mouseArea;
 
     public static event Action<Magnet.Charge> OnFireWeapon;
     public static event Action OnFireWeaponStop;
 
-    public static Magnet.Charge CurrentCharge = Magnet.Charge.Neutral;
-    [SerializeField] Magnet.Charge _currentCharge; // Inspector
+    [Header("Charge")]
+    [SerializeField] Magnet.Charge _currentCharge = Magnet.Charge.Positive;
+    public Magnet.Charge CurrentCharge
+    {
+        get { return _currentCharge; }
+        set
+        {
+            if (_currentCharge != value) { OnCurrentChargeChanged?.Invoke(value); }
+            _currentCharge = value;
+        }
+    }
+    public Action<Magnet.Charge> OnCurrentChargeChanged;
 
     [SerializeField] Sprite[] _magnetSprites;
     SpriteRenderer _spriteRenderer;
 
-    bool _isInputEnabled = true;
-
-    // Ammo, Cooldown, Refill
-
-    [SerializeField] bool _costAmmoOnMagneticOnly = true;
-
-    // Ammo
-    const int AMMO_MAX = 6;
-
-    [Range(0, AMMO_MAX)]
-    public int Ammo = AMMO_MAX;
-
-    // Cooldown
-    const float COOLDOWN_DURATION = 1.0f;
-    Tweener _cooldownTween;
-
-    [Range(0, COOLDOWN_DURATION)]
-    [SerializeField] float _cooldownDuration = 1.0f;
-
-    [Range(0, COOLDOWN_DURATION)]
+    [Header("Cooldown & Refill")]
+    [Range(0, MagnetGunValues.COOLDOWN_DURATION)]
     [SerializeField] float _coolDownBar;
-
-    // Refill
-    const float REFILL_ONE_DURATION = 0.5f;
+    Tweener _cooldownTween;
+    [Range(0, MagnetGunValues.AMMO_MAX)]
+    [SerializeField] float _refillBar;
     Tweener _refillTween;
 
-    [Range(0, REFILL_ONE_DURATION)]
-    [SerializeField] float _refillOneDuration = REFILL_ONE_DURATION;
-
-    [Range(0, AMMO_MAX)]
-    [SerializeField] float _refillBar;
+    // --------------------
 
     void Awake()
     {
@@ -62,31 +51,31 @@ public class MagnetWeapon : MonoBehaviour
 
     void OnEnable()
     {
-        InputManager.OnMagnetWeaponSetCharge += InputSetCharge;
-        MagnetMouseControl.OnLeftButtonDown += FireWeapon;
-        MagnetMouseControl.OnLeftButtonUp += FireWeaponStop;
-        MagnetMouseControl.OnRightButtonDown += FireWeapon;
-        MagnetMouseControl.OnRightButtonUp += FireWeaponStop;
-        MagnetWeaponAimRay.OnAlterMagneticObjectCharge += CostAmmo;
         GameState.Play.OnEnter += EnterPlay;
-        GameState.Play.OnExit += Restore;
+        InputManager.OnMagnetGunSetCharge += InputSetCharge;
+        _mouseArea.OnLeftButtonDown += FireWeapon;
+        _mouseArea.OnLeftButtonUp += FireWeaponStop;
+        _mouseArea.OnRightButtonDown += FireWeapon;
+        _mouseArea.OnRightButtonUp += FireWeaponStop;
+        MagnetGunVisual.OnAlterMagneticObjectCharge += CostAmmo;
+        GameState.Play.OnExit += ExitPlay;
     }
 
     void OnDisable()
     {
-        InputManager.OnMagnetWeaponSetCharge -= InputSetCharge;
-        MagnetMouseControl.OnLeftButtonDown -= FireWeapon;
-        MagnetMouseControl.OnLeftButtonUp -= FireWeaponStop;
-        MagnetMouseControl.OnRightButtonDown -= FireWeapon;
-        MagnetMouseControl.OnRightButtonUp -= FireWeaponStop;
-        MagnetWeaponAimRay.OnAlterMagneticObjectCharge -= CostAmmo;
         GameState.Play.OnEnter -= EnterPlay;
-        GameState.Play.OnExit -= Restore;
+        InputManager.OnMagnetGunSetCharge -= InputSetCharge;
+        _mouseArea.OnLeftButtonDown -= FireWeapon;
+        _mouseArea.OnLeftButtonUp -= FireWeaponStop;
+        _mouseArea.OnRightButtonDown -= FireWeapon;
+        _mouseArea.OnRightButtonUp -= FireWeaponStop;
+        MagnetGunVisual.OnAlterMagneticObjectCharge -= CostAmmo;
+        GameState.Play.OnExit -= ExitPlay;
     }
 
     void EnterPlay()
     {
-        SetCharge(Magnet.Charge.Positive);
+        SetCharge(CurrentCharge);
     }
 
     void Start()
@@ -96,9 +85,6 @@ public class MagnetWeapon : MonoBehaviour
 
     void Update()
     {
-        // _isInputEnabled is only true when GameState is Playing
-        _isInputEnabled = GameState.CurrentState == GameState.Play ? true : false;
-
         _state = StateController.CurrentEnum;
         _currentCharge = CurrentCharge;
 
@@ -116,7 +102,7 @@ public class MagnetWeapon : MonoBehaviour
 
     void AttachSelfToPlayer()
     {
-        transform.position = _attachTo.position;
+        transform.position = _attachPoint.position;
     }
 
     void SetCharge(Magnet.Charge charge)
@@ -127,7 +113,6 @@ public class MagnetWeapon : MonoBehaviour
 
     void InputSetCharge(Magnet.Charge charge)
     {
-        if (!_isInputEnabled) { return; }
         CurrentCharge = charge;
         SetMagnetSprite(charge);
     }
@@ -146,11 +131,11 @@ public class MagnetWeapon : MonoBehaviour
 
     void FireWeapon()
     {
-        if (Ammo <= 0) return;
+        if (Values.Ammo <= 0) return;
 
         OnFireWeapon?.Invoke(CurrentCharge);
 
-        if (!_costAmmoOnMagneticOnly)
+        if (!Values.CostAmmoOnMagneticOnly)
         {
             CostAmmo();
         }
@@ -158,7 +143,7 @@ public class MagnetWeapon : MonoBehaviour
 
     void CostAmmo()
     {
-        if (Ammo > 0) Ammo--;
+        if (Values.Ammo > 0) Values.Ammo--;
 
         if (_refillTween != null && _refillTween.IsActive())
         {
@@ -175,7 +160,7 @@ public class MagnetWeapon : MonoBehaviour
 
     void CooldownTween()
     {
-        _cooldownTween = DOTween.To(x => _coolDownBar = x, 0, _cooldownDuration, _cooldownDuration)
+        _cooldownTween = DOTween.To(x => _coolDownBar = x, 0, Values.CooldownDuration, Values.CooldownDuration)
             .SetEase(Ease.Linear)
             .SetAutoKill(false)
             .OnPlay(() =>
@@ -196,7 +181,7 @@ public class MagnetWeapon : MonoBehaviour
 
     void RefillTween()
     {
-        _refillTween = DOTween.To(x => _refillBar = x, Ammo, AMMO_MAX, _refillOneDuration * (AMMO_MAX - Ammo))
+        _refillTween = DOTween.To(x => _refillBar = x, Values.Ammo, MagnetGunValues.AMMO_MAX, Values.RefillOneDuration * (MagnetGunValues.AMMO_MAX - Values.Ammo))
             .SetEase(Ease.Linear)
             .SetAutoKill(false)
             .OnPlay(() =>
@@ -205,7 +190,7 @@ public class MagnetWeapon : MonoBehaviour
             })
             .OnUpdate(() =>
             {
-                Ammo = Mathf.FloorToInt(_refillBar);
+                Values.Ammo = Mathf.FloorToInt(_refillBar);
             })
             .OnComplete(() =>
             {
@@ -217,5 +202,5 @@ public class MagnetWeapon : MonoBehaviour
 
     void FireWeaponStop() => OnFireWeaponStop?.Invoke();
 
-    void Restore() => SetCharge(Magnet.Charge.Neutral);
+    void ExitPlay() => SetCharge(Magnet.Charge.Neutral);
 }
