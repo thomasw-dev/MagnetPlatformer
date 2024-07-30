@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -9,8 +10,14 @@ public class CameraController : MonoBehaviour
     [Range(1f, 10f)]
     [SerializeField] float _stickySmoothFactor = 1f;
 
+    Camera _cam;
     bool _followPlayer = true;
     Vector3 _stickyPos;
+
+    float _defaultZoom;
+    float _currentZoom;
+    Tweener _zoomTween;
+    const float ZOOM_DURATION = 1f;
 
     void OnEnable()
     {
@@ -22,6 +29,16 @@ public class CameraController : MonoBehaviour
     {
         CameraStickyArea.OnTriggerEnter -= EnableSticky;
         CameraStickyArea.OnTriggerExit -= DisableSticky;
+    }
+
+    void Awake()
+    {
+        _cam = Camera.main;
+    }
+
+    void Start()
+    {
+        _defaultZoom = _cam.orthographicSize;
     }
 
     void Update()
@@ -41,14 +58,40 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    void EnableSticky(Vector3 pos)
+    void EnableSticky(Vector3 pos, float zoom)
     {
         _followPlayer = false;
         _stickyPos = pos;
+        if (zoom > 0)
+        {
+            _defaultZoom = _cam.orthographicSize;
+            ZoomTransition(zoom);
+        }
     }
 
     void DisableSticky()
     {
         _followPlayer = true;
+
+        if (_cam.orthographicSize != _defaultZoom)
+        {
+            ZoomTransition(_defaultZoom);
+        }
+    }
+
+    void ZoomTransition(float targetZoom)
+    {
+        // Kill any current zoom transition progress
+        if (_zoomTween != null && _zoomTween.IsActive()) _zoomTween.Kill();
+
+        // Start the zoom transition again
+        _zoomTween = DOTween.To(x => _currentZoom = x, _cam.orthographicSize, targetZoom, ZOOM_DURATION)
+            .SetEase(Ease.OutCubic)
+            .OnUpdate(() =>
+            {
+                _cam.orthographicSize = _currentZoom;
+            });
+
+        _zoomTween.Play();
     }
 }

@@ -9,13 +9,20 @@ public class Enemy : MonoBehaviour
     }
     public StateController<StateEnum> StateController = new StateController<StateEnum>();
     [SerializeField] StateEnum _state; // Inspector
-    [SerializeField] EnemyActiveArea _activeArea;
-    [SerializeField] GameObject _player;
+    [SerializeField] EnemyRadiusArea _radiusArea;
+
+    GameObject _player;
 
     [HideInInspector] public float MoveTargetX;
 
+    [Range(1f, 20f)]
+    public float ChaseRadius = 10f;
+
     [Range(1f, 10f)]
-    [SerializeField] float _moveSpeed = 1.0f;
+    [SerializeField] float _accelerationForce = 1.0f;
+
+    [Range(1f, 10f)]
+    [SerializeField] float _maxSpeed = 1.0f;
 
     Move.Direction _moveDirection;
     public Move.Direction MoveDirection
@@ -36,19 +43,25 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _player = Method.GetPlayerObject();
+    }
+
+    void OnValidate()
+    {
+        _radiusArea.GetComponent<CircleCollider2D>().radius = ChaseRadius;
     }
 
     void OnEnable()
     {
-        _activeArea.OnPlayerEnter += Chase;
-        _activeArea.OnPlayerExit += Idle;
+        _radiusArea.OnPlayerEnter += Chase;
+        _radiusArea.OnPlayerExit += Idle;
         GameState.Play.OnExit += ExitPlay;
     }
 
     void OnDisable()
     {
-        _activeArea.OnPlayerEnter -= Chase;
-        _activeArea.OnPlayerExit -= Idle;
+        _radiusArea.OnPlayerEnter -= Chase;
+        _radiusArea.OnPlayerExit -= Idle;
         GameState.Play.OnExit -= ExitPlay;
     }
 
@@ -63,11 +76,6 @@ public class Enemy : MonoBehaviour
 
         if (GameState.CurrentState == GameState.Play)
         {
-            if (StateController.CurrentEnum == StateEnum.Idle)
-            {
-                IdleMovement();
-            }
-
             if (StateController.CurrentEnum == StateEnum.Chase)
             {
                 MoveTargetX = _player.transform.position.x;
@@ -80,27 +88,24 @@ public class Enemy : MonoBehaviour
     void Idle()
     {
         StateController.ChangeState(StateEnum.Idle);
-        OnMoveDirectionChange.Invoke(Move.Direction.None);
+        OnMoveDirectionChange?.Invoke(Move.Direction.None);
     }
 
     void Chase()
     {
         StateController.ChangeState(StateEnum.Chase);
-        OnMoveDirectionChange.Invoke(MoveDirection);
-    }
-
-    void IdleMovement()
-    {
-        //_rigidbody.velocity = Vector2.zero;
+        OnMoveDirectionChange?.Invoke(MoveDirection);
     }
 
     void ChaseMovement()
     {
         Vector2 move = Vector2.zero;
         if (MoveDirection == Move.Direction.None) move = Vector2.zero;
-        if (MoveDirection == Move.Direction.Left) move = Vector2.left * _moveSpeed;
-        if (MoveDirection == Move.Direction.Right) move = Vector2.right * _moveSpeed;
-        _rigidbody.velocity = move;
+        if (MoveDirection == Move.Direction.Left) move = Vector2.left * _accelerationForce;
+        if (MoveDirection == Move.Direction.Right) move = Vector2.right * _accelerationForce;
+        _rigidbody.AddForce(move);
+
+        //_rigidbody.velocity = Vector2.ClampMagnitude(_rigidbody.velocity, _maxSpeed);
     }
 
     Move.Direction UpdateMoveDirection(float selfX, float targetX)
@@ -114,18 +119,10 @@ public class Enemy : MonoBehaviour
         else return Move.Direction.None;
     }
 
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (Method.IsPlayerObject(col.gameObject))
-        {
-            GameEvent.Raise(GameEvent.Event.Death);
-        }
-    }
-
     void ExitPlay() => StateController.ChangeState(StateEnum.Idle);
 
     void OnDrawGizmosSelected()
     {
-        _activeArea.DrawGizmos();
+        _radiusArea.DrawGizmos(ChaseRadius);
     }
 }
