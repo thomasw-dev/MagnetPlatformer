@@ -25,8 +25,8 @@ public class MagnetGunVisual : MonoBehaviour
     {
         GameState.Initialize.OnEnter += Initialize;
         InputManager.OnMagnetGunSetCharge += SetLineVisual;
-        MagnetGunController.OnFireWeapon += ShootRay;
-        MagnetGunController.OnFireWeaponStop += ShootRayStop;
+        MagnetGunController.OnFire += ShootRay;
+        MagnetGunController.OnFireRelease += ResetRay;
         GameState.Play.OnExit += Disable;
     }
 
@@ -34,8 +34,8 @@ public class MagnetGunVisual : MonoBehaviour
     {
         GameState.Initialize.OnEnter -= Initialize;
         InputManager.OnMagnetGunSetCharge -= SetLineVisual;
-        MagnetGunController.OnFireWeapon -= ShootRay;
-        MagnetGunController.OnFireWeaponStop -= ShootRayStop;
+        MagnetGunController.OnFire -= ShootRay;
+        MagnetGunController.OnFireRelease -= ResetRay;
         GameState.Play.OnExit -= Disable;
     }
 
@@ -119,7 +119,7 @@ public class MagnetGunVisual : MonoBehaviour
         }
     }
 
-    void ShootRayStop()
+    void ResetRay()
     {
         _lineRenderer.startWidth = LINE_WIDTH_THIN;
         _lineRenderer.endWidth = LINE_WIDTH_THIN;
