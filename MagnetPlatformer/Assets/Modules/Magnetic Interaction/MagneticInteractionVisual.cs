@@ -15,7 +15,7 @@ public class MagneticInteractionVisual : MonoBehaviour
     static Color POSITIVE_COLOR = new Color(0.67f, 0, 0, 1.0f);
     static Color NEGATIVE_COLOR = new Color(0, 0, 0.67f, 1.0f);
 
-    MagneticInteractionController GetController() => GetComponent<MagneticInteractionController>();
+    MagneticInteractionController GetController() => transform.parent.GetComponent<MagneticInteractionController>();
 
     bool DependenciesNullCheck()
     {

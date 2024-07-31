@@ -26,9 +26,9 @@ public class MagneticInteractionGizmos : MonoBehaviour
     static Color REPULSION_FORCE_COLOR = Color.yellow;
     static Color NET_FORCE_COLOR = Color.magenta;
 
-    MagneticInteractionController GetController() => GetComponent<MagneticInteractionController>();
+    MagneticInteractionController GetController() => transform.parent.GetComponent<MagneticInteractionController>();
 
-    MagneticInteractionValues GetValues() => GetComponent<MagneticInteractionValues>();
+    MagneticInteractionValues GetValues() => transform.parent.GetComponent<MagneticInteractionValues>();
 
     void OnValidate()
     {

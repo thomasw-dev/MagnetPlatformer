@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyVisual : MonoBehaviour
+public class EnemyVisualPrev : MonoBehaviour
 {
     [SerializeField] Enemy _enemy;
     Animator _animator;

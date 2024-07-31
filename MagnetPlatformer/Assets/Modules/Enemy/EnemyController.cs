@@ -5,17 +5,21 @@ public class EnemyController : MonoBehaviour
 {
     // State
 
-    public enum StateEnum
-    {
-        Idle, Chase
-    }
+    public enum StateEnum { Idle, Chase, Return }
     public StateController<StateEnum> StateController = new StateController<StateEnum>();
     [SerializeField] StateEnum _state; // Inspector
 
-    [HideInInspector] public float MoveTargetX;
+    // Values
 
-    [Range(1f, 10f)]
-    [SerializeField] float _moveSpeed = 1.0f;
+    [HideInInspector] public EnemyValues Values;
+
+    // Chase Target
+
+    [HideInInspector] public float MoveTargetX;
+    const float DISTANCE_CLOSE_CUTOFF = 0.1f;
+    GameObject _target;
+
+    // Move Direction
 
     Move.Direction _moveDirection;
     public Move.Direction MoveDirection
@@ -29,15 +33,15 @@ public class EnemyController : MonoBehaviour
     }
     public event Action<Move.Direction> OnMoveDirectionChange;
 
-    const float DISTANCE_CLOSE_CUTOFF = 0.1f;
+    public Action OnKillPlayer;
 
     Rigidbody2D _rigidbody;
-    GameObject _target;
 
     // --------------------
 
     void Awake()
     {
+        Values = GetComponent<EnemyValues>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _target = Method.GetPlayerObject();
     }
@@ -88,8 +92,8 @@ public class EnemyController : MonoBehaviour
     {
         Vector2 move = Vector2.zero;
         if (MoveDirection == Move.Direction.None) move = Vector2.zero;
-        if (MoveDirection == Move.Direction.Left) move = Vector2.left * _moveSpeed;
-        if (MoveDirection == Move.Direction.Right) move = Vector2.right * _moveSpeed;
+        if (MoveDirection == Move.Direction.Left) move = Vector2.left * Values.Acceleration;
+        if (MoveDirection == Move.Direction.Right) move = Vector2.right * Values.Acceleration;
         _rigidbody.velocity = move;
     }
 
@@ -111,5 +115,15 @@ public class EnemyController : MonoBehaviour
             GameEvent.Raise(GameEvent.Event.Death);
             StateController.ChangeState(StateEnum.Idle);
         }
+    }
+
+    public void StartChase()
+    {
+
+    }
+
+    public void StopChase()
+    {
+
     }
 }
