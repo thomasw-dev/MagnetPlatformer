@@ -10,10 +10,14 @@ public class MagneticInteractionValues : MonoBehaviour
 
     [Header("Emission")]
 
-    [Range(-MagneticInteractionPhysics.DISTANCE_MULTIPLIER, MagneticInteractionPhysics.DISTANCE_MULTIPLIER)]
+    [Range(0, MagneticInteractionPhysics.DISTANCE_MULTIPLIER)]
     public float EmissionGain = 0f;
 
     public float EmissionRadius = 10f;
+
+    [Header("Alter Charge")]
+    [Range(0f, 10f)]
+    public float Duration = 5f;
 
     MagneticInteractionController GetController() => GetComponent<MagneticInteractionController>();
 

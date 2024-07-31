@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class MagneticInteractionController : MonoBehaviour
@@ -10,10 +11,12 @@ public class MagneticInteractionController : MonoBehaviour
     public StateController<StateEnum> StateController = new StateController<StateEnum>();
     [SerializeField] StateEnum _state; // Inspector
 
-    [Header("Dependencies")]
-    // These fields are required to be assigned in order for this module to function.
+    // Values
 
-    public MagneticInteractionValues Values;
+    [HideInInspector] public MagneticInteractionValues Values;
+
+    [Header("Dependencies")] // Required to be assigned in the Inspector
+
     [SerializeField] Rigidbody2D _rigidbody;
 
     [Header("Interactions")]
@@ -25,6 +28,8 @@ public class MagneticInteractionController : MonoBehaviour
     public List<MagneticInteractionController> EmittingControllers = new();
 
     public event Action<MagneticInteractionController> OnEmitMagneticForce;
+
+    // Forces
 
     public List<ChargedForce> AppliedForces = new();
     [HideInInspector]
@@ -53,35 +58,21 @@ public class MagneticInteractionController : MonoBehaviour
         }
     }
     Magnet.Charge _currentCharge;
-    Magnet.Charge _initialCharge;
 
     public Action<Magnet.Charge> OnCurrentChargeChanged;
 
-    // Alter Charge
+    [Header("Alter Charge")]
+    public float AlterChargeTimeRemaining;
+    Magnet.Charge _initialCharge;
+    Tweener _alterChargeTween;
 
     public Action<Magnet.Charge> OnAlterCharge;
 
     // --------------------
 
-    bool DependenciesNullCheck()
-    {
-        bool pass = true;
-        if (_rigidbody == null)
-        {
-            Debug.LogError($"Dependency missing: Rigidbody is not assigned.", this);
-            pass = false;
-        }
-        if (Values == null)
-        {
-            Debug.LogError($"Dependency missing: Config is not assigned.", this);
-            pass = false;
-        }
-        return pass;
-    }
-
     void Awake()
     {
-        DependenciesNullCheck();
+        Values = GetComponent<MagneticInteractionValues>();
     }
 
     void OnEnable()
@@ -195,6 +186,31 @@ public class MagneticInteractionController : MonoBehaviour
 
     void AlterCharge(Magnet.Charge charge)
     {
-        CurrentCharge = charge;
+        // Kill any current tween progress
+        if (_alterChargeTween != null && _alterChargeTween.IsActive()) _alterChargeTween.Kill();
+
+        // Start the tween again
+        StartAlteredChargeTween(charge);
+    }
+
+    void StartAlteredChargeTween(Magnet.Charge charge)
+    {
+        _alterChargeTween = DOTween.To(x => AlterChargeTimeRemaining = x, Values.Duration, 0, Values.Duration).SetEase(Ease.Linear)
+            .SetAutoKill(false)
+            .OnPlay(() =>
+            {
+                _initialCharge = CurrentCharge;
+                CurrentCharge = charge;
+            })
+            .OnUpdate(() =>
+            {
+
+            })
+            .OnComplete(() =>
+            {
+                CurrentCharge = _initialCharge;
+            });
+
+        _alterChargeTween.Play();
     }
 }

@@ -10,12 +10,16 @@ public class MagnetGunController : MonoBehaviour
     public StateController<StateEnum> StateController = new StateController<StateEnum>();
     [SerializeField] StateEnum _state; // Inspector
 
+    // Values
+
+    [HideInInspector] public MagnetGunValues Values;
+
     [Header("Dependencies")]
     // These fields are required to be assigned in order for this module to function.
 
-    public MagnetGunValues Values;
     [Tooltip("The point where this magnet gun attaches its position to.")]
     [SerializeField] Transform _attachPoint;
+
     [Tooltip("The UI area where mouse click on it triggers the firing of this gun.")]
     [SerializeField] MagnetGunMouseArea _mouseArea;
 
@@ -39,10 +43,12 @@ public class MagnetGunController : MonoBehaviour
     public event Action OnFireRelease;
 
     [Header("Shoot Ray")]
+
     [SerializeField] Transform _shootPoint;
 
     LayerMask _includeLayer;
     const float RAYCAST_LENGTH = 1000f;
+
     public static event Action OnHitMagneticObject;
     public static event Action OnAlterMagneticObjectCharge;
 
@@ -62,14 +68,21 @@ public class MagnetGunController : MonoBehaviour
         _includeLayer = LayerMask.GetMask(Constants.LAYER.Magnetic.ToString());
     }
 
+    void OnValidate()
+    {
+        if (_mouseArea != null)
+        {
+            _mouseArea.OnLeftButtonDown += Fire;
+            _mouseArea.OnLeftButtonUp += FireRelease;
+            _mouseArea.OnRightButtonDown += Fire;
+            _mouseArea.OnRightButtonUp += FireRelease;
+        }
+    }
+
     void OnEnable()
     {
         GameState.Play.OnEnter += EnterPlay;
         InputManager.OnMagnetGunSetCharge += SetCharge;
-        _mouseArea.OnLeftButtonDown += Fire;
-        _mouseArea.OnLeftButtonUp += FireRelease;
-        _mouseArea.OnRightButtonDown += Fire;
-        _mouseArea.OnRightButtonUp += FireRelease;
         OnAlterMagneticObjectCharge += CostAmmo;
         GameState.Play.OnExit += ExitPlay;
     }
@@ -78,12 +91,16 @@ public class MagnetGunController : MonoBehaviour
     {
         GameState.Play.OnEnter -= EnterPlay;
         InputManager.OnMagnetGunSetCharge -= SetCharge;
-        _mouseArea.OnLeftButtonDown -= Fire;
-        _mouseArea.OnLeftButtonUp -= FireRelease;
-        _mouseArea.OnRightButtonDown -= Fire;
-        _mouseArea.OnRightButtonUp -= FireRelease;
         OnAlterMagneticObjectCharge -= CostAmmo;
         GameState.Play.OnExit -= ExitPlay;
+
+        if (_mouseArea != null)
+        {
+            _mouseArea.OnLeftButtonDown -= Fire;
+            _mouseArea.OnLeftButtonUp -= FireRelease;
+            _mouseArea.OnRightButtonDown -= Fire;
+            _mouseArea.OnRightButtonUp -= FireRelease;
+        }
     }
 
     void EnterPlay()
@@ -158,7 +175,11 @@ public class MagnetGunController : MonoBehaviour
 
             if (hitObject.TryGetComponent(out MagneticInteractionController controller))
             {
-                controller.OnAlterCharge?.Invoke(charge);
+                // Only trigger when the charges are different
+                if (CurrentCharge != controller.CurrentCharge)
+                {
+                    controller.OnAlterCharge?.Invoke(charge);
+                }
             }
         }
     }

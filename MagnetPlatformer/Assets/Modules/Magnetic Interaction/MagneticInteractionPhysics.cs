@@ -9,7 +9,7 @@ public static class MagneticInteractionPhysics
     {
         Vector2 direction = selfPos - targetPos;
         float distance = direction.magnitude;
-        float forceMagnitude = 1 / distance * Mathf.Pow(DISTANCE_MULTIPLIER + targetGain, 6);
+        float forceMagnitude = 1 / distance * Mathf.Pow(DISTANCE_MULTIPLIER + targetGain, 5);
         return direction.normalized * forceMagnitude;
     }
 

@@ -22,30 +22,33 @@ public class MagnetGunFireRay : MonoBehaviour
 
     void OnEnable()
     {
-        GameState.Initialize.OnEnter += Initialize;
+        GameState.Play.OnEnter += EnterPlay;
         InputManager.OnMagnetGunSetCharge += ChangeLineColorByCharge;
         _magnetGunController.OnFire += Fire;
         _magnetGunController.OnFireRelease += FireRelease;
-        GameState.Play.OnExit += Disable;
+        GameState.Play.OnExit += ExitPlay;
     }
 
     void OnDisable()
     {
-        GameState.Initialize.OnEnter -= Initialize;
+        GameState.Play.OnEnter -= EnterPlay;
         InputManager.OnMagnetGunSetCharge -= ChangeLineColorByCharge;
         _magnetGunController.OnFire -= Fire;
         _magnetGunController.OnFireRelease -= FireRelease;
-        GameState.Play.OnExit -= Disable;
+        GameState.Play.OnExit -= ExitPlay;
     }
 
     void Start()
     {
         SetupLines(points);
+        _lineRenderer.enabled = false;
     }
 
-    void Initialize()
+    void EnterPlay()
     {
+        _lineRenderer.enabled = true;
         ChangeLineColorByCharge(Magnet.Charge.Neutral);
+        FireRelease();
     }
 
     void Update()
@@ -81,7 +84,7 @@ public class MagnetGunFireRay : MonoBehaviour
         _lineRenderer.endWidth = LINE_WIDTH_THIN;
     }
 
-    void Disable()
+    void ExitPlay()
     {
         ChangeLineColorByCharge(Magnet.Charge.Neutral);
         _lineRenderer.enabled = false;
