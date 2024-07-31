@@ -47,7 +47,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameState: 1
   _magnetWeaponHit: 0
-  _magneticForceOnSelected: 0
 --- !u!114 &2822302842360481922
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -57,6 +57,10 @@ public class MagneticInteractionController : MonoBehaviour
 
     public Action<Magnet.Charge> OnCurrentChargeChanged;
 
+    // Alter Charge
+
+    public Action<Magnet.Charge> OnAlterCharge;
+
     // --------------------
 
     bool DependenciesNullCheck()
@@ -80,8 +84,15 @@ public class MagneticInteractionController : MonoBehaviour
         DependenciesNullCheck();
     }
 
+    void OnEnable()
+    {
+        OnAlterCharge += AlterCharge;
+    }
+
     void OnDisable()
     {
+        OnAlterCharge -= AlterCharge;
+
         // Remove this controller from the emitting controllers list in each reacting controller
         foreach (var reactingController in ReactingControllers.ToArray())
         {
@@ -172,7 +183,6 @@ public class MagneticInteractionController : MonoBehaviour
         Vector2 magneticforce = MagneticInteractionPhysics.Calculate(transform.position, emittingController.transform.position, emittingController.Values.EmissionGain);
         ChargedForce chargedForce = MagneticInteractionPhysics.ConvertToChargedForce(magneticforce, CurrentCharge, emittingController.CurrentCharge);
         _rigidbody.AddForce(chargedForce.Vector);
-        Debug.Log(chargedForce.Vector.magnitude);
 
         // Find the index of the emittingController in the list
         int index = EmittingControllers.IndexOf(emittingController);
@@ -181,5 +191,10 @@ public class MagneticInteractionController : MonoBehaviour
         {
             AppliedForces[index] = chargedForce;
         }
+    }
+
+    void AlterCharge(Magnet.Charge charge)
+    {
+        CurrentCharge = charge;
     }
 }

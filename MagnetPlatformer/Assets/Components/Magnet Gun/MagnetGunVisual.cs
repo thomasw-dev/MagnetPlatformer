@@ -1,133 +1,41 @@
-using System;
 using UnityEngine;
 
 public class MagnetGunVisual : MonoBehaviour
 {
-    [SerializeField] Transform[] points;
-    [SerializeField] Material[] _aimRayMaterials;
+    [Header("Dependencies")]
+    // These fields are required to be assigned in order for this module to function.
 
-    public static event Action OnHitMagneticObject;
-    public static event Action OnAlterMagneticObjectCharge;
+    public MagnetGunController _magnetGunController;
 
-    LineRenderer _lineRenderer;
-    LayerMask _includeLayer;
+    [Header("Sprites")]
+    [SerializeField] Sprite[] _magnetSprites;
 
-    const float LINE_WIDTH_WIDE = 1f;
-    const float LINE_WIDTH_THIN = 0.1f;
-    const float RAYCAST_LENGTH = 100f;
+    SpriteRenderer _spriteRenderer;
 
     void Awake()
     {
-        _lineRenderer = GetComponent<LineRenderer>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void OnEnable()
     {
-        GameState.Initialize.OnEnter += Initialize;
-        InputManager.OnMagnetGunSetCharge += SetLineVisual;
-        MagnetGunController.OnFire += ShootRay;
-        MagnetGunController.OnFireRelease += ResetRay;
-        GameState.Play.OnExit += Disable;
+        _magnetGunController.OnCurrentChargeChanged += ChangeMagnetSpriteByCharge;
     }
 
     void OnDisable()
     {
-        GameState.Initialize.OnEnter -= Initialize;
-        InputManager.OnMagnetGunSetCharge -= SetLineVisual;
-        MagnetGunController.OnFire -= ShootRay;
-        MagnetGunController.OnFireRelease -= ResetRay;
-        GameState.Play.OnExit -= Disable;
+        _magnetGunController.OnCurrentChargeChanged -= ChangeMagnetSpriteByCharge;
     }
 
-    void Start()
+    void ChangeMagnetSpriteByCharge(Magnet.Charge charge)
     {
-        _includeLayer = LayerMask.GetMask(Constants.LAYER.Magnetic.ToString());
-        SetupLines(points);
-    }
-
-    void Initialize()
-    {
-        SetLineVisual(Magnet.Charge.Neutral);
-    }
-
-    void Update()
-    {
-        for (int i = 0; i < points.Length; i++)
+        _spriteRenderer.sprite = GetMagnetSpriteByCharge(charge);
+        Sprite GetMagnetSpriteByCharge(Magnet.Charge charge) => charge switch
         {
-            _lineRenderer.SetPosition(i, points[i].position);
-        }
-    }
-
-    void SetupLines(Transform[] points)
-    {
-        _lineRenderer.positionCount = points.Length;
-        this.points = points;
-    }
-
-    void SetLineVisual(Magnet.Charge charge)
-    {
-        float width = GetAimRayWidthByCharge(charge);
-        float GetAimRayWidthByCharge(Magnet.Charge charge) => charge switch
-        {
-            Magnet.Charge.Neutral => LINE_WIDTH_THIN,
-            Magnet.Charge.Positive => LINE_WIDTH_THIN,
-            Magnet.Charge.Negative => LINE_WIDTH_THIN,
-            _ => 1f
+            Magnet.Charge.Neutral => _magnetSprites[0],
+            Magnet.Charge.Positive => _magnetSprites[1],
+            Magnet.Charge.Negative => _magnetSprites[2],
+            _ => _magnetSprites[0]
         };
-        _lineRenderer.startWidth = width;
-        _lineRenderer.endWidth = width;
-
-        _lineRenderer.material = GetAimRayMaterialByCharge(charge);
-        Material GetAimRayMaterialByCharge(Magnet.Charge charge) => charge switch
-        {
-            Magnet.Charge.Neutral => _aimRayMaterials[0],
-            Magnet.Charge.Positive => _aimRayMaterials[1],
-            Magnet.Charge.Negative => _aimRayMaterials[2],
-            _ => _aimRayMaterials[0]
-        };
-    }
-
-    void ShootRay(Magnet.Charge charge)
-    {
-        _lineRenderer.startWidth = LINE_WIDTH_WIDE;
-        _lineRenderer.endWidth = LINE_WIDTH_WIDE;
-
-        Vector2 origin = transform.position;
-        Vector2 direction = transform.up;
-
-        // Only shoot and detect on the Magnetic layer
-        RaycastHit2D hit = Physics2D.Raycast(origin, direction, RAYCAST_LENGTH, _includeLayer);
-
-        if (hit.collider != null)
-        {
-            GameObject hitObject = hit.collider.gameObject;
-
-            if (Log.MagnetWeaponHit)
-            {
-                Debug.Log("Hit: " + hitObject.name);
-            }
-
-            if (hitObject.TryGetComponent(out MagneticObjectController magneticObject))
-            {
-                OnHitMagneticObject?.Invoke();
-                //if (magneticObject.StateController.CurrentEnum != MagneticObjectController.StateEnum.AlteredCharge)
-                //{
-                    OnAlterMagneticObjectCharge?.Invoke();
-                //}
-                magneticObject.AlterCharge(charge);
-            }
-        }
-    }
-
-    void ResetRay()
-    {
-        _lineRenderer.startWidth = LINE_WIDTH_THIN;
-        _lineRenderer.endWidth = LINE_WIDTH_THIN;
-    }
-
-    void Disable()
-    {
-        SetLineVisual(Magnet.Charge.Neutral);
-        _lineRenderer.enabled = false;
     }
 }

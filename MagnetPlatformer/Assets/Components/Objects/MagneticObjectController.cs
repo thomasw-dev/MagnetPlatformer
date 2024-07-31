@@ -256,10 +256,10 @@ public class MagneticObjectController : MonoBehaviour
             Gizmos.DrawWireSphere(transform.position, Radius);
         }
 
-        if (Log.MagneticForceOnSelected)
-        {
+        //if (Log.MagneticForceOnSelected)
+        //{
             Debug.Log($"Net force on this object: {_rigidbody.velocity}");
-        }
+        //}
     }
 
     #region Inspector

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MagnetGunController : MonoBehaviour
 {
+    // State
+
     public enum StateEnum { Available, Cooldown, Refill }
     public StateController<StateEnum> StateController = new StateController<StateEnum>();
     [SerializeField] StateEnum _state; // Inspector
@@ -17,10 +19,8 @@ public class MagnetGunController : MonoBehaviour
     [Tooltip("The UI area where mouse click on it triggers the firing of this gun.")]
     [SerializeField] MagnetGunMouseArea _mouseArea;
 
-    public static event Action<Magnet.Charge> OnFire;
-    public static event Action OnFireRelease;
-
     [Header("Charge")]
+
     [SerializeField] Magnet.Charge _currentCharge = Magnet.Charge.Positive;
     public Magnet.Charge CurrentCharge
     {
@@ -31,12 +31,23 @@ public class MagnetGunController : MonoBehaviour
             _currentCharge = value;
         }
     }
-    public Action<Magnet.Charge> OnCurrentChargeChanged;
+    public event Action<Magnet.Charge> OnCurrentChargeChanged;
 
-    [SerializeField] Sprite[] _magnetSprites;
-    SpriteRenderer _spriteRenderer;
+    // Fire
+
+    public event Action<Magnet.Charge> OnFire;
+    public event Action OnFireRelease;
+
+    [Header("Shoot Ray")]
+    [SerializeField] Transform _shootPoint;
+
+    LayerMask _includeLayer;
+    const float RAYCAST_LENGTH = 1000f;
+    public static event Action OnHitMagneticObject;
+    public static event Action OnAlterMagneticObjectCharge;
 
     [Header("Cooldown & Refill")]
+
     [Range(0, MagnetGunValues.COOLDOWN_DURATION)]
     [SerializeField] float _cooldownBar;
     Tweener _cooldownTween;
@@ -48,7 +59,7 @@ public class MagnetGunController : MonoBehaviour
 
     void Awake()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _includeLayer = LayerMask.GetMask(Constants.LAYER.Magnetic.ToString());
     }
 
     void OnEnable()
@@ -59,7 +70,7 @@ public class MagnetGunController : MonoBehaviour
         _mouseArea.OnLeftButtonUp += FireRelease;
         _mouseArea.OnRightButtonDown += Fire;
         _mouseArea.OnRightButtonUp += FireRelease;
-        MagnetGunVisual.OnAlterMagneticObjectCharge += CostAmmo;
+        OnAlterMagneticObjectCharge += CostAmmo;
         GameState.Play.OnExit += ExitPlay;
     }
 
@@ -71,7 +82,7 @@ public class MagnetGunController : MonoBehaviour
         _mouseArea.OnLeftButtonUp -= FireRelease;
         _mouseArea.OnRightButtonDown -= Fire;
         _mouseArea.OnRightButtonUp -= FireRelease;
-        MagnetGunVisual.OnAlterMagneticObjectCharge -= CostAmmo;
+        OnAlterMagneticObjectCharge -= CostAmmo;
         GameState.Play.OnExit -= ExitPlay;
     }
 
@@ -90,11 +101,11 @@ public class MagnetGunController : MonoBehaviour
         _state = StateController.CurrentEnum;
         _currentCharge = CurrentCharge;
 
+        AttachSelfToPoint();
         AimSelfAtCursor();
-        AttachSelfToPlayer();
     }
 
-    void AttachSelfToPlayer()
+    void AttachSelfToPoint()
     {
         if (_attachPoint != null)
         {
@@ -113,23 +124,11 @@ public class MagnetGunController : MonoBehaviour
     void SetCharge(Magnet.Charge charge)
     {
         CurrentCharge = charge;
-        SetMagnetSprite(charge);
-    }
-
-    void SetMagnetSprite(Magnet.Charge charge)
-    {
-        _spriteRenderer.sprite = GetMagnetSpriteByCharge(charge);
-        Sprite GetMagnetSpriteByCharge(Magnet.Charge charge) => charge switch
-        {
-            Magnet.Charge.Neutral => _magnetSprites[0],
-            Magnet.Charge.Positive => _magnetSprites[1],
-            Magnet.Charge.Negative => _magnetSprites[2],
-            _ => _magnetSprites[0]
-        };
     }
 
     void Fire()
     {
+        ShootRay(CurrentCharge);
         OnFire?.Invoke(CurrentCharge);
 
         if (!Values.CostAmmoOnMagneticOnly)
@@ -139,6 +138,30 @@ public class MagnetGunController : MonoBehaviour
     }
 
     void FireRelease() => OnFireRelease?.Invoke();
+
+    void ShootRay(Magnet.Charge charge)
+    {
+        Vector2 origin = _shootPoint == null ? transform.position : _shootPoint.position;
+        Vector2 direction = transform.up;
+
+        // Only shoot and detect on the Magnetic layer
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, RAYCAST_LENGTH, _includeLayer);
+
+        if (hit.collider != null)
+        {
+            GameObject hitObject = hit.collider.gameObject;
+
+            if (Log.MagnetWeaponHit)
+            {
+                Debug.Log("Hit: " + hitObject.name);
+            }
+
+            if (hitObject.TryGetComponent(out MagneticInteractionController controller))
+            {
+                controller.OnAlterCharge?.Invoke(charge);
+            }
+        }
+    }
 
     void CostAmmo()
     {
