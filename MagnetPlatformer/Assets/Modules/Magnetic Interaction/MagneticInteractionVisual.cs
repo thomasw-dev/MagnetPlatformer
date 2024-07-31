@@ -17,7 +17,6 @@ public class MagneticInteractionVisual : MonoBehaviour
 
     MagneticInteractionController GetController() => GetComponent<MagneticInteractionController>();
 
-
     bool DependenciesNullCheck()
     {
         bool pass = true;

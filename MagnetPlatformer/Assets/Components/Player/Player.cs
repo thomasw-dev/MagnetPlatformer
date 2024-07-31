@@ -68,8 +68,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         _groundLayerMask = LayerMask.GetMask(
-            Constants.LAYER.Environment.ToString(),
-            Constants.LAYER.Magnetic.ToString()
+            Constants.LAYER.Physics.ToString(),
+            Constants.LAYER.Environment.ToString()
         );
     }
 
