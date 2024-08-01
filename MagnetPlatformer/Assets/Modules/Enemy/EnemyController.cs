@@ -28,13 +28,13 @@ public class EnemyController : MonoBehaviour
 
     // Move Direction
 
-    Move.Direction _moveDirection;
+    [SerializeField] Move.Direction _moveDirection;
     public Move.Direction MoveDirection
     {
         get { return _moveDirection; }
         set
         {
-            if (value != _moveDirection) OnMoveDirectionChange?.Invoke(value);
+            if (value != _moveDirection) { OnMoveDirectionChange?.Invoke(value); }
             _moveDirection = value;
         }
     }
@@ -62,6 +62,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         StateController.ChangeState(StateEnum.Idle);
+        _initialPos = transform.position;
         _target = Method.GetPlayerObject().transform;
     }
 
@@ -71,7 +72,11 @@ public class EnemyController : MonoBehaviour
 
         if (StateController.CurrentEnum == StateEnum.Idle)
         {
-            if (Values.ReturnToInitialPosition)
+            if (!Values.ReturnToInitialPosition)
+            {
+                MoveDirection = Move.Direction.None;
+            }
+            else
             {
                 _targetPos = _initialPos;
                 if (Mathf.Abs(transform.position.x - _targetPos.x) >= DISTANCE_CLOSE_CUTOFF)
@@ -79,7 +84,6 @@ public class EnemyController : MonoBehaviour
                     StateController.ChangeState(StateEnum.Return);
                 }
             }
-            else MoveDirection = Move.Direction.None;
         }
 
         if (StateController.CurrentEnum == StateEnum.Chase)
@@ -91,8 +95,15 @@ public class EnemyController : MonoBehaviour
 
         if (StateController.CurrentEnum == StateEnum.Return)
         {
-            MoveDirection = UpdateMoveDirection(transform.position.x, _targetPos.x);
-            MoveRigidbody(Values.WalkAcceleration);
+            if (Values.ReturnToInitialPosition)
+            {
+                MoveDirection = UpdateMoveDirection(transform.position.x, _targetPos.x);
+                MoveRigidbody(Values.WalkAcceleration);
+            }
+            else
+            {
+                StateController.ChangeState(StateEnum.Idle);
+            }
         }
     }
 
