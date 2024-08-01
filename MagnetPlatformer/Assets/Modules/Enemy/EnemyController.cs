@@ -19,8 +19,12 @@ public class EnemyController : MonoBehaviour
 
     // Chase Target
 
-    GameObject _target;
+    Transform _target;
+    Vector3 _targetPos;
+    Vector3 _initialPos;
     const float DISTANCE_CLOSE_CUTOFF = 0.1f;
+
+    public Vector3 TargetPoint { get => _targetPos; }
 
     // Move Direction
 
@@ -58,6 +62,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         StateController.ChangeState(StateEnum.Idle);
+        _target = Method.GetPlayerObject().transform;
     }
 
     void Update()
@@ -66,23 +71,29 @@ public class EnemyController : MonoBehaviour
 
         if (StateController.CurrentEnum == StateEnum.Idle)
         {
-            Idle();
+            if (Values.ReturnToInitialPosition)
+            {
+                _targetPos = _initialPos;
+                if (Mathf.Abs(transform.position.x - _targetPos.x) >= DISTANCE_CLOSE_CUTOFF)
+                {
+                    StateController.ChangeState(StateEnum.Return);
+                }
+            }
+            else MoveDirection = Move.Direction.None;
         }
 
         if (StateController.CurrentEnum == StateEnum.Chase)
         {
-            Chase();
+            _targetPos = _target.transform.position;
+            MoveDirection = UpdateMoveDirection(transform.position.x, _targetPos.x);
+            MoveRigidbody(Values.ChaseAcceleration);
         }
 
         if (StateController.CurrentEnum == StateEnum.Return)
         {
-            ReturnToInitialPosition();
+            MoveDirection = UpdateMoveDirection(transform.position.x, _targetPos.x);
+            MoveRigidbody(Values.WalkAcceleration);
         }
-    }
-
-    void Idle()
-    {
-        MoveDirection = Move.Direction.None;
     }
 
     Move.Direction UpdateMoveDirection(float selfX, float targetX)
@@ -96,27 +107,20 @@ public class EnemyController : MonoBehaviour
         else return Move.Direction.None;
     }
 
-    void Chase()
+    void MoveRigidbody(float acceleration)
     {
-        MoveDirection = UpdateMoveDirection(transform.position.x, _target.transform.position.x);
-
         Vector2 moveForce = Vector2.zero;
         if (MoveDirection == Move.Direction.None) moveForce = Vector2.zero;
-        if (MoveDirection == Move.Direction.Left) moveForce = Vector2.left * Values.Acceleration;
-        if (MoveDirection == Move.Direction.Right) moveForce = Vector2.right * Values.Acceleration;
+        if (MoveDirection == Move.Direction.Left) moveForce = Vector2.left * acceleration;
+        if (MoveDirection == Move.Direction.Right) moveForce = Vector2.right * acceleration;
         _rigidbody.AddForce(moveForce);
-    }
-
-    void ReturnToInitialPosition()
-    {
-        Debug.Log("Return...");
     }
 
     public void EnterChase()
     {
         if (GameState.CurrentState != GameState.Play) { return; }
 
-        _target = Method.GetPlayerObject();
+        _target = Method.GetPlayerObject().transform;
         StateController.ChangeState(StateEnum.Chase);
     }
 
@@ -126,21 +130,17 @@ public class EnemyController : MonoBehaviour
 
         if (StateController.CurrentEnum != StateEnum.Chase)
         {
-            _target = Method.GetPlayerObject();
+            _target = Method.GetPlayerObject().transform;
             StateController.ChangeState(StateEnum.Chase);
         }
     }
 
     public void ExitChase()
     {
+        _targetPos = _initialPos;
+
         if (Values.ReturnToInitialPosition)
-        {
-            _target = Method.GetPlayerObject();
             StateController.ChangeState(StateEnum.Return);
-        }
-        else
-        {
-            StateController.ChangeState(StateEnum.Idle);
-        }
+        else StateController.ChangeState(StateEnum.Idle);
     }
 }

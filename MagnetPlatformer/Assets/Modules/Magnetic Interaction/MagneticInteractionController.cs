@@ -58,7 +58,7 @@ public class MagneticInteractionController : MonoBehaviour
         }
     }
     Magnet.Charge _currentCharge;
-    public event Action<Magnet.Charge> OnCurrentChargeChanged;
+    public Action<Magnet.Charge> OnCurrentChargeChanged;
 
     // Type (Movement Constrain)
 
@@ -72,7 +72,7 @@ public class MagneticInteractionController : MonoBehaviour
         }
     }
     MagneticObject.Type _currentType;
-    public event Action<MagneticObject.Type> OnCurrentTypeChanged;
+    public Action<MagneticObject.Type> OnCurrentTypeChanged;
 
     [Header("Alter Charge")]
     public float AlterChargeTimeRemaining;

@@ -10,6 +10,7 @@ public class DebugManager : MonoBehaviour
 
     [Header("Enemy")]
     [SerializeField] bool _chaseRadius;
+    [SerializeField] bool _targetPoint;
     public static EnemySettings EnemySettings;
 
     void OnValidate()
@@ -19,6 +20,7 @@ public class DebugManager : MonoBehaviour
         MagneticInteractionGizmosSettings.EmissionRadius = _emissionRadiusGizmos;
 
         EnemySettings.ChaseRadius = _chaseRadius;
+        EnemySettings.TargetPoint = _targetPoint;
     }
 }
 
@@ -32,4 +34,5 @@ public struct MagneticInteractionGizmosSettings
 public struct EnemySettings
 {
     public bool ChaseRadius;
+    public bool TargetPoint;
 }
