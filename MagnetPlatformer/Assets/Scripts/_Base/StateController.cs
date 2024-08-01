@@ -24,8 +24,10 @@ public class StateController<T> where T : Enum
             _currentState?.Exit();
             _currentState = value;
             _currentState?.Enter();
+            OnCurrentStateChanged?.Invoke();
         }
     }
+    public event Action OnCurrentStateChanged;
 
     public void ChangeState(T stateEnum)
     {
