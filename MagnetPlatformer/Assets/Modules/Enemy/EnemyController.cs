@@ -71,7 +71,6 @@ public class EnemyController : MonoBehaviour
 
         if (StateController.CurrentEnum == StateEnum.Chase)
         {
-            MoveDirection = UpdateMoveDirection(transform.position.x, _target.transform.position.x);
             Chase();
         }
 
@@ -83,7 +82,7 @@ public class EnemyController : MonoBehaviour
 
     void Idle()
     {
-
+        MoveDirection = Move.Direction.None;
     }
 
     Move.Direction UpdateMoveDirection(float selfX, float targetX)
@@ -99,11 +98,13 @@ public class EnemyController : MonoBehaviour
 
     void Chase()
     {
-        Vector2 move = Vector2.zero;
-        if (MoveDirection == Move.Direction.None) move = Vector2.zero;
-        if (MoveDirection == Move.Direction.Left) move = Vector2.left * Values.Acceleration;
-        if (MoveDirection == Move.Direction.Right) move = Vector2.right * Values.Acceleration;
-        _rigidbody.velocity = move;
+        MoveDirection = UpdateMoveDirection(transform.position.x, _target.transform.position.x);
+
+        Vector2 moveForce = Vector2.zero;
+        if (MoveDirection == Move.Direction.None) moveForce = Vector2.zero;
+        if (MoveDirection == Move.Direction.Left) moveForce = Vector2.left * Values.Acceleration;
+        if (MoveDirection == Move.Direction.Right) moveForce = Vector2.right * Values.Acceleration;
+        _rigidbody.AddForce(moveForce);
     }
 
     void ReturnToInitialPosition()

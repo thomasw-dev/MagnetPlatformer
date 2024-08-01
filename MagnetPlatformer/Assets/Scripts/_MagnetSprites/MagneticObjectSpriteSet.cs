@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Magnet Sprite Set", order = Constants.MAGNET_SPRITE_SET)]
-public class MagnetSpriteSet : ScriptableObject
+[CreateAssetMenu(fileName = "Magnet Sprite Set", order = Constants.MAGNETIC_OBJECT_SPRITE_SET)]
+public class MagneticObjectSpriteSet : ScriptableObject
 {
     public Sprite Neutral;
     public Sprite Positive;

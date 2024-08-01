@@ -4,7 +4,7 @@ using UnityEngine;
 public class MagneticObjectVisual : MonoBehaviour
 {
     [SerializeField] MagneticObjectController _magneticObject;
-    [SerializeField] MagnetSpriteSetCollection _spriteCollection;
+    [SerializeField] MagneticObjectSpriteSetCollection _spriteCollection;
     [SerializeField] Sprite _alteredChargeTriggerEffect;
 
     const float ALTERED_CHARGE_TRIGGER_EFFECT_DURATION = 0.06f;

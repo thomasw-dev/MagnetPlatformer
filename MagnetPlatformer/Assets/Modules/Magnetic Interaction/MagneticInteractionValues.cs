@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MagneticInteractionValues : MonoBehaviour
@@ -7,6 +8,10 @@ public class MagneticInteractionValues : MonoBehaviour
     [SerializeField] bool _neutral = true;
     [SerializeField] bool _positive = false;
     [SerializeField] bool _negative = false;
+
+    [Header("Movement Constrain")]
+
+    [SerializeField] MagneticObject.Type _type;
 
     [Header("Emission")]
 
@@ -25,6 +30,37 @@ public class MagneticInteractionValues : MonoBehaviour
     {
         SetChargeByBools();
         UpdateChargeBools(GetController().CurrentCharge);
+        UpdateType(_type);
+    }
+
+    void UpdateType(MagneticObject.Type type)
+    {
+        GetController().CurrentType = type;
+        UpdateRigidbody(GetController().CurrentType);
+    }
+
+    void UpdateRigidbody(MagneticObject.Type type)
+    {
+        Rigidbody2D rigidbody = GetController().Rigidbody;
+        if (rigidbody == null) { return; }
+
+        if (type == MagneticObject.Type.Free)
+            SetRigidbodyParameters(RigidbodyType2D.Dynamic, RigidbodyConstraints2D.FreezeRotation);
+
+        if (type == MagneticObject.Type.Vertical)
+            SetRigidbodyParameters(RigidbodyType2D.Dynamic, RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX);
+
+        if (type == MagneticObject.Type.Horizontal)
+            SetRigidbodyParameters(RigidbodyType2D.Dynamic, RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY);
+
+        if (type == MagneticObject.Type.Static)
+            SetRigidbodyParameters(RigidbodyType2D.Static, RigidbodyConstraints2D.FreezeAll);
+
+        void SetRigidbodyParameters(RigidbodyType2D bodyType, RigidbodyConstraints2D constraints)
+        {
+            rigidbody.bodyType = bodyType;
+            rigidbody.constraints = constraints;
+        }
     }
 
     void SetChargeByBools()

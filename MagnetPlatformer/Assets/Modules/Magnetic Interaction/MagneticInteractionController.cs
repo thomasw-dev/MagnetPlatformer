@@ -17,7 +17,7 @@ public class MagneticInteractionController : MonoBehaviour
 
     [Header("Dependencies")] // Required to be assigned in the Inspector
 
-    [SerializeField] Rigidbody2D _rigidbody;
+    public Rigidbody2D Rigidbody;
 
     [Header("Interactions")]
 
@@ -58,8 +58,21 @@ public class MagneticInteractionController : MonoBehaviour
         }
     }
     Magnet.Charge _currentCharge;
+    public event Action<Magnet.Charge> OnCurrentChargeChanged;
 
-    public Action<Magnet.Charge> OnCurrentChargeChanged;
+    // Type (Movement Constrain)
+
+    public MagneticObject.Type CurrentType
+    {
+        get { return _currentType; }
+        set
+        {
+            if (_currentType != value) { OnCurrentTypeChanged?.Invoke(value); }
+            _currentType = value;
+        }
+    }
+    MagneticObject.Type _currentType;
+    public event Action<MagneticObject.Type> OnCurrentTypeChanged;
 
     [Header("Alter Charge")]
     public float AlterChargeTimeRemaining;
@@ -173,7 +186,7 @@ public class MagneticInteractionController : MonoBehaviour
         // Add force to rigidbody
         Vector2 magneticforce = MagneticInteractionPhysics.Calculate(transform.position, emittingController.transform.position, emittingController.Values.EmissionGain);
         ChargedForce chargedForce = MagneticInteractionPhysics.ConvertToChargedForce(magneticforce, CurrentCharge, emittingController.CurrentCharge);
-        _rigidbody.AddForce(chargedForce.Vector);
+        Rigidbody.AddForce(chargedForce.Vector);
 
         // Find the index of the emittingController in the list
         int index = EmittingControllers.IndexOf(emittingController);

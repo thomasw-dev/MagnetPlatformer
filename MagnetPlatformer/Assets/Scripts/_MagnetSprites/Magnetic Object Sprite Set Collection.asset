@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1743cf1ca441e4f948372822e718bf98, type: 3}
-  m_Name: Magnet Sprite Set Collection
+  m_Name: Magnetic Object Sprite Set Collection
   m_EditorClassIdentifier: 
   Free: {fileID: 11400000, guid: 714ff18c32e06418d8b6511714bba90d, type: 2}
   Vertical: {fileID: 11400000, guid: 833a3e17fe3b94dee8727d79c4a6ff01, type: 2}

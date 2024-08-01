@@ -13,6 +13,6 @@ public static class Constants
 
     // Scriptable Objects: Create Asset Menu Orders
     public const int MAGNET_OBJECT_GROUP = 1;
-    public const int MAGNET_SPRITE_SET = 2;
-    public const int MAGNET_SPRITE_SET_COLLECTION = 3;
+    public const int MAGNETIC_OBJECT_SPRITE_SET = 2;
+    public const int MAGNETIC_OBJECT_SPRITE_SET_COLLECTION = 3;
 }

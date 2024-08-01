@@ -7,13 +7,17 @@ public class MagneticInteractionVisual : MonoBehaviour
 
     [SerializeField] SpriteRenderer _spriteRenderer;
 
+    [Header("Object Sprites")]
+    [Tooltip("If assigned, this script will assign object sprites to the Sprite. If not, it will only change the Sprite color.")]
+    [SerializeField] MagneticObjectSpriteSetCollection _objectSpritesCollection;
+
     [Header("Subscription")]
-    [SerializeField] bool _updateToCurrentCharge = false;
+    [SerializeField] bool _subscribeToChanges = false;
     bool _isSubscribed = false;
 
-    static Color NEUTRAL_COLOR = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-    static Color POSITIVE_COLOR = new Color(0.9f, 0, 0, 1.0f);
-    static Color NEGATIVE_COLOR = new Color(0, 0, 0.9f, 1.0f);
+    static Color NEUTRAL_COLOR = new Color(1, 1, 1, 1);
+    static Color POSITIVE_COLOR = new Color(1, 0, 0, 1);
+    static Color NEGATIVE_COLOR = new Color(0, 0, 1, 1);
 
     MagneticInteractionController GetController() => transform.parent.GetComponent<MagneticInteractionController>();
 
@@ -31,27 +35,26 @@ public class MagneticInteractionVisual : MonoBehaviour
     void OnValidate()
     {
         // Subscribe
-        if (_updateToCurrentCharge && !_isSubscribed)
+        if (_subscribeToChanges && !_isSubscribed)
         {
             if (!DependenciesNullCheck())
             {
                 // Cannot subscribe, revert to false
-                _updateToCurrentCharge = false;
+                _subscribeToChanges = false;
             }
             else
             {
-                GetController().OnCurrentChargeChanged += SetColorByCharge;
-                _isSubscribed = true;
+                SubscribeToChanges();
 
-                // Call it once to update it instantly
-                SetColorByCharge(GetController().CurrentCharge);
+                // Update instantly
+                UpdateSpriteByCharge(GetController().CurrentCharge);
+                UpdateSpriteSetByType(GetController().CurrentType);
             }
         }
         // Unsubscribe
-        else if (!_updateToCurrentCharge && _isSubscribed)
+        else if (!_subscribeToChanges && _isSubscribed)
         {
-            GetController().OnCurrentChargeChanged -= SetColorByCharge;
-            _isSubscribed = false;
+            UnsubscribeToChanges();
         }
     }
 
@@ -59,17 +62,49 @@ public class MagneticInteractionVisual : MonoBehaviour
     {
         if (!DependenciesNullCheck()) { return; }
 
-        GetController().OnCurrentChargeChanged += SetColorByCharge;
+        SubscribeToChanges();
     }
 
     void OnDisable()
     {
         if (!DependenciesNullCheck()) { return; }
 
-        GetController().OnCurrentChargeChanged -= SetColorByCharge;
+        UnsubscribeToChanges();
     }
 
-    void SetColorByCharge(Magnet.Charge charge)
+    void SubscribeToChanges()
+    {
+        GetController().OnCurrentChargeChanged += UpdateSpriteByCharge;
+        GetController().OnCurrentTypeChanged += UpdateSpriteSetByType;
+        _isSubscribed = true;
+    }
+
+    void UnsubscribeToChanges()
+    {
+        GetController().OnCurrentChargeChanged -= UpdateSpriteByCharge;
+        GetController().OnCurrentTypeChanged -= UpdateSpriteSetByType;
+        _isSubscribed = false;
+    }
+
+    void UpdateSpriteSetByType(MagneticObject.Type type)
+    {
+        if (_objectSpritesCollection == null) { return; }
+        _spriteRenderer.sprite = _objectSpritesCollection.GetSpriteSetByType(type).GetSpriteByCharge(GetController().CurrentCharge);
+    }
+
+    void UpdateSpriteByCharge(Magnet.Charge charge)
+    {
+        if (_objectSpritesCollection != null)
+        {
+            _spriteRenderer.sprite = _objectSpritesCollection.GetSpriteSetByType(GetController().CurrentType).GetSpriteByCharge(charge);
+        }
+        else
+        {
+            ChangeColorByCharge(charge);
+        }
+    }
+
+    void ChangeColorByCharge(Magnet.Charge charge)
     {
         if (charge == Magnet.Charge.Neutral) _spriteRenderer.color = NEUTRAL_COLOR;
         if (charge == Magnet.Charge.Positive) _spriteRenderer.color = POSITIVE_COLOR;

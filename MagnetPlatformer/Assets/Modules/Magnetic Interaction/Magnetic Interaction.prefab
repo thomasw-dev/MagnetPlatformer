@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6572377994372826778}
-  - component: {fileID: 3093660629287824162}
   - component: {fileID: 6578051496298515600}
+  - component: {fileID: 3093660629287824162}
   - component: {fileID: 1017764717530738315}
   m_Layer: 9
   m_Name: Magnetic Interaction
@@ -36,25 +36,6 @@ Transform:
   - {fileID: 4630136470076064693}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3093660629287824162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1941228655367243199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebc494cf2eeda44c89943f9a10900c8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _state: 0
-  Values: {fileID: 6578051496298515600}
-  _rigidbody: {fileID: 0}
-  ReactingControllers: []
-  EmittingControllers: []
-  AppliedForces: []
-  AlterChargeTimeRemaining: 0
 --- !u!114 &6578051496298515600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,9 +51,29 @@ MonoBehaviour:
   _neutral: 1
   _positive: 0
   _negative: 0
+  _type: 0
   EmissionGain: 0
   EmissionRadius: 5
   Duration: 5
+--- !u!114 &3093660629287824162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941228655367243199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc494cf2eeda44c89943f9a10900c8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _state: 0
+  Values: {fileID: 6578051496298515600}
+  Rigidbody: {fileID: 0}
+  ReactingControllers: []
+  EmittingControllers: []
+  AppliedForces: []
+  AlterChargeTimeRemaining: 0
 --- !u!61 &1017764717530738315
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -163,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 0}
+  _objectSpritesCollection: {fileID: 11400000, guid: f96d89555cd7b476ebd948b2a060d2dd, type: 2}
   _updateToCurrentCharge: 0
 --- !u!1 &8954012650576354977
 GameObject:
@@ -208,6 +210,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f054fc87f334a86802a3edb453dde2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ReactionForces: 0
-  NetReactionForce: 0
-  EmissionRadius: 0

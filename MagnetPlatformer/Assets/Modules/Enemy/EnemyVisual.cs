@@ -14,17 +14,13 @@ public class EnemyVisual : MonoBehaviour
 
     void OnEnable()
     {
-        _enemyController.StateController.EnumToState(Enemy.StateEnum.Idle).OnEnter += Idle;
         _enemyController.OnMoveDirectionChange += ChangeMoveDirection;
     }
 
     void OnDisable()
     {
-        _enemyController.StateController.EnumToState(Enemy.StateEnum.Idle).OnEnter -= Idle;
         _enemyController.OnMoveDirectionChange -= ChangeMoveDirection;
     }
-
-    void Idle() => _animator.SetTrigger("Idle");
 
     void ChangeMoveDirection(Move.Direction direction)
     {

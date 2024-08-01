@@ -10,8 +10,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1573477837052839366, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
       propertyPath: m_Name
-      value: Magnetic Object
+      value: Object Magnetic
       objectReference: {fileID: 0}
+    - target: {fileID: 1994449776716945763, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 263e5c1deaa40474aa49953645751737, type: 3}
     - target: {fileID: 1994449776716945763, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -166,6 +170,10 @@ PrefabInstance:
       value: Magnetic Interaction
       objectReference: {fileID: 0}
     - target: {fileID: 3093660629287824162, guid: 3c501ac48e5ae4827b61a7bb930e93e7, type: 3}
+      propertyPath: Rigidbody
+      value: 
+      objectReference: {fileID: 2323169832950641087}
+    - target: {fileID: 3093660629287824162, guid: 3c501ac48e5ae4827b61a7bb930e93e7, type: 3}
       propertyPath: _rigidbody
       value: 
       objectReference: {fileID: 2323169832950641087}
@@ -182,8 +190,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4147037542572841190}
     - target: {fileID: 6104763568412370874, guid: 3c501ac48e5ae4827b61a7bb930e93e7, type: 3}
-      propertyPath: _updateToCurrentCharge
+      propertyPath: _subscribeToChanges
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6104763568412370874, guid: 3c501ac48e5ae4827b61a7bb930e93e7, type: 3}
+      propertyPath: _updateToCurrentCharge
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6572377994372826778, guid: 3c501ac48e5ae4827b61a7bb930e93e7, type: 3}
       propertyPath: m_LocalPosition.x
