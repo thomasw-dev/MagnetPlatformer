@@ -25,10 +25,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8026533749279698606, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8026533749279698606, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -87,10 +83,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9128790091425051441}
     m_Modifications:
+    - target: {fileID: 285345539592223898, guid: e3f06b0e32444408dbd37229221b14df, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 717651947357642232, guid: e3f06b0e32444408dbd37229221b14df, type: 3}
       propertyPath: m_Name
       value: Magnetic Interaction Alter Charge Trigger Effect
       objectReference: {fileID: 0}
+    - target: {fileID: 4369309121577682074, guid: e3f06b0e32444408dbd37229221b14df, type: 3}
+      propertyPath: _spriteRenderer
+      value: 
+      objectReference: {fileID: 4147037542572841190}
+    - target: {fileID: 4369309121577682074, guid: e3f06b0e32444408dbd37229221b14df, type: 3}
+      propertyPath: _maskSourceSpriteRenderer
+      value: 
+      objectReference: {fileID: 4147037542572841190}
     - target: {fileID: 4369309121577682074, guid: e3f06b0e32444408dbd37229221b14df, type: 3}
       propertyPath: _magneticInteractionController
       value: 
@@ -342,6 +350,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7954533168384458715, guid: 0ab31b4657378464b95a2a143fa232de, type: 3}
+      propertyPath: _magneticInteractionController
+      value: 
+      objectReference: {fileID: 5482352259284319155}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

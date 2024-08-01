@@ -5,8 +5,10 @@ public class MagneticInteractionAlterChargeTriggerEffect : MonoBehaviour
 {
     [Header("Dependencies")] // Required to be assigned in the Inspector
     [SerializeField] MagneticInteractionController _magneticInteractionController;
+    [SerializeField] SpriteRenderer _maskSourceSpriteRenderer;
 
     SpriteRenderer _spriteRenderer;
+    SpriteMask _spriteMask;
     float alpha;
     Tweener _fadeTween;
 
@@ -15,9 +17,18 @@ public class MagneticInteractionAlterChargeTriggerEffect : MonoBehaviour
     void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteMask = GetComponent<SpriteMask>();
     }
 
     void OnValidate()
+    {
+        if (_magneticInteractionController != null)
+        {
+            _magneticInteractionController.OnAlterCharge += AlteredChargeTriggerEffect;
+        }
+    }
+
+    void OnEnable()
     {
         if (_magneticInteractionController != null)
         {
@@ -31,6 +42,11 @@ public class MagneticInteractionAlterChargeTriggerEffect : MonoBehaviour
         {
             _magneticInteractionController.OnAlterCharge -= AlteredChargeTriggerEffect;
         }
+    }
+
+    void Update()
+    {
+        _spriteMask.sprite = _maskSourceSpriteRenderer.sprite;
     }
 
     void AlteredChargeTriggerEffect(Magnet.Charge charge)
