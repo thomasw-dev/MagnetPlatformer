@@ -12,8 +12,3 @@ public static class Move
 {
     public enum Direction { None, Left, Right }
 }
-
-public static class GizmosOverride
-{
-    public enum Type { NoOverride, Hidden, OnSelected, Persistent }
-}

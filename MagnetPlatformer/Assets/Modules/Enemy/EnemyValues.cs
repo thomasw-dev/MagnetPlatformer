@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyValues : MonoBehaviour
@@ -9,4 +10,14 @@ public class EnemyValues : MonoBehaviour
     [Header("Chase")]
     [Range(1f, 20f)]
     public float ChaseRadius = 10f;
+
+    public event Action<float> SetChaseRadius;
+
+    [Header("Options")]
+    public bool ReturnToInitialPosition = true;
+
+    void OnValidate()
+    {
+        SetChaseRadius?.Invoke(ChaseRadius);
+    }
 }

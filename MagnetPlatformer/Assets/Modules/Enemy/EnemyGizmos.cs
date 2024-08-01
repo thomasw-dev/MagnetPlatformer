@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyGizmos : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    static Color CHASE_RADIUS_COLOR = Color.magenta;
 
-    // Update is called once per frame
-    void Update()
+    EnemyValues GetValues() => transform.parent.GetComponent<EnemyValues>();
+
+    void OnDrawGizmos()
     {
-        
+        if (DebugManager.EnemySettings.ChaseRadius)
+        {
+            Gizmos.color = CHASE_RADIUS_COLOR;
+            Gizmos.DrawWireSphere(transform.position, GetValues().ChaseRadius);
+        }
     }
 }

@@ -13,11 +13,14 @@ public class EnemyController : MonoBehaviour
 
     [HideInInspector] public EnemyValues Values;
 
+    [Header("Dependencies")] // Required to be assigned in the Inspector
+
+    [SerializeField] Rigidbody2D _rigidbody;
+
     // Chase Target
 
-    [HideInInspector] public float MoveTargetX;
-    const float DISTANCE_CLOSE_CUTOFF = 0.1f;
     GameObject _target;
+    const float DISTANCE_CLOSE_CUTOFF = 0.1f;
 
     // Move Direction
 
@@ -35,15 +38,21 @@ public class EnemyController : MonoBehaviour
 
     public Action OnKillPlayer;
 
-    Rigidbody2D _rigidbody;
-
     // --------------------
 
     void Awake()
     {
         Values = GetComponent<EnemyValues>();
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _target = Method.GetPlayerObject();
+    }
+
+    void OnEnable()
+    {
+        OnKillPlayer += ExitChase;
+    }
+
+    void OnDisable()
+    {
+        OnKillPlayer -= ExitChase;
     }
 
     void Start()
@@ -55,46 +64,26 @@ public class EnemyController : MonoBehaviour
     {
         _state = StateController.CurrentEnum; // Inspector
 
-        if (GameState.CurrentState == GameState.Play)
+        if (StateController.CurrentEnum == StateEnum.Idle)
         {
-            if (StateController.CurrentEnum == StateEnum.Idle)
-            {
-                IdleMovement();
-            }
+            Idle();
+        }
 
-            if (StateController.CurrentEnum == StateEnum.Chase)
-            {
-                //MoveTargetX = _player.transform.position.x;
-                MoveDirection = UpdateMoveDirection(transform.position.x, MoveTargetX);
-                ChaseMovement();
-            }
+        if (StateController.CurrentEnum == StateEnum.Chase)
+        {
+            MoveDirection = UpdateMoveDirection(transform.position.x, _target.transform.position.x);
+            Chase();
+        }
+
+        if (StateController.CurrentEnum == StateEnum.Return)
+        {
+            ReturnToInitialPosition();
         }
     }
 
     void Idle()
     {
-        StateController.ChangeState(StateEnum.Idle);
-        OnMoveDirectionChange.Invoke(Move.Direction.None);
-    }
 
-    void Chase()
-    {
-        StateController.ChangeState(StateEnum.Chase);
-        OnMoveDirectionChange.Invoke(MoveDirection);
-    }
-
-    void IdleMovement()
-    {
-        //_rigidbody.velocity = Vector2.zero;
-    }
-
-    void ChaseMovement()
-    {
-        Vector2 move = Vector2.zero;
-        if (MoveDirection == Move.Direction.None) move = Vector2.zero;
-        if (MoveDirection == Move.Direction.Left) move = Vector2.left * Values.Acceleration;
-        if (MoveDirection == Move.Direction.Right) move = Vector2.right * Values.Acceleration;
-        _rigidbody.velocity = move;
     }
 
     Move.Direction UpdateMoveDirection(float selfX, float targetX)
@@ -108,22 +97,49 @@ public class EnemyController : MonoBehaviour
         else return Move.Direction.None;
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void Chase()
     {
-        if (Method.IsPlayerObject(col.gameObject))
+        Vector2 move = Vector2.zero;
+        if (MoveDirection == Move.Direction.None) move = Vector2.zero;
+        if (MoveDirection == Move.Direction.Left) move = Vector2.left * Values.Acceleration;
+        if (MoveDirection == Move.Direction.Right) move = Vector2.right * Values.Acceleration;
+        _rigidbody.velocity = move;
+    }
+
+    void ReturnToInitialPosition()
+    {
+        Debug.Log("Return...");
+    }
+
+    public void EnterChase()
+    {
+        if (GameState.CurrentState != GameState.Play) { return; }
+
+        _target = Method.GetPlayerObject();
+        StateController.ChangeState(StateEnum.Chase);
+    }
+
+    public void StayChase()
+    {
+        if (GameState.CurrentState != GameState.Play) { return; }
+
+        if (StateController.CurrentEnum != StateEnum.Chase)
         {
-            GameEvent.Raise(GameEvent.Event.Death);
-            StateController.ChangeState(StateEnum.Idle);
+            _target = Method.GetPlayerObject();
+            StateController.ChangeState(StateEnum.Chase);
         }
     }
 
-    public void StartChase()
+    public void ExitChase()
     {
-
-    }
-
-    public void StopChase()
-    {
-
+        if (Values.ReturnToInitialPosition)
+        {
+            _target = Method.GetPlayerObject();
+            StateController.ChangeState(StateEnum.Return);
+        }
+        else
+        {
+            StateController.ChangeState(StateEnum.Idle);
+        }
     }
 }
