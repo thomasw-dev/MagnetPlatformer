@@ -16,9 +16,9 @@ public class EnemyVisual : MonoBehaviour
     }
 
     void Update()
-{
-    EnemyController.StateEnum currentState = _enemyController.StateController.CurrentEnum;
-    Move.Direction moveDirection = _enemyController.MoveDirection;
+    {
+        EnemyController.StateEnum currentState = _enemyController.StateController.CurrentEnum;
+        Move.Direction moveDirection = _enemyController.MoveDirection;
 
         if (currentState == EnemyController.StateEnum.Idle || moveDirection == Move.Direction.None)
         {
@@ -60,43 +60,5 @@ public class EnemyVisual : MonoBehaviour
                 _animatorState = AnimatorState.WalkRight;
             }
         }
-}
-
-    void OnEnable()
-    {
-        _enemyController.StateController.OnCurrentStateChanged += UpdateMoveDirectionOnStateChange;
-        _enemyController.OnMoveDirectionChange += ChangeMoveDirection;
-    }
-
-    void OnDisable()
-    {
-        _enemyController.StateController.OnCurrentStateChanged -= UpdateMoveDirectionOnStateChange;
-        _enemyController.OnMoveDirectionChange -= ChangeMoveDirection;
-    }
-
-    void UpdateMoveDirectionOnStateChange()
-    {
-        //Debug.Log("UpdateMoveDirectionOnStateChange");
-        ChangeMoveDirection(_enemyController.MoveDirection);
-    }
-
-    void ChangeMoveDirection(Move.Direction direction)
-    {
-        /*EnemyController.StateEnum controllerState = _enemyController.StateController.CurrentEnum;
-
-        if (direction == Move.Direction.None)
-        {
-            _animator.SetTrigger("Idle");
-        }
-        if (direction == Move.Direction.Left)
-        {
-            if (controllerState == EnemyController.StateEnum.Chase) _animator.SetTrigger("MoveLeft");
-            if (controllerState == EnemyController.StateEnum.Return) _animator.SetTrigger("WalkLeft");
-        }
-        if (direction == Move.Direction.Right)
-        {
-            if (controllerState == EnemyController.StateEnum.Chase) _animator.SetTrigger("MoveRight");
-            if (controllerState == EnemyController.StateEnum.Return) _animator.SetTrigger("WalkRight");
-        }*/
     }
 }

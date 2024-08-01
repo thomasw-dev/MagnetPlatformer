@@ -28,7 +28,7 @@ public class EnemyController : MonoBehaviour
 
     // Move Direction
 
-    [SerializeField] Move.Direction _moveDirection;
+    Move.Direction _moveDirection;
     public Move.Direction MoveDirection
     {
         get { return _moveDirection; }
