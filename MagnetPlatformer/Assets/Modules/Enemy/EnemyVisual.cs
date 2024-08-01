@@ -12,41 +12,15 @@ public class EnemyVisual : MonoBehaviour
         _enemyController = transform.parent.GetComponent<EnemyController>();
     }
 
-    void OnEnable()
+    void Update()
     {
-        _enemyController.StateController.OnCurrentStateChanged += UpdateMoveDirectionOnStateChange;
-        _enemyController.OnMoveDirectionChange += ChangeMoveDirection;
-    }
+        EnemyController.StateEnum currentState = _enemyController.StateController.CurrentEnum;
+        Move.Direction moveDirection = _enemyController.MoveDirection;
 
-    void OnDisable()
-    {
-        _enemyController.StateController.OnCurrentStateChanged -= UpdateMoveDirectionOnStateChange;
-        _enemyController.OnMoveDirectionChange -= ChangeMoveDirection;
-    }
-
-    void UpdateMoveDirectionOnStateChange()
-    {
-        Debug.Log("UpdateMoveDirectionOnStateChange");
-        ChangeMoveDirection(_enemyController.MoveDirection);
-    }
-
-    void ChangeMoveDirection(Move.Direction direction)
-    {
-        EnemyController.StateEnum controllerState = _enemyController.StateController.CurrentEnum;
-
-        if (direction == Move.Direction.None)
-        {
-            _animator.SetTrigger("Idle");
-        }
-        if (direction == Move.Direction.Left)
-        {
-            if (controllerState == EnemyController.StateEnum.Chase) _animator.SetTrigger("MoveLeft");
-            if (controllerState == EnemyController.StateEnum.Return) _animator.SetTrigger("WalkLeft");
-        }
-        if (direction == Move.Direction.Right)
-        {
-            if (controllerState == EnemyController.StateEnum.Chase) _animator.SetTrigger("MoveRight");
-            if (controllerState == EnemyController.StateEnum.Return) _animator.SetTrigger("WalkRight");
-        }
+        _animator.SetBool("Idle", currentState == EnemyController.StateEnum.Idle || moveDirection == Move.Direction.None);
+        _animator.SetBool("MoveLeft", currentState == EnemyController.StateEnum.Chase && moveDirection == Move.Direction.Left);
+        _animator.SetBool("MoveRight", currentState == EnemyController.StateEnum.Chase && moveDirection == Move.Direction.Right);
+        _animator.SetBool("WalkLeft", currentState == EnemyController.StateEnum.Return && moveDirection == Move.Direction.Left);
+        _animator.SetBool("WalkRight", currentState == EnemyController.StateEnum.Return && moveDirection == Move.Direction.Right);
     }
 }

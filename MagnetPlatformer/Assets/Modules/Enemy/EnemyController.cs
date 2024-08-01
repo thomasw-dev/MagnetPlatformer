@@ -34,7 +34,7 @@ public class EnemyController : MonoBehaviour
         get { return _moveDirection; }
         set
         {
-            if (value != _moveDirection) OnMoveDirectionChange.Invoke(value);
+            if (value != _moveDirection) OnMoveDirectionChange?.Invoke(value);
             _moveDirection = value;
         }
     }
