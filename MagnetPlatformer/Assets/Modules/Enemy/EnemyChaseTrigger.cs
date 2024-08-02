@@ -9,16 +9,11 @@ public class EnemyChaseTrigger : MonoBehaviour
 
     EnemyController GetController() => transform.parent.GetComponent<EnemyController>();
 
-    EnemyValues GetValues() => transform.parent.GetComponent<EnemyValues>();
-
-    CircleCollider2D GetCollider() => GetComponent<CircleCollider2D>();
-
     void OnEnable()
     {
         OnPlayerEnter += GetController().EnterChase;
         OnPlayerStay += GetController().StayChase;
         OnPlayerExit += GetController().ExitChase;
-        GetValues().SetChaseRadius += SetRadius;
     }
 
     void OnDisable()
@@ -26,12 +21,6 @@ public class EnemyChaseTrigger : MonoBehaviour
         OnPlayerEnter -= GetController().EnterChase;
         OnPlayerStay -= GetController().StayChase;
         OnPlayerExit -= GetController().ExitChase;
-        GetValues().SetChaseRadius -= SetRadius;
-    }
-
-    void SetRadius(float radius)
-    {
-        GetCollider().radius = radius / 2; // #%
     }
 
     void OnTriggerEnter2D(Collider2D col)

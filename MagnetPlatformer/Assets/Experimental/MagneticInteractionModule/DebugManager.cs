@@ -9,7 +9,6 @@ public class DebugManager : MonoBehaviour
     public static MagneticInteractionGizmosSettings MagneticInteractionGizmosSettings;
 
     [Header("Enemy")]
-    [SerializeField] bool _chaseRadius;
     [SerializeField] bool _targetPoint;
     public static EnemySettings EnemySettings;
 
@@ -19,7 +18,6 @@ public class DebugManager : MonoBehaviour
         MagneticInteractionGizmosSettings.NetAppliedForce = _netAppliedForceGizmos;
         MagneticInteractionGizmosSettings.EmissionRadius = _emissionRadiusGizmos;
 
-        EnemySettings.ChaseRadius = _chaseRadius;
         EnemySettings.TargetPoint = _targetPoint;
     }
 
@@ -29,7 +27,6 @@ public class DebugManager : MonoBehaviour
         _netAppliedForceGizmos = MagneticInteractionGizmosSettings.NetAppliedForce;
         _emissionRadiusGizmos = MagneticInteractionGizmosSettings.EmissionRadius;
 
-        _chaseRadius = EnemySettings.ChaseRadius;
         _targetPoint = EnemySettings.TargetPoint;
     }
 }
@@ -43,6 +40,5 @@ public struct MagneticInteractionGizmosSettings
 
 public struct EnemySettings
 {
-    public bool ChaseRadius;
     public bool TargetPoint;
 }
