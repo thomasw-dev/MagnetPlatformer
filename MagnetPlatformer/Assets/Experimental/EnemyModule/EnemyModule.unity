@@ -486,11 +486,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbd22ca45e9c41488131ca14652a630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _appliedForcesGizmos: 1
-  _netAppliedForceGizmos: 1
-  _emissionRadiusGizmos: 1
-  _chaseRadius: 1
-  _targetPoint: 1
 --- !u!4 &1379275959
 Transform:
   m_ObjectHideFlags: 0
@@ -609,6 +604,14 @@ PrefabInstance:
       value: Object (Ground)
       objectReference: {fileID: 0}
     - target: {fileID: 1994449776716945763, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
+      propertyPath: m_Size.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1994449776716945763, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
+      propertyPath: m_Size.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1994449776716945763, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
       propertyPath: m_Color.b
       value: 0.5
       objectReference: {fileID: 0}
@@ -671,6 +674,14 @@ PrefabInstance:
     - target: {fileID: 8026533749279698606, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8524885640414321725, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.002
+      objectReference: {fileID: 0}
+    - target: {fileID: 8524885640414321725, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
