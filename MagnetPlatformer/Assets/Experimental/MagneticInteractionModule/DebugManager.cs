@@ -22,6 +22,16 @@ public class DebugManager : MonoBehaviour
         EnemySettings.ChaseRadius = _chaseRadius;
         EnemySettings.TargetPoint = _targetPoint;
     }
+
+    void Reset()
+    {
+        _appliedForcesGizmos = MagneticInteractionGizmosSettings.AppliedForces;
+        _netAppliedForceGizmos = MagneticInteractionGizmosSettings.NetAppliedForce;
+        _emissionRadiusGizmos = MagneticInteractionGizmosSettings.EmissionRadius;
+
+        _chaseRadius = EnemySettings.ChaseRadius;
+        _targetPoint = EnemySettings.TargetPoint;
+    }
 }
 
 public struct MagneticInteractionGizmosSettings
