@@ -14,7 +14,9 @@ public class CameraController : MonoBehaviour
     bool _followPlayer = true;
     Vector3 _stickyPos;
 
-    float _defaultZoom;
+    Vector3 _defaultPos = new Vector3(0, 0, -10f);
+    float _defaultZoom = 9f;
+
     float _currentZoom;
     Tweener _zoomTween;
     const float ZOOM_DURATION = 1f;
@@ -38,7 +40,8 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        _defaultZoom = _cam.orthographicSize;
+        _cam.transform.position = _defaultPos;
+        _cam.orthographicSize = _defaultZoom;
     }
 
     void Update()

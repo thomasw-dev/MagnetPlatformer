@@ -9,7 +9,10 @@ public class TiledSpriteScaler : MonoBehaviour
     {
         if (parent == null) { return; }
 
-        transform.localScale = new Vector3(1 / parent.localScale.x, 1 / parent.localScale.y, 1 / parent.localScale.z);
+        float x = parent.localScale.x > 0 ? 1 / parent.localScale.x : 0;
+        float y = parent.localScale.y > 0 ? 1 / parent.localScale.y : 0;
+        float z = parent.localScale.z > 0 ? 1 / parent.localScale.z : 0;
+        transform.localScale = new Vector3(x, y, z);
 
         if (GetComponent<SpriteRenderer>() == null) { return; }
 

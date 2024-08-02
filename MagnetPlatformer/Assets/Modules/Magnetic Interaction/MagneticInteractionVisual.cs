@@ -5,7 +5,7 @@ public class MagneticInteractionVisual : MonoBehaviour
     [Header("Dependencies")]
     // These fields are required to be assigned in order for this module to function.
 
-    [SerializeField] SpriteRenderer _spriteRenderer;
+    [SerializeField] SpriteRenderer[] _spriteRenderers;
 
     [Header("Object Sprites")]
     [Tooltip("If assigned, this script will assign object sprites to the Sprite. If not, it will only change the Sprite color.")]
@@ -24,7 +24,7 @@ public class MagneticInteractionVisual : MonoBehaviour
     bool DependenciesNullCheck()
     {
         bool pass = true;
-        if (_spriteRenderer == null)
+        if (_spriteRenderers.Length == 0)
         {
             Debug.LogError($"Dependency missing: SpriteRenderer is not assigned.", this);
             pass = false;
@@ -89,14 +89,20 @@ public class MagneticInteractionVisual : MonoBehaviour
     void UpdateSpriteSetByType(MagneticObject.Type type)
     {
         if (_objectSpritesCollection == null) { return; }
-        _spriteRenderer.sprite = _objectSpritesCollection.GetSpriteSetByType(type).GetSpriteByCharge(GetController().CurrentCharge);
+        foreach (var spriteRenderer in _spriteRenderers)
+        {
+            spriteRenderer.sprite = _objectSpritesCollection.GetSpriteSetByType(type).GetSpriteByCharge(GetController().CurrentCharge);
+        }
     }
 
     void UpdateSpriteByCharge(Magnet.Charge charge)
     {
         if (_objectSpritesCollection != null)
         {
-            _spriteRenderer.sprite = _objectSpritesCollection.GetSpriteSetByType(GetController().CurrentType).GetSpriteByCharge(charge);
+            foreach (var spriteRenderer in _spriteRenderers)
+            {
+                spriteRenderer.sprite = _objectSpritesCollection.GetSpriteSetByType(GetController().CurrentType).GetSpriteByCharge(charge);
+            }
         }
         else
         {
@@ -106,8 +112,11 @@ public class MagneticInteractionVisual : MonoBehaviour
 
     void ChangeColorByCharge(Magnet.Charge charge)
     {
-        if (charge == Magnet.Charge.Neutral) _spriteRenderer.color = NEUTRAL_COLOR;
-        if (charge == Magnet.Charge.Positive) _spriteRenderer.color = POSITIVE_COLOR;
-        if (charge == Magnet.Charge.Negative) _spriteRenderer.color = NEGATIVE_COLOR;
+        foreach (var spriteRenderer in _spriteRenderers)
+        {
+            if (charge == Magnet.Charge.Neutral) spriteRenderer.color = NEUTRAL_COLOR;
+            if (charge == Magnet.Charge.Positive) spriteRenderer.color = POSITIVE_COLOR;
+            if (charge == Magnet.Charge.Negative) spriteRenderer.color = NEGATIVE_COLOR;
+        }
     }
 }

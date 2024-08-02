@@ -116,6 +116,7 @@ public class MagneticInteractionController : MonoBehaviour
     void Start()
     {
         StateController.ChangeState(StateEnum.Normal);
+        _initialCharge = CurrentCharge;
     }
 
     void Update()
@@ -212,7 +213,6 @@ public class MagneticInteractionController : MonoBehaviour
             .SetAutoKill(false)
             .OnPlay(() =>
             {
-                _initialCharge = CurrentCharge;
                 CurrentCharge = charge;
             })
             .OnUpdate(() =>
