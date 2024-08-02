@@ -107,6 +107,10 @@ PrefabInstance:
       propertyPath: _magneticInteractionController
       value: 
       objectReference: {fileID: 5482352259284319155}
+    - target: {fileID: 6190126582366936001, guid: e3f06b0e32444408dbd37229221b14df, type: 3}
+      propertyPath: parent
+      value: 
+      objectReference: {fileID: 5567417561463746347}
     - target: {fileID: 7273224093590120593, guid: e3f06b0e32444408dbd37229221b14df, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

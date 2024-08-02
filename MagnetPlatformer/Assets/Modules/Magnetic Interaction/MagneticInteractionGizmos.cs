@@ -18,27 +18,27 @@ public class MagneticInteractionGizmos : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (DebugManager.MagneticInteractionGizmosSettings.AppliedForces)
+        if (GizmosSettings.MagneticInteraction.AppliedForces)
         {
             for (int i = 0; i < GetController().AppliedForces.Count; i++)
             {
                 ChargedForce reactionForce = GetController().AppliedForces[i];
-
                 Gizmos.color = reactionForce.Relation == ChargedForce.RelationType.Attract ? ATTRACTION_FORCE_COLOR : REPULSION_FORCE_COLOR;
                 Gizmos.DrawRay(transform.position, Vector2.ClampMagnitude(reactionForce.Vector * FORCE_MAGNITUDE_FACTOR, FORCE_LENGTH_MAX));
             }
         }
 
-        if (DebugManager.MagneticInteractionGizmosSettings.NetAppliedForce)
+        if (GizmosSettings.MagneticInteraction.NetAppliedForce)
         {
-            if (GetController().AppliedForces.Count <= 1) { return; }
-
-            Vector2 netReactionForce = GetController().NetAppliedForce;
-            Gizmos.color = NET_FORCE_COLOR;
-            Gizmos.DrawRay(transform.position, Vector2.ClampMagnitude(netReactionForce * FORCE_MAGNITUDE_FACTOR, FORCE_LENGTH_MAX));
+            if (GetController().AppliedForces.Count > 1)
+            {
+                Vector2 netReactionForce = GetController().NetAppliedForce;
+                Gizmos.color = NET_FORCE_COLOR;
+                Gizmos.DrawRay(transform.position, Vector2.ClampMagnitude(netReactionForce * FORCE_MAGNITUDE_FACTOR, FORCE_LENGTH_MAX));
+            }
         }
 
-        if (DebugManager.MagneticInteractionGizmosSettings.EmissionRadius)
+        if (GizmosSettings.MagneticInteraction.EmissionRadius)
         {
             if (GetController().CurrentCharge == Magnet.Charge.Neutral) Gizmos.color = EMISSION_RADIUS_COLOR_NEUTRAL;
             if (GetController().CurrentCharge == Magnet.Charge.Positive) Gizmos.color = EMISSION_RADIUS_COLOR_POSITIVE;
