@@ -1,6 +1,24 @@
+using System.Collections.Generic;
+
 public static class Constants
 {
     public const float GRAVITY = 9.81f;
+
+    public enum ENUM_TAG
+    {
+        ENVIRONMENT,
+        MAGNETIC_OBJECT,
+        ENEMY,
+        PROP_OBJECT
+    };
+
+    public static Dictionary<ENUM_TAG, string> TAG = new Dictionary<ENUM_TAG, string>
+    {
+        { ENUM_TAG.ENVIRONMENT, "Environment" },
+        { ENUM_TAG.MAGNETIC_OBJECT, "Magnetic Object" },
+        { ENUM_TAG.ENEMY, "Enemy" },
+        { ENUM_TAG.PROP_OBJECT, "Prop Object" }
+    };
 
     public enum LAYER
     {

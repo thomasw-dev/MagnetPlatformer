@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Magnetic Object
       objectReference: {fileID: 0}
+    - target: {fileID: 1573477837052839366, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
+      propertyPath: m_TagString
+      value: Magnetic Object
+      objectReference: {fileID: 0}
     - target: {fileID: 1994449776716945763, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
       propertyPath: m_Sprite
       value: 

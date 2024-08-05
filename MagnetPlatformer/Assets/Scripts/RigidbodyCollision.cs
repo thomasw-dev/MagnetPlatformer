@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollisionList : MonoBehaviour
+public class RigidbodyCollision : MonoBehaviour
 {
+    public List<GameObject> List { get => collisions; }
+
     [SerializeField] List<GameObject> collisions = new List<GameObject>();
 
     void OnCollisionEnter2D(Collision2D col)

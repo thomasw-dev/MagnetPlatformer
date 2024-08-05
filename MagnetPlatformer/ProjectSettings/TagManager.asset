@@ -6,9 +6,9 @@ TagManager:
   tags:
   - Debug
   - Environment
-  - Prop Object
   - Magnetic Object
   - Enemy
+  - Prop Object
   layers:
   - Default
   - TransparentFX

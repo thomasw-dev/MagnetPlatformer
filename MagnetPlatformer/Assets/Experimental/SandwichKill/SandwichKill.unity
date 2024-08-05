@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a737a9ca0fa4360a9931957477805e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collisionList: {fileID: 674899739}
+  _rigidbodyCollision: {fileID: 674899739}
 --- !u!4 &233693162 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2715655224642287189, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
