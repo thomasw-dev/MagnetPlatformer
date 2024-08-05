@@ -40,7 +40,6 @@ public class EnemyCollisionKill : MonoBehaviour
             {
                 _collisions.Add(hitTop.collider.gameObject);
                 isHitTop = true;
-                Debug.Log("Top side hit: " + hitTop.collider.name);
             }
         }
 
@@ -51,7 +50,6 @@ public class EnemyCollisionKill : MonoBehaviour
             {
                 _collisions.Add(hitBottom.collider.gameObject);
                 isHitBottom = true;
-                Debug.Log("Bottom side hit: " + hitBottom.collider.name);
             }
         }
 
@@ -62,7 +60,6 @@ public class EnemyCollisionKill : MonoBehaviour
             {
                 _collisions.Add(hitLeft.collider.gameObject);
                 isHitLeft = true;
-                Debug.Log("Left side hit: " + hitLeft.collider.name);
             }
         }
 
@@ -73,7 +70,6 @@ public class EnemyCollisionKill : MonoBehaviour
             {
                 _collisions.Add(hitRight.collider.gameObject);
                 isHitRight = true;
-                Debug.Log("Right side hit: " + hitRight.collider.name);
             }
         }
 

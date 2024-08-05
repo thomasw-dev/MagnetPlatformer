@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
 
     const float MOVE_SPEED_MAX = 15f;
     const float GROUND_CHECK_RAYCAST_LENGTH = 0.5f;
-    LayerMask _groundLayerMask;
+    LayerMask[] _groundLayers;
 
     Rigidbody2D _rigidbody2D;
 
@@ -63,22 +63,18 @@ public class Player : MonoBehaviour
     void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-    }
 
-    void Start()
-    {
-        _groundLayerMask = LayerMask.GetMask(
-            Constants.LAYER.Physics.ToString(),
-            Constants.LAYER.Environment.ToString()
-        );
+        _groundLayers = new LayerMask[]
+        {
+            LayerMask.GetMask(Constants.LAYER.Physics.ToString()),
+            LayerMask.GetMask(Constants.LAYER.Environment.ToString())
+        };
     }
 
     void Update()
     {
         // _isInputEnabled is only true when GameState is Playing
         _isInputEnabled = GameState.CurrentState == GameState.Play ? true : false;
-
-
     }
 
     void FixedUpdate()
@@ -98,8 +94,15 @@ public class Player : MonoBehaviour
 
     bool GroundCheck()
     {
-        RaycastHit2D hit = Physics2D.Raycast(_groundCheckRaycastPoint.position, Vector2.down, GROUND_CHECK_RAYCAST_LENGTH, _groundLayerMask);
-        return hit.collider != null ? true : false;
+        foreach (LayerMask layerMask in _groundLayers)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(_groundCheckRaycastPoint.position, Vector2.down, GROUND_CHECK_RAYCAST_LENGTH, layerMask);
+            if (hit.collider != null)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     void Initialize()

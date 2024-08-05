@@ -228,8 +228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf53bd6be2c244f59b605637e64e78d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChaseAcceleration: 2
-  WalkAcceleration: 1
+  ChaseAcceleration: 4
+  WalkAcceleration: 2
   ReturnToInitialPosition: 1
 --- !u!114 &6937148688657777040
 MonoBehaviour:
