@@ -63,7 +63,12 @@ public class EnemyController : MonoBehaviour
     {
         StateController.ChangeState(StateEnum.Idle);
         _initialPos = transform.position;
-        _target = Method.GetPlayerObject().transform;
+
+        GameObject player = Method.GetPlayerObject();
+        if (player != null)
+        {
+            _target = player.transform;
+        }
     }
 
     void Update()
@@ -88,7 +93,7 @@ public class EnemyController : MonoBehaviour
 
         if (StateController.CurrentEnum == StateEnum.Chase)
         {
-            _targetPos = _target.transform.position;
+            _targetPos = _target == null ? _initialPos : _target.transform.position;
             MoveDirection = UpdateMoveDirection(transform.position.x, _targetPos.x);
             MoveRigidbody(Values.ChaseAcceleration);
         }
