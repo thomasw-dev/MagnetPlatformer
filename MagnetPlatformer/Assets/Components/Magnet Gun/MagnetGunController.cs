@@ -145,10 +145,18 @@ public class MagnetGunController : MonoBehaviour
 
     void Fire()
     {
-        ShootRay(CurrentCharge);
+        bool successfulHit = ShootRay(CurrentCharge);
+
         OnFire?.Invoke(CurrentCharge);
 
-        if (!Values.CostAmmoOnMagneticOnly)
+        if (Values.CostAmmoOnMagneticOnly)
+        {
+            if (successfulHit)
+            {
+                CostAmmo();
+            }
+        }
+        else
         {
             CostAmmo();
         }
@@ -156,7 +164,7 @@ public class MagnetGunController : MonoBehaviour
 
     void FireRelease() => OnFireRelease?.Invoke();
 
-    void ShootRay(Magnet.Charge charge)
+    bool ShootRay(Magnet.Charge charge)
     {
         Vector2 origin = _shootPoint == null ? transform.position : _shootPoint.position;
         Vector2 direction = transform.up;
@@ -179,9 +187,11 @@ public class MagnetGunController : MonoBehaviour
                 if (CurrentCharge != controller.CurrentCharge)
                 {
                     controller.OnAlterCharge?.Invoke(charge);
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     void CostAmmo()

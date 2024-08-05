@@ -52,7 +52,7 @@ MonoBehaviour:
   _attachPoint: {fileID: 245742681034946597}
   _mouseArea: {fileID: 0}
   _currentCharge: 0
-  _shootPoint: {fileID: 0}
+  _shootPoint: {fileID: 7432641602425025299}
   _cooldownBar: 0
   _refillBar: 0
 --- !u!114 &5659566996703109919
