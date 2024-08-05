@@ -14,6 +14,7 @@ public class EnemyCollisionKill : MonoBehaviour
 
     const float BOXCAST_DISTANCE = 0.01f;
     const float KILL_SET_INACTIVE_WAIT = 0.1f;
+
     LayerMask[] _includeLayers;
 
     void Awake()
@@ -33,6 +34,7 @@ public class EnemyCollisionKill : MonoBehaviour
         bool isHitLeft = false;
         bool isHitRight = false;
 
+        // Top
         foreach (LayerMask layerMask in _includeLayers)
         {
             RaycastHit2D hitTop = Physics2D.BoxCast(transform.position, _rootParent.transform.localScale, 0, Vector2.up, BOXCAST_DISTANCE, layerMask);
@@ -43,6 +45,7 @@ public class EnemyCollisionKill : MonoBehaviour
             }
         }
 
+        // Bottom
         foreach (LayerMask layerMask in _includeLayers)
         {
             RaycastHit2D hitBottom = Physics2D.BoxCast(transform.position, _rootParent.transform.localScale, 0, Vector2.down, BOXCAST_DISTANCE, layerMask);
@@ -53,6 +56,7 @@ public class EnemyCollisionKill : MonoBehaviour
             }
         }
 
+        // Left
         foreach (LayerMask layerMask in _includeLayers)
         {
             RaycastHit2D hitLeft = Physics2D.BoxCast(transform.position, _rootParent.transform.localScale, 0, Vector2.left, BOXCAST_DISTANCE, layerMask);
@@ -63,6 +67,7 @@ public class EnemyCollisionKill : MonoBehaviour
             }
         }
 
+        // Right
         foreach (LayerMask layerMask in _includeLayers)
         {
             RaycastHit2D hitRight = Physics2D.BoxCast(transform.position, _rootParent.transform.localScale, 0, Vector2.right, BOXCAST_DISTANCE, layerMask);

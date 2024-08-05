@@ -4,7 +4,7 @@ public class Player : MonoBehaviour
 {
     [Tooltip("These fields need their values to be assigned in the Inspector.")]
     [Header("Assign Fields")]
-    [SerializeField] Transform _groundCheckRaycastPoint;
+    [SerializeField] GroundCheck _groundCheck;
 
     [Header("Movement")]
     [Range(0.001f, 10f)]
@@ -17,9 +17,10 @@ public class Player : MonoBehaviour
     [SerializeField] bool _airJumpEnabled = false;
 
     const float MOVE_SPEED_MAX = 15f;
-    const float GROUND_CHECK_RAYCAST_LENGTH = 0.5f;
-    LayerMask[] _groundLayers;
+    const float GROUND_CHECK_BOXCAST_HEIGHT = 0.1f;
+    const float GROUND_CHECK_BOXCAST_LENGTH = 0.3f;
 
+    Vector2 _playerSize = new Vector2(1f, 1f);
     Rigidbody2D _rigidbody2D;
 
     bool _isInputEnabled = true;
@@ -63,18 +64,14 @@ public class Player : MonoBehaviour
     void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-
-        _groundLayers = new LayerMask[]
-        {
-            LayerMask.GetMask(Constants.LAYER.Physics.ToString()),
-            LayerMask.GetMask(Constants.LAYER.Environment.ToString())
-        };
     }
 
     void Update()
     {
         // _isInputEnabled is only true when GameState is Playing
         _isInputEnabled = GameState.CurrentState == GameState.Play ? true : false;
+
+        Debug.Log(_isGrounded);
     }
 
     void FixedUpdate()
@@ -85,25 +82,25 @@ public class Player : MonoBehaviour
         }
 
         // Just touched the ground, player can jump again
-        if (!_isGrounded && GroundCheck())
+        if (!_isGrounded && _groundCheck.IsGrounded)
         {
             _isJumping = false;
         }
-        _isGrounded = GroundCheck();
+        _isGrounded = _groundCheck.IsGrounded;
     }
 
-    bool GroundCheck()
+    /*bool GroundCheck()
     {
         foreach (LayerMask layerMask in _groundLayers)
         {
-            RaycastHit2D hit = Physics2D.Raycast(_groundCheckRaycastPoint.position, Vector2.down, GROUND_CHECK_RAYCAST_LENGTH, layerMask);
+            RaycastHit2D hit = Physics2D.BoxCast(_groundCheckBoxCastPoint.position, new Vector2(transform.localScale.x, GROUND_CHECK_BOXCAST_HEIGHT), 0, Vector2.down, GROUND_CHECK_BOXCAST_LENGTH, layerMask);
             if (hit.collider != null)
             {
                 return true;
             }
         }
         return false;
-    }
+    }*/
 
     void Initialize()
     {
@@ -162,17 +159,6 @@ public class Player : MonoBehaviour
         {
             _rigidbody2D.AddForce(Vector2.up * _jumpForce);
             _isJumping = true;
-        }
-    }
-
-    void OnDrawGizmos()
-    {
-        if (gizmos)
-        {
-            Gizmos.color = Color.red;
-            Vector3 start = _groundCheckRaycastPoint.position;
-            Vector3 end = start + Vector3.down * GROUND_CHECK_RAYCAST_LENGTH;
-            Gizmos.DrawRay(start, end - start);
         }
     }
 }
