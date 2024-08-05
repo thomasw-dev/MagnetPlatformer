@@ -4,9 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Environment
-  - Object
   - Debug
+  - Environment
+  - Prop Object
+  - Magnetic Object
+  - Enemy
   layers:
   - Default
   - TransparentFX

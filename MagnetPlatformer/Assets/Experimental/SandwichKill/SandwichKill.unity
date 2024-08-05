@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &151480862
 Transform:
   m_ObjectHideFlags: 0
@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a737a9ca0fa4360a9931957477805e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _collisionList: {fileID: 674899739}
 --- !u!4 &233693162 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2715655224642287189, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
@@ -232,6 +233,17 @@ PrefabInstance:
       addedObject: {fileID: 151480862}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
+--- !u!114 &674899739 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7502467239189769477, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
+  m_PrefabInstance: {fileID: 674899738}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cddbb7ba65d34b30a941d2ef7f25e6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1218244315
 GameObject:
   m_ObjectHideFlags: 0
