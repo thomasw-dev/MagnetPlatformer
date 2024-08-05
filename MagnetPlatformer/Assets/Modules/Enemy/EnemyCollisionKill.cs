@@ -1,16 +1,19 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyCollisionKill : MonoBehaviour
 {
     [Header("Dependencies")] // Required to be assigned in the Inspector
-    [SerializeField] RigidbodyCollision _rigidbodyCollision;
+    [SerializeField] Transform _rootParent;
 
-    [Header("Included Collisions")]
-    [SerializeField] List<GameObject> _includedCollisions;
+    [Space(10)]
+
+    [SerializeField] bool _kill = false;
+    [SerializeField] List<GameObject> _collisions;
 
     const float BOXCAST_DISTANCE = 0.01f;
-
+    const float KILL_SET_INACTIVE_WAIT = 0.1f;
     LayerMask[] _includeLayers;
 
     void Awake()
@@ -24,16 +27,18 @@ public class EnemyCollisionKill : MonoBehaviour
 
     void Update()
     {
-        _includedCollisions = new List<GameObject>();
+        _collisions = new List<GameObject>();
         bool isHitTop = false;
         bool isHitBottom = false;
+        bool isHitLeft = false;
+        bool isHitRight = false;
 
         foreach (LayerMask layerMask in _includeLayers)
         {
-            RaycastHit2D hitTop = Physics2D.BoxCast(transform.position, _rigidbodyCollision.transform.localScale, 0, Vector2.up, BOXCAST_DISTANCE, layerMask);
+            RaycastHit2D hitTop = Physics2D.BoxCast(transform.position, _rootParent.transform.localScale, 0, Vector2.up, BOXCAST_DISTANCE, layerMask);
             if (hitTop.collider != null)
             {
-                _includedCollisions.Add(hitTop.collider.gameObject);
+                _collisions.Add(hitTop.collider.gameObject);
                 isHitTop = true;
                 Debug.Log("Top side hit: " + hitTop.collider.name);
             }
@@ -41,18 +46,48 @@ public class EnemyCollisionKill : MonoBehaviour
 
         foreach (LayerMask layerMask in _includeLayers)
         {
-            RaycastHit2D hitBottom = Physics2D.BoxCast(transform.position, _rigidbodyCollision.transform.localScale, 0, Vector2.down, BOXCAST_DISTANCE, layerMask);
+            RaycastHit2D hitBottom = Physics2D.BoxCast(transform.position, _rootParent.transform.localScale, 0, Vector2.down, BOXCAST_DISTANCE, layerMask);
             if (hitBottom.collider != null)
             {
-                _includedCollisions.Add(hitBottom.collider.gameObject);
+                _collisions.Add(hitBottom.collider.gameObject);
                 isHitBottom = true;
                 Debug.Log("Bottom side hit: " + hitBottom.collider.name);
             }
         }
 
-        if (isHitTop && isHitBottom)
+        foreach (LayerMask layerMask in _includeLayers)
         {
-            Debug.Log("Both top and bottom sides are collided!");
+            RaycastHit2D hitLeft = Physics2D.BoxCast(transform.position, _rootParent.transform.localScale, 0, Vector2.left, BOXCAST_DISTANCE, layerMask);
+            if (hitLeft.collider != null)
+            {
+                _collisions.Add(hitLeft.collider.gameObject);
+                isHitLeft = true;
+                Debug.Log("Left side hit: " + hitLeft.collider.name);
+            }
         }
+
+        foreach (LayerMask layerMask in _includeLayers)
+        {
+            RaycastHit2D hitRight = Physics2D.BoxCast(transform.position, _rootParent.transform.localScale, 0, Vector2.right, BOXCAST_DISTANCE, layerMask);
+            if (hitRight.collider != null)
+            {
+                _collisions.Add(hitRight.collider.gameObject);
+                isHitRight = true;
+                Debug.Log("Right side hit: " + hitRight.collider.name);
+            }
+        }
+
+        _kill = (isHitTop && isHitBottom) || (isHitLeft && isHitRight);
+
+        if (_kill)
+        {
+            StartCoroutine(WaitSetInactive());
+        }
+    }
+
+    IEnumerator WaitSetInactive()
+    {
+        yield return new WaitForSeconds(KILL_SET_INACTIVE_WAIT);
+        _rootParent.gameObject.SetActive(false);
     }
 }
