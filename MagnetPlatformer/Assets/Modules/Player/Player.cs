@@ -36,7 +36,11 @@ public class Player : MonoBehaviour
         InputManager.OnMoveLeftInputStop += MoveLeftStop;
         InputManager.OnMoveRightInput += MoveRight;
         InputManager.OnMoveRightInputStop += MoveRightStop;
+
         InputManager.OnJumpInput += Jump;
+        InputManager.OnJumpInputStop += JumpStop;
+        InputManager.OnJumpAltInput += Jump;
+        InputManager.OnJumpAltInputStop += JumpStop;
     }
 
     void OnDisable()
@@ -49,7 +53,11 @@ public class Player : MonoBehaviour
         InputManager.OnMoveLeftInputStop -= MoveLeftStop;
         InputManager.OnMoveRightInput -= MoveRight;
         InputManager.OnMoveRightInputStop -= MoveRightStop;
+
         InputManager.OnJumpInput -= Jump;
+        InputManager.OnJumpInputStop -= JumpStop;
+        InputManager.OnJumpAltInput -= Jump;
+        InputManager.OnJumpAltInputStop -= JumpStop;
     }
 
     void Awake()
@@ -65,12 +73,6 @@ public class Player : MonoBehaviour
         }
 
         _isGrounded = _groundCheck == null ? false : _groundCheck.IsGrounded;
-
-        // Player just touched the ground (is jumping and it is grounded now), can jump again
-        if (_isJumping && _isGrounded)
-        {
-            _isJumping = false;
-        }
     }
 
     void Initialize()
@@ -120,5 +122,10 @@ public class Player : MonoBehaviour
             _rigidbody2D.AddForce(Vector2.up * _jumpForce);
             _isJumping = true;
         }
+    }
+
+    void JumpStop()
+    {
+        _isJumping = false;
     }
 }

@@ -11,6 +11,9 @@ public class InputManager : MonoBehaviour
     public static event Action OnMoveRightInput;
     public static event Action OnMoveRightInputStop;
     public static event Action OnJumpInput;
+    public static event Action OnJumpInputStop;
+    public static event Action OnJumpAltInput;
+    public static event Action OnJumpAltInputStop;
 
     public static event Action<Magnet.Charge> OnMagnetGunSetCharge;
     public static event Action OnToggleChargeInput;
@@ -69,6 +72,7 @@ public class InputManager : MonoBehaviour
     void GameplayInputs()
     {
         // Move Left
+
         if (Input.GetKey(MOVE_LEFT_KEY))
         {
             OnMoveLeftInput?.Invoke();
@@ -76,6 +80,7 @@ public class InputManager : MonoBehaviour
         else OnMoveLeftInputStop?.Invoke();
 
         // Move Right
+
         if (Input.GetKey(MOVE_RIGHT_KEY))
         {
             OnMoveRightInput?.Invoke();
@@ -83,12 +88,27 @@ public class InputManager : MonoBehaviour
         else OnMoveRightInputStop?.Invoke();
 
         // Jump
-        if (Input.GetKeyDown(JUMP_KEY) || Input.GetKeyDown(JUMP_KEY_ALT))
+
+        if (Input.GetKeyDown(JUMP_KEY))
         {
             OnJumpInput?.Invoke();
         }
+        if (Input.GetKeyUp(JUMP_KEY))
+        {
+            OnJumpInputStop?.Invoke();
+        }
+
+        if (Input.GetKeyDown(JUMP_KEY_ALT))
+        {
+            OnJumpAltInput?.Invoke();
+        }
+        if (Input.GetKeyUp(JUMP_KEY_ALT))
+        {
+            OnJumpAltInputStop?.Invoke();
+        }
 
         // Toggle Charge (Positive / Negative)
+
         if (Input.GetKeyDown(TOGGLE_CHARGE_KEY))
         {
             // Flip it between Positive and Negative 
