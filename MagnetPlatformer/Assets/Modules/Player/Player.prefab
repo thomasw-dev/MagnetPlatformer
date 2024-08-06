@@ -694,8 +694,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _groundCheck: {fileID: 487488742793983701}
-  _moveSpeed: 2.5
-  _jumpForce: 3000
+  _moveSpeed: 2
+  _jumpForce: 80
   _airJumpEnabled: 0
 --- !u!50 &6086237419897319610
 Rigidbody2D:
@@ -709,7 +709,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 0.01
   m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 9.81
