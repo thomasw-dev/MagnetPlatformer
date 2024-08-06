@@ -21,7 +21,6 @@ public class PlayerCollisionKill : MonoBehaviour
 
     void HandleKill()
     {
-        Debug.Log("Sandwich!");
         GameEvent.Raise(GameEvent.Event.Death);
     }
 }
