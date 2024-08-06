@@ -20,10 +20,10 @@ public class Player : MonoBehaviour
 
     Rigidbody2D _rigidbody2D;
 
-    [SerializeField] bool _isGrounded = false;
+    bool _isGrounded = false;
     bool _isMovingLeft = false;
     bool _isMovingRight = false;
-    [SerializeField] bool _isJumping = false;
+    bool _isJumping = false;
     float _velocityX;
 
     void OnEnable()

@@ -4,24 +4,16 @@ using UnityEngine;
 
 public class CollisionKill : MonoBehaviour
 {
-    [SerializeField] Vector2 _boxCastSize = Vector2.one;
+    [SerializeField] Transform[] _castPoints = new Transform[4];
+    [SerializeField] float _castDistance = 0.05f;
+    [SerializeField] LayerMask _includeLayers;
+
+    [Space(10)]
+
     [SerializeField] List<GameObject> _collisions;
-
-    [SerializeField] float BOXCAST_DISTANCE = 0.05f;
-
-    public LayerMask _includeLayers;
 
     public event Action OnKill;
     bool _invoked = false;
-
-    void Awake()
-    {
-        //_includeLayers = new LayerMask[]
-        //{
-        //    LayerMask.GetMask(Constants.LAYER.Environment.ToString()),
-        //    LayerMask.GetMask(Constants.LAYER.Magnetic.ToString())
-        //};
-    }
 
     void FixedUpdate()
     {
@@ -31,59 +23,45 @@ public class CollisionKill : MonoBehaviour
         bool isHitLeft = false;
         bool isHitRight = false;
 
-        // Top
-        //foreach (LayerMask layerMask in _includeLayers)
+        for (int i = 0; i < 4; i++)
         {
-            RaycastHit2D hitTop = Physics2D.BoxCast(transform.position, _boxCastSize, 0, Vector2.up, BOXCAST_DISTANCE, _includeLayers);
-            if (hitTop.collider != null)
+            Vector2 direction = IndexToDirection(i);
+            RaycastHit2D hit = Physics2D.BoxCast(_castPoints[i].position, _castPoints[i].localScale, 0, direction, _castDistance, _includeLayers);
+            if (hit.collider != null)
             {
-                _collisions.Add(hitTop.collider.gameObject);
-                isHitTop = true;
+                _collisions.Add(hit.collider.gameObject);
+                if (i == 0) isHitTop = true;
+                if (i == 1) isHitBottom = true;
+                if (i == 2) isHitLeft = true;
+                if (i == 3) isHitRight = true;
             }
         }
 
-        // Bottom
-        //foreach (LayerMask layerMask in _includeLayers)
-        //{
-            RaycastHit2D hitBottom = Physics2D.BoxCast(transform.position, _boxCastSize, 0, Vector2.down, BOXCAST_DISTANCE, _includeLayers);
-            if (hitBottom.collider != null)
-            {
-                _collisions.Add(hitBottom.collider.gameObject);
-                isHitBottom = true;
-            }
-        //}
-
-        // Left
-        //foreach (LayerMask layerMask in _includeLayers)
-        //
-            RaycastHit2D hitLeft = Physics2D.BoxCast(transform.position, _boxCastSize, 0, Vector2.left, BOXCAST_DISTANCE, _includeLayers);
-            if (hitLeft.collider != null)
-            {
-                _collisions.Add(hitLeft.collider.gameObject);
-                isHitLeft = true;
-            }
-        //}
-
-        // Right
-        //foreach (LayerMask layerMask in _includeLayers)
-        //{
-            RaycastHit2D hitRight = Physics2D.BoxCast(transform.position, _boxCastSize, 0, Vector2.right, BOXCAST_DISTANCE, _includeLayers);
-            if (hitRight.collider != null)
-            {
-                _collisions.Add(hitRight.collider.gameObject);
-                isHitRight = true;
-            }
-        //}
-
         if ((isHitTop && isHitBottom) || (isHitLeft && isHitRight))
         {
-            if (!_invoked) { OnKill?.Invoke(); Debug.Log("OnKill?.Invoke();"); }
+            if (!_invoked) { OnKill?.Invoke(); }
         }
     }
 
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position, _boxCastSize);
+        for (int i = 0; i < 4; i++)
+        {
+            Vector2 direction = IndexToDirection(i);
+            Gizmos.DrawRay(_castPoints[i].position, direction * _castDistance);
+        }
+    }
+
+    Vector2 IndexToDirection(int i)
+    {
+        return i switch
+        {
+            0 => Vector2.up,
+            1 => Vector2.down,
+            2 => Vector2.left,
+            3 => Vector2.right,
+            _ => Vector2.zero
+        };
     }
 }
