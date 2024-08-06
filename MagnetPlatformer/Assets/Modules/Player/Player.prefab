@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 1382844901851947031}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.9, z: 0}
+  m_LocalScale: {x: 0.9, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5859685949880444810}
@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isGrounded: 0
+  _ignoreSelfColliders:
+  - {fileID: 3339800481871339967}
 --- !u!61 &6679316205452129483
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -693,7 +695,6 @@ MonoBehaviour:
   _moveSpeed: 1.5
   _jumpForce: 3000
   _airJumpEnabled: 0
-  gizmos: 0
 --- !u!50 &6086237419897319610
 Rigidbody2D:
   serializedVersion: 4

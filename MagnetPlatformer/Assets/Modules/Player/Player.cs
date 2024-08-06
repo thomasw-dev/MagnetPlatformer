@@ -17,28 +17,20 @@ public class Player : MonoBehaviour
     [SerializeField] bool _airJumpEnabled = false;
 
     const float MOVE_SPEED_MAX = 15f;
-    const float GROUND_CHECK_BOXCAST_HEIGHT = 0.1f;
-    const float GROUND_CHECK_BOXCAST_LENGTH = 0.3f;
 
-    Vector2 _playerSize = new Vector2(1f, 1f);
     Rigidbody2D _rigidbody2D;
 
-    bool _isInputEnabled = true;
+    [SerializeField] bool _isGrounded = false;
     bool _isMovingLeft = false;
     bool _isMovingRight = false;
-    bool _isGrounded = false;
-    bool _isJumping = false;
+    [SerializeField] bool _isJumping = false;
     float _velocityX;
-
-    [Space(10)]
-    [SerializeField] bool gizmos = false;
 
     void OnEnable()
     {
         GameState.Initialize.OnEnter += Initialize;
-        GameState.Play.OnEnter += EnableInput;
-        GameState.Play.OnExit += DisableInput;
-        GameState.Win.OnEnter += DisableInput;
+        GameState.Play.OnEnter += EnterPlay;
+        GameState.Play.OnExit += ResetInput;
 
         InputManager.OnMoveLeftInput += MoveLeft;
         InputManager.OnMoveLeftInputStop += MoveLeftStop;
@@ -50,9 +42,8 @@ public class Player : MonoBehaviour
     void OnDisable()
     {
         GameState.Initialize.OnEnter -= Initialize;
-        GameState.Play.OnEnter -= EnableInput;
-        GameState.Play.OnExit -= DisableInput;
-        GameState.Win.OnEnter -= DisableInput;
+        GameState.Play.OnEnter -= EnterPlay;
+        GameState.Play.OnExit -= ResetInput;
 
         InputManager.OnMoveLeftInput -= MoveLeft;
         InputManager.OnMoveLeftInputStop -= MoveLeftStop;
@@ -66,14 +57,6 @@ public class Player : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
-    {
-        // _isInputEnabled is only true when GameState is Playing
-        _isInputEnabled = GameState.CurrentState == GameState.Play ? true : false;
-
-        Debug.Log(_isGrounded);
-    }
-
     void FixedUpdate()
     {
         if (_isMovingLeft || _isMovingRight)
@@ -81,81 +64,58 @@ public class Player : MonoBehaviour
             _rigidbody2D.velocity = new Vector2(_velocityX, _rigidbody2D.velocity.y);
         }
 
-        // Just touched the ground, player can jump again
-        if (!_isGrounded && _groundCheck.IsGrounded)
+        _isGrounded = _groundCheck == null ? false : _groundCheck.IsGrounded;
+
+        // Player just touched the ground (is jumping and it is grounded now), can jump again
+        if (_isJumping && _isGrounded)
         {
             _isJumping = false;
         }
-        _isGrounded = _groundCheck.IsGrounded;
     }
-
-    /*bool GroundCheck()
-    {
-        foreach (LayerMask layerMask in _groundLayers)
-        {
-            RaycastHit2D hit = Physics2D.BoxCast(_groundCheckBoxCastPoint.position, new Vector2(transform.localScale.x, GROUND_CHECK_BOXCAST_HEIGHT), 0, Vector2.down, GROUND_CHECK_BOXCAST_LENGTH, layerMask);
-            if (hit.collider != null)
-            {
-                return true;
-            }
-        }
-        return false;
-    }*/
 
     void Initialize()
     {
-        DisableInput();
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
     }
 
-    void EnableInput()
+    void EnterPlay()
     {
-        _isInputEnabled = true;
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
     }
 
-    void DisableInput()
+    void ResetInput()
     {
-        _isInputEnabled = false;
+        _isGrounded = false;
         _isMovingLeft = false;
         _isMovingRight = false;
+        _isJumping = false;
         _rigidbody2D.velocity = Vector2.zero;
     }
 
     void MoveLeft()
     {
-        if (!_isInputEnabled) { return; }
         _isMovingLeft = true;
         _velocityX = Mathf.Clamp(_rigidbody2D.velocity.x - _moveSpeed, -MOVE_SPEED_MAX, 0);
     }
 
     void MoveRight()
     {
-        if (!_isInputEnabled) { return; }
         _isMovingRight = true;
         _velocityX = Mathf.Clamp(_rigidbody2D.velocity.x + _moveSpeed, 0, MOVE_SPEED_MAX);
     }
 
     void MoveLeftStop()
     {
-        if (!_isInputEnabled) { return; }
         _isMovingLeft = false;
     }
     void MoveRightStop()
     {
-        if (!_isInputEnabled) { return; }
         _isMovingRight = false;
     }
 
     void Jump()
     {
-        if (!_isInputEnabled) { return; }
-
-        bool canJump;
-        if (_isGrounded && !_isJumping) canJump = true;
-        else canJump = _airJumpEnabled ? true : false;
-
-        if (canJump)
+        if (_airJumpEnabled || (_isGrounded && !_isJumping))
         {
             _rigidbody2D.AddForce(Vector2.up * _jumpForce);
             _isJumping = true;

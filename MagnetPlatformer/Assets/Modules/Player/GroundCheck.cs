@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundCheck : MonoBehaviour
@@ -5,34 +6,45 @@ public class GroundCheck : MonoBehaviour
     public bool IsGrounded { get => _isGrounded; }
     [SerializeField] bool _isGrounded;
 
-    [Space(10)]
+    [SerializeField] List<Collider2D> _ignoreSelfColliders = new List<Collider2D>();
 
-    const float GROUND_CHECK_BOXCAST_HEIGHT = 0.1f;
-    const float GROUND_CHECK_BOXCAST_LENGTH = 0.3f;
+    List<Collider2D> _colliders = new List<Collider2D>();
 
-    LayerMask[] _groundLayers;
+    string[] _includeLayerNames = {
+        Constants.LAYER.Physics.ToString(),
+        Constants.LAYER.Environment.ToString()
+    };
 
-    void Awake()
+    void Update()
     {
-        _groundLayers = new LayerMask[]
-        {
-            LayerMask.GetMask(Constants.LAYER.Physics.ToString()),
-            LayerMask.GetMask(Constants.LAYER.Environment.ToString())
-        };
-    }
+        _colliders.Clear();
 
-    void OnTriggerStay2D(Collider2D col)
-    {
-        string layerName = col.gameObject.layer.ToString();
-        if (layerName == Constants.LAYER.Physics.ToString() ||
-            layerName == Constants.LAYER.Environment.ToString())
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        Physics2D.OverlapCollider(GetComponent<Collider2D>(), contactFilter, _colliders);
+
+        if (_colliders.Count == 0)
         {
-            _isGrounded = true;
+            _isGrounded = false;
         }
-    }
+        else
+        {
+            foreach (Collider2D collider in _colliders)
+            {
+                // Skip if it is a physics collider in the player itself
+                bool skip = false;
+                foreach (Collider2D selfCollider in _ignoreSelfColliders)
+                {
+                    skip = collider == selfCollider;
+                }
+                if (skip) continue;
 
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        
+                Debug.Log(collider.gameObject.name);
+                string layerName = LayerMask.LayerToName(collider.gameObject.layer);
+                if (Method.StringMatchesArrayElement(layerName, _includeLayerNames))
+                {
+                    _isGrounded = true;
+                }
+            }
+        }
     }
 }
