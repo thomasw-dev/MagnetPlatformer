@@ -131,6 +131,18 @@ PrefabInstance:
       propertyPath: _animator
       value: 
       objectReference: {fileID: 2149970629542483788}
+    - target: {fileID: 3752203559451702318, guid: ad511f459af9f42818242f9a019b3200, type: 3}
+      propertyPath: _rootParent
+      value: 
+      objectReference: {fileID: 2146899487329024399}
+    - target: {fileID: 3752203559451702318, guid: ad511f459af9f42818242f9a019b3200, type: 3}
+      propertyPath: _boxCastSize.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5309869191342412968, guid: ad511f459af9f42818242f9a019b3200, type: 3}
+      propertyPath: _rootParent
+      value: 
+      objectReference: {fileID: 2146899487329024399}
     - target: {fileID: 5758058108399285253, guid: ad511f459af9f42818242f9a019b3200, type: 3}
       propertyPath: m_Name
       value: Enemy
