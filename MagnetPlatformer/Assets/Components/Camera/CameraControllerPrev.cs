@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraControllerPrev : MonoBehaviour
 {
     [SerializeField] GameObject _player;
 

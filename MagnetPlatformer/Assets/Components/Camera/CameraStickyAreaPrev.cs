@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CameraStickyArea : MonoBehaviour
+public class CameraStickyAreaPrev : MonoBehaviour
 {
     public static event Action<Vector3, float> OnTriggerEnter;
     public static event Action OnTriggerExit;

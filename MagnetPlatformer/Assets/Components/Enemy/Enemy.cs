@@ -21,8 +21,8 @@ public class Enemy : MonoBehaviour
     [Range(1f, 10f)]
     [SerializeField] float _accelerationForce = 1.0f;
 
-    [Range(1f, 10f)]
-    [SerializeField] float _maxSpeed = 1.0f;
+    /*[Range(1f, 10f)]
+    [SerializeField] float _maxSpeed = 1.0f;*/
 
     Move.Direction _moveDirection;
     public Move.Direction MoveDirection

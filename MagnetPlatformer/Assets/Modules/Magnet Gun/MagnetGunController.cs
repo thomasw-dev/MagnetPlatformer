@@ -49,9 +49,6 @@ public class MagnetGunController : MonoBehaviour
     LayerMask _includeLayer;
     const float RAYCAST_LENGTH = 1000f;
 
-    public static event Action OnHitMagneticObject;
-    public static event Action OnAlterMagneticObjectCharge;
-
     [Header("Cooldown & Refill")]
 
     [Range(0, MagnetGunValues.COOLDOWN_DURATION)]
@@ -83,7 +80,6 @@ public class MagnetGunController : MonoBehaviour
     {
         GameState.Play.OnEnter += EnterPlay;
         InputManager.OnMagnetGunSetCharge += SetCharge;
-        OnAlterMagneticObjectCharge += CostAmmo;
         GameState.Play.OnExit += ExitPlay;
     }
 
@@ -91,7 +87,6 @@ public class MagnetGunController : MonoBehaviour
     {
         GameState.Play.OnEnter -= EnterPlay;
         InputManager.OnMagnetGunSetCharge -= SetCharge;
-        OnAlterMagneticObjectCharge -= CostAmmo;
         GameState.Play.OnExit -= ExitPlay;
 
         if (_mouseArea != null)

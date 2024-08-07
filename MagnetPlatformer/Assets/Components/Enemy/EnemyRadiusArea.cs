@@ -6,7 +6,7 @@ public class EnemyRadiusArea : MonoBehaviour
     public event Action OnPlayerEnter;
     public event Action OnPlayerExit;
 
-    [SerializeField] bool _gizmos = true;
+    //[SerializeField] bool _gizmos = true;
 
     void OnTriggerEnter2D(Collider2D col)
     {
