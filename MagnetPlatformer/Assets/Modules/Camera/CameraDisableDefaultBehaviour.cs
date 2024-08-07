@@ -1,20 +1,8 @@
-using UnityEngine;
-
-public class CameraFollowPlayer : ICameraTriggerArea
+public class CameraDisableDefaultBehaviour : ICameraTriggerArea
 {
-    [SerializeField] Vector3 _offset;
-
-    Transform _target;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        _target = Method.GetPlayerObject().transform;
-    }
-
     void Update()
     {
-        if (_effectEnabled) { return; }
+        if (!_effectEnabled) { return; }
     }
 
     protected override void EnableEffect()
