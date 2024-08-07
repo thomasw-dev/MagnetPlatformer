@@ -2,11 +2,42 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] Vector3 _startingPos = new Vector3(0, 0, -10f);
+    [SerializeField] Transform _startPoint;
+    [SerializeField] float _defaultZoom = 9f;
 
-    [ContextMenu("Set This Position As Starting Position")]
-    void SetStartingPosition()
+    [SerializeField] bool _followPlayer = true;
+    [Range(1f, 10f)]
+    [SerializeField] float _followSmoothFactor = 1f;
+    [SerializeField] Vector3 _followOffset = Vector2.zero;
+
+    Camera _cam;
+    Transform _player;
+
+    void Awake()
     {
-        _startingPos = transform.position;
+        _cam = GetComponent<Camera>();
+        _player = Method.GetPlayerObject().transform;
+    }
+
+    void Start()
+    {
+        transform.position = _startPoint.transform.position;
+        _cam.orthographicSize = _defaultZoom;
+    }
+
+    void Update()
+    {
+        if (_followPlayer && _player != null)
+        {
+            Vector3 playerPos = new Vector3(_player.transform.position.x, _player.transform.position.y, transform.position.z);
+            transform.position = Vector3.Lerp(transform.position, playerPos + _followOffset, _followSmoothFactor * Time.deltaTime);
+        }
+    }
+
+    [ContextMenu("Save Current Position To Start Point")]
+    void SaveCurrentPosToStartPoint()
+    {
+        if (_startPoint == null) { return; }
+        _startPoint.transform.position = transform.position;
     }
 }
