@@ -227,14 +227,13 @@ GameObject:
   - component: {fileID: 708238838}
   - component: {fileID: 708238839}
   - component: {fileID: 708238841}
-  - component: {fileID: 708238840}
   m_Layer: 0
   m_Name: Camera Trigger Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &708238838
 Transform:
   m_ObjectHideFlags: 0
@@ -244,7 +243,7 @@ Transform:
   m_GameObject: {fileID: 708238837}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -128, y: 72, z: 0}
+  m_LocalPosition: {x: 9.5, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -262,22 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f224a4a3005e5459a9e4f5854dbd9d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitionTime: 1
-  _offset: {x: 0, y: 0, z: 0}
---- !u!114 &708238840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708238837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14ffdb7766f5f45af8a0c7599aebbb59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Pivot: 1
-  Size: {x: 32, y: 18}
+  _offset: {x: 2, y: 3, z: 0}
 --- !u!61 &708238841
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -307,10 +291,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 16, y: -9}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -321,7 +305,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 32, y: 18}
+  m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
 --- !u!1 &764358107
 GameObject:

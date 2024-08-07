@@ -4,29 +4,32 @@ public class CameraFollowPlayer : ICameraTriggerArea
 {
     [SerializeField] Vector3 _offset;
 
-    Camera _camera;
     Transform _target;
 
-    void Awake()
+    protected override void Awake()
     {
-        _camera = Camera.main;
+        base.Awake();
         _target = Method.GetPlayerObject().transform;
     }
 
     void Update()
     {
-        _camera.transform.position = _target.position;
+        if (_effectEnabled) { return; }
     }
 
-    // follow pos keeps lerping to player position
-
-    public override void OnTriggerEnter2D()
+    protected override void EnableEffect()
     {
-        // Transition cam pos to the follow pos
+        if (_cameraController != null)
+        {
+            _cameraController.DisableDefaultBehaviour();
+        }
     }
 
-    public override void OnTriggerExit2D()
+    protected override void DisableEffect()
     {
-
+        if (_cameraController != null)
+        {
+            _cameraController.EnableDefaultBehaviour();
+        }
     }
 }

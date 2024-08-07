@@ -1,10 +1,33 @@
 using UnityEngine;
 
-public abstract class ICameraTriggerArea : MonoBehaviour
+public class ICameraTriggerArea : MonoBehaviour
 {
-    [Range(0, 10f)]
-    [SerializeField] float _transitionTime = 1f;
-    
-    public abstract void OnTriggerEnter2D();
-    public abstract void OnTriggerExit2D();
+    protected Camera _camera;
+    protected CameraController _cameraController;
+    protected bool _effectEnabled = false;
+
+    protected virtual void Awake()
+    {
+        _camera = Camera.main;
+        _cameraController = _camera.GetComponent<CameraController>();
+    }
+
+    void OnDisable() => DisableEffect();
+
+    void OnTriggerEnter2D(Collider2D collider) => EnableEffect();
+
+    void OnTriggerStay2D(Collider2D collider) => EnableEffect();
+
+    void OnTriggerExit2D(Collider2D collider) => DisableEffect();
+
+    protected virtual void EnableEffect()
+    {
+        if (_effectEnabled) { return; }
+        _effectEnabled = true;
+    }
+
+    protected virtual void DisableEffect()
+    {
+        _effectEnabled = false;
+    }
 }
