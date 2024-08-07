@@ -2,7 +2,8 @@ using System.Collections.Generic;
 
 public static class Constants
 {
-    public const float GRAVITY = 9.81f;
+    //public const float GRAVITY = 9.81f;
+    public const float CAMERA_FOLLOW_SMOOTH_FACTOR = 4f;
 
     public enum ENUM_TAG
     {

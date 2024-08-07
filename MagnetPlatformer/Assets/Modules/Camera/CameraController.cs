@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] bool _followPlayer = true;
 
     [Range(1f, 10f)]
-    [SerializeField] float _followSmoothFactor = 1f;
+    [SerializeField] float _followSmoothFactor = 4f;
     [SerializeField] Vector3 _followOffset = Vector2.zero;
 
     Camera _cam;

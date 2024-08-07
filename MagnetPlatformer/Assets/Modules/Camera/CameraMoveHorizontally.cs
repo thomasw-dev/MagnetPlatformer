@@ -1,12 +1,10 @@
 using UnityEngine;
 
-public class CameraMoveHorizontallyWithinBox : ICameraTriggerArea
+public class CameraMoveHorizontally : ICameraTriggerArea
 {
-    [SerializeField] BoxCollider2D _constraintArea;
     [SerializeField] Transform _heightPoint;
-
     [Range(1f, 10f)]
-    [SerializeField] float _followSmoothFactor = 1f;
+    [SerializeField] float _followSmoothFactor = 4f;
 
     Transform _player;
 
@@ -20,19 +18,13 @@ public class CameraMoveHorizontallyWithinBox : ICameraTriggerArea
     {
         if (!_effectEnabled) { return; }
 
-        Vector3 newPos = Vector3.zero;
-
+        Vector3 newPos = _camera.transform.position;
         if (_heightPoint != null && _player != null)
         {
             Vector3 heightPos = new Vector3(_player.transform.position.x, _heightPoint.position.y, _camera.transform.position.z);
             newPos = Vector3.Lerp(_camera.transform.position, heightPos, _followSmoothFactor * Time.deltaTime);
         }
-
-        Vector3 constrainedPos = newPos;
-        //constrainedPos.x = Mathf.Clamp(constrainedPos.x, newPos.x + _constraintArea.offset.x - (_constraintArea.size.x / 2f), newPos.x + _constraintArea.offset.x + (_constraintArea.size.x / 2f));
-        //constrainedPos.y = Mathf.Clamp(constrainedPos.y, newPos.y + _constraintArea.offset.y - (_constraintArea.size.y / 2f), newPos.y + _constraintArea.offset.y + (_constraintArea.size.y / 2f));
-
-        _camera.transform.position = constrainedPos;
+        _camera.transform.position = newPos;
     }
 
     protected override void EnableEffect()
