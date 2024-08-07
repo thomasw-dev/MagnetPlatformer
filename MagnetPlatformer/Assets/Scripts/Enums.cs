@@ -12,3 +12,8 @@ public static class Move
 {
     public enum Direction { None, Left, Right }
 }
+
+public static class CameraArea
+{
+    public enum Mode { FollowPlayer, Horizontal, Vertical, Fixed }
+}
