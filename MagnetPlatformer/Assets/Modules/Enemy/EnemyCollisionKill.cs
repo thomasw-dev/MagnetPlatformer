@@ -6,8 +6,6 @@ public class EnemyCollisionKill : MonoBehaviour
     [Header("Dependencies")] // Required to be assigned in the Inspector
     [SerializeField] Transform _rootParent;
 
-    //const float KILL_SET_INACTIVE_WAIT = 0.1f;
-
     [SerializeField] float _squeezeDuration = 1f;
 
     EnemyController _enemyController;
@@ -21,15 +19,15 @@ public class EnemyCollisionKill : MonoBehaviour
 
     void OnEnable()
     {
-        _collisionKill.OnDirectionKill += HandleDirectionKill;
+        _collisionKill.OnKillDirection += HandleKillDirection;
     }
 
     void OnDisable()
     {
-        _collisionKill.OnDirectionKill -= HandleDirectionKill;
+        _collisionKill.OnKillDirection -= HandleKillDirection;
     }
 
-    void HandleDirectionKill(Direction.Type direction)
+    void HandleKillDirection(Direction.Type direction)
     {
         _enemyController.StateController.ChangeState(EnemyController.StateEnum.Death);
 

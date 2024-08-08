@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    [Header("Start")]
     [SerializeField] Transform _startPoint;
+    [SerializeField] bool _startAtCurrentPosition = false;
+
+    [Header("Settings")]
     [SerializeField] float _defaultZoom = 9f;
-
     [SerializeField] bool _followPlayer = true;
-
     [Range(1f, 10f)]
     [SerializeField] float _followSmoothFactor = 4f;
     [SerializeField] Vector3 _followOffset = Vector2.zero;
@@ -22,7 +24,10 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        transform.position = _startPoint.transform.position;
+        if (_startPoint != null && !_startAtCurrentPosition)
+        {
+            transform.position = _startPoint.position;
+        }
         EnableDefaultBehaviour();
     }
 
@@ -30,8 +35,8 @@ public class CameraController : MonoBehaviour
     {
         if (_followPlayer && _player != null)
         {
-            Vector3 playerPos = new Vector3(_player.transform.position.x, _player.transform.position.y, transform.position.z);
-            transform.position = Vector3.Lerp(transform.position, playerPos + _followOffset, _followSmoothFactor * Time.deltaTime);
+            Vector3 newPos = new Vector3(_player.transform.position.x, _player.transform.position.y, transform.position.z);
+            transform.position = Vector3.Lerp(transform.position, newPos + _followOffset, _followSmoothFactor * Time.deltaTime);
         }
     }
 

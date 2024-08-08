@@ -6,6 +6,10 @@ public class Player : MonoBehaviour
     [Header("Assign Fields")]
     [SerializeField] GroundCheck _groundCheck;
 
+    [Header("Start")]
+    [SerializeField] Transform _startPoint;
+    [SerializeField] bool _startAtCurrentPosition = false;
+
     [Header("Movement")]
     [Range(0.001f, 10f)]
     [SerializeField] float _moveSpeed = 1f;
@@ -25,6 +29,11 @@ public class Player : MonoBehaviour
     bool _isMovingRight = false;
     bool _isJumping = false;
     float _velocityX;
+
+    void Awake()
+    {
+        _rigidbody2D = GetComponent<Rigidbody2D>();
+    }
 
     void OnEnable()
     {
@@ -60,9 +69,12 @@ public class Player : MonoBehaviour
         InputManager.OnJumpAltInputStop -= JumpStop;
     }
 
-    void Awake()
+    void Start()
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+        if (_startPoint != null && !_startAtCurrentPosition)
+        {
+            transform.position = _startPoint.position;
+        }
     }
 
     void FixedUpdate()
