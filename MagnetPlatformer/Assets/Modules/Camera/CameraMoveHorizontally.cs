@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CameraMoveHorizontally : ICameraTriggerArea
+public class CameraMoveHorizontally : CameraTriggerArea
 {
     [SerializeField] Transform _heightPoint;
     [Range(1f, 10f)]
@@ -18,12 +18,12 @@ public class CameraMoveHorizontally : ICameraTriggerArea
     {
         if (!_effectEnabled) { return; }
 
-        Vector3 newPos = _camera.transform.position;
-        if (_heightPoint != null && _player != null)
-        {
-            Vector3 heightPos = new Vector3(_player.transform.position.x, _heightPoint.position.y, _camera.transform.position.z);
-            newPos = Vector3.Lerp(_camera.transform.position, heightPos, _followSmoothFactor * Time.deltaTime);
-        }
+        if (_player == null) { return; }
+        if (_heightPoint == null) { return; }
+
+        Vector3 heightPos = new Vector3(_player.transform.position.x, _heightPoint.position.y, _camera.transform.position.z);
+        Vector3 newPos = Vector3.Lerp(_camera.transform.position, heightPos, _followSmoothFactor * Time.deltaTime);
+
         _camera.transform.position = newPos;
     }
 

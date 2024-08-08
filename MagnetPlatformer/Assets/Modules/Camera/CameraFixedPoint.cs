@@ -1,8 +1,20 @@
-public class CameraDisableDefaultBehaviour : CameraTriggerArea
+using UnityEngine;
+
+public class CameraFixedPoint : CameraTriggerArea
 {
+    [SerializeField] Transform _point;
+    [Range(1f, 10f)]
+    [SerializeField] float _followSmoothFactor = 4f;
+
     void Update()
     {
         if (!_effectEnabled) { return; }
+
+        if (_point != null)
+        {
+            Vector3 newPos = new Vector3(_point.position.x, _point.position.y, _camera.transform.position.z);
+            _camera.transform.position = Vector3.Lerp(_camera.transform.position, newPos, _followSmoothFactor * Time.deltaTime);
+        }
     }
 
     protected override void EnableEffect()

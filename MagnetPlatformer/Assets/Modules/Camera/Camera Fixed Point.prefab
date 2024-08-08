@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5334360888448551724}
   m_Layer: 0
-  m_Name: Height Point
+  m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,10 +40,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7627492455262093394}
-  - component: {fileID: 2554922566286924778}
+  - component: {fileID: 5477159902529282285}
   - component: {fileID: 2528576117748369077}
   m_Layer: 6
-  m_Name: Camera Move Horizontally
+  m_Name: Camera Fixed Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +65,7 @@ Transform:
   - {fileID: 5334360888448551724}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2554922566286924778
+--- !u!114 &5477159902529282285
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,10 +74,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7409231905308582348}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f224a4a3005e5459a9e4f5854dbd9d0c, type: 3}
+  m_Script: {fileID: 11500000, guid: 94213f192804340689584af4eba15e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _heightPoint: {fileID: 5334360888448551724}
+  _point: {fileID: 5334360888448551724}
   _followSmoothFactor: 4
 --- !u!61 &2528576117748369077
 BoxCollider2D:

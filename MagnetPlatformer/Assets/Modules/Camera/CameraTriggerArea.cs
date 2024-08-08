@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ICameraTriggerArea : MonoBehaviour
+public class CameraTriggerArea : MonoBehaviour
 {
     protected Camera _camera;
     protected CameraController _cameraController;
