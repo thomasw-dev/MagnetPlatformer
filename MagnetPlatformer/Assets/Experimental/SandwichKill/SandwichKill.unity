@@ -135,6 +135,14 @@ PrefabInstance:
       propertyPath: _mouseArea
       value: 
       objectReference: {fileID: 891112865}
+    - target: {fileID: 487488742793983701, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
+      propertyPath: _ignorePhysicsCollidersInSelf.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3339800481871339967, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5859685949880444810, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3

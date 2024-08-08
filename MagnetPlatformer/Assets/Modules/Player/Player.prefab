@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ignorePhysicsCollidersInSelf:
-  - {fileID: 3339800481871339967}
+  - {fileID: 0}
   _isGrounded: 0
   _groundColliders: []
 --- !u!61 &6679316205452129483
@@ -318,7 +318,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8079766786471598049}
-  - component: {fileID: 3339800481871339967}
+  - component: {fileID: 171622582547990570}
   m_Layer: 3
   m_Name: Physics Collider
   m_TagString: Untagged
@@ -341,8 +341,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5859685949880444810}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &3339800481871339967
-BoxCollider2D:
+--- !u!70 &171622582547990570
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -374,18 +374,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
   m_Size: {x: 1, y: 2}
-  m_EdgeRadius: 0
+  m_Direction: 0
 --- !u!1 &5297973275041328528
 GameObject:
   m_ObjectHideFlags: 0
