@@ -5,7 +5,7 @@ public class EnemyController : MonoBehaviour
 {
     // State
 
-    public enum StateEnum { Idle, Chase, Return }
+    public enum StateEnum { Idle, Chase, Return, Death }
     public StateController<StateEnum> StateController = new StateController<StateEnum>();
     [SerializeField] StateEnum _state; // Inspector
 

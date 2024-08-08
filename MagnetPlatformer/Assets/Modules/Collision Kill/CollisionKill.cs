@@ -38,13 +38,20 @@ public class CollisionKill : MonoBehaviour
             }
         }
 
-        if ((isHitTop && isHitBottom) || (isHitLeft && isHitRight))
+        if (isHitTop && isHitBottom)
         {
             if (!_invoked)
             {
-                OnKill?.Invoke();
-                if (isHitTop && isHitBottom) { OnDirectionKill?.Invoke(Direction.Type.Vertical); }
-                if (isHitLeft && isHitRight) { OnDirectionKill?.Invoke(Direction.Type.Horizontal); }
+                OnDirectionKill?.Invoke(Direction.Type.Vertical);
+                _invoked = true;
+            }
+        }
+
+        if (isHitLeft && isHitRight)
+        {
+            if (!_invoked)
+            {
+                OnDirectionKill?.Invoke(Direction.Type.Horizontal);
                 _invoked = true;
             }
         }

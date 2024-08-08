@@ -1,5 +1,4 @@
 using DG.Tweening;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class EnemyCollisionKill : MonoBehaviour
@@ -11,38 +10,29 @@ public class EnemyCollisionKill : MonoBehaviour
 
     [SerializeField] float _squeezeDuration = 1f;
 
+    EnemyController _enemyController;
     CollisionKill _collisionKill;
 
     void Awake()
     {
+        _enemyController = transform.parent.GetComponent<EnemyController>();
         _collisionKill = GetComponent<CollisionKill>();
     }
 
     void OnEnable()
     {
-        _collisionKill.OnKill += HandleKill;
         _collisionKill.OnDirectionKill += HandleDirectionKill;
     }
 
     void OnDisable()
     {
-        _collisionKill.OnKill -= HandleKill;
         _collisionKill.OnDirectionKill -= HandleDirectionKill;
     }
 
-    void HandleKill()
-    {
-        //StartCoroutine(WaitSetInactive());
-    }
-
-    /*IEnumerator WaitSetInactive()
-    {
-        yield return new WaitForSeconds(KILL_SET_INACTIVE_WAIT);
-        _rootParent.gameObject.SetActive(false);
-    }*/
-
     void HandleDirectionKill(Direction.Type direction)
     {
+        _enemyController.StateController.ChangeState(EnemyController.StateEnum.Death);
+
         Vector3 toScale = Vector3.one;
         if (direction == Direction.Type.Vertical) toScale = new Vector3(_rootParent.localScale.x, 0, _rootParent.localScale.z);
         if (direction == Direction.Type.Horizontal) toScale = new Vector3(0, _rootParent.localScale.y, _rootParent.localScale.z);
