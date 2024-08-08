@@ -17,3 +17,8 @@ public static class CameraArea
 {
     public enum Mode { FollowPlayer, Horizontal, Vertical, Fixed }
 }
+
+public static class Direction
+{
+    public enum Type { Vertical, Horizontal }
+}

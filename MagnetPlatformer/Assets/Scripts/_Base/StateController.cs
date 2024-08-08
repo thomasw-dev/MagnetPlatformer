@@ -31,7 +31,7 @@ public class StateController<T> where T : Enum
 
     public void ChangeState(T stateEnum)
     {
-        State state = States.First(item => item.Name == stateEnum.ToString());
+        State state = States.FirstOrDefault(item => item.Name == stateEnum.ToString());
         CurrentState = state;
     }
 
@@ -39,6 +39,6 @@ public class StateController<T> where T : Enum
 
     public State EnumToState<E>(E stateEnum) where E : Enum
     {
-        return States.First(item => item.Name == stateEnum.ToString());
+        return States.FirstOrDefault(item => item.Name == stateEnum.ToString());
     }
 }

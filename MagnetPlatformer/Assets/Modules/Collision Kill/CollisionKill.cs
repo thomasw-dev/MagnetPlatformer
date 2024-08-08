@@ -13,6 +13,7 @@ public class CollisionKill : MonoBehaviour
     [SerializeField] List<GameObject> _collisions;
 
     public event Action OnKill;
+    public event Action<Direction.Type> OnDirectionKill;
     bool _invoked = false;
 
     void FixedUpdate()
@@ -39,7 +40,13 @@ public class CollisionKill : MonoBehaviour
 
         if ((isHitTop && isHitBottom) || (isHitLeft && isHitRight))
         {
-            if (!_invoked) { OnKill?.Invoke(); }
+            if (!_invoked)
+            {
+                OnKill?.Invoke();
+                if (isHitTop && isHitBottom) { OnDirectionKill?.Invoke(Direction.Type.Vertical); }
+                if (isHitLeft && isHitRight) { OnDirectionKill?.Invoke(Direction.Type.Horizontal); }
+                _invoked = true;
+            }
         }
     }
 

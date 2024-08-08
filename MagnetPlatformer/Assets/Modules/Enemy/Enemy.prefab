@@ -397,6 +397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rootParent: {fileID: 0}
+  _squeezeDuration: 0.75
 --- !u!4 &3341365669082161451 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1236864178800991512, guid: 651fbb72bac624c43bb9ef163dd7a3a3, type: 3}

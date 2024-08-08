@@ -192,6 +192,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 353200573577661212, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666998290146824478, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2146899487329024399, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13
@@ -243,6 +251,22 @@ PrefabInstance:
     - target: {fileID: 7457597730870448871, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567487594202975810, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567487594202975810, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
+      propertyPath: m_DrawMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870071886517770269, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8086266570512270613, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -372,6 +396,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 897019240687640046, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3237949378655655758, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: m_IsActive
       value: 0
