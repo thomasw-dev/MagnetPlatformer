@@ -8,7 +8,7 @@ TagManager:
   - Environment
   - Magnetic Object
   - Enemy
-  - Prop Object
+  - Enemy Boss
   layers:
   - Default
   - TransparentFX

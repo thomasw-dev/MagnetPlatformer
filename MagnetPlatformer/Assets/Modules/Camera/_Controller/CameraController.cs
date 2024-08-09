@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -15,6 +16,10 @@ public class CameraController : MonoBehaviour
 
     Camera _cam;
     Transform _player;
+
+    float _currentZoom;
+    Tweener _zoomTween;
+    const float ZOOM_DURATION = 1f;
 
     void Awake()
     {
@@ -43,12 +48,31 @@ public class CameraController : MonoBehaviour
     public void EnableDefaultBehaviour()
     {
         _followPlayer = true;
-        _cam.orthographicSize = _defaultZoom;
+        if (_cam.orthographicSize != _defaultZoom)
+        {
+            ZoomTransition(_defaultZoom);
+        }
     }
 
     public void DisableDefaultBehaviour()
     {
         _followPlayer = false;
+    }
+
+    void ZoomTransition(float targetZoom)
+    {
+        // Kill any current zoom transition progress
+        if (_zoomTween != null && _zoomTween.IsActive()) _zoomTween.Kill();
+
+        // Start the zoom transition again
+        _zoomTween = DOTween.To(x => _currentZoom = x, _cam.orthographicSize, targetZoom, ZOOM_DURATION)
+            .SetEase(Ease.OutCubic)
+            .OnUpdate(() =>
+            {
+                _cam.orthographicSize = _currentZoom;
+            });
+
+        _zoomTween.Play();
     }
 
     [ContextMenu("Save Current Position To Start Point")]

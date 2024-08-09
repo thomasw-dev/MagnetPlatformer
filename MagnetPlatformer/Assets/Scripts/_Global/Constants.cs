@@ -10,7 +10,7 @@ public static class Constants
         ENVIRONMENT,
         MAGNETIC_OBJECT,
         ENEMY,
-        PROP_OBJECT
+        ENEMY_BOSS
     };
 
     public static Dictionary<ENUM_TAG, string> TAG = new Dictionary<ENUM_TAG, string>
@@ -18,7 +18,7 @@ public static class Constants
         { ENUM_TAG.ENVIRONMENT, "Environment" },
         { ENUM_TAG.MAGNETIC_OBJECT, "Magnetic Object" },
         { ENUM_TAG.ENEMY, "Enemy" },
-        { ENUM_TAG.PROP_OBJECT, "Prop Object" }
+        { ENUM_TAG.ENEMY_BOSS, "Enemy Boss" }
     };
 
     public enum LAYER

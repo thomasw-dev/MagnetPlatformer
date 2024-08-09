@@ -8,6 +8,6 @@ public class PatrolTarget : MonoBehaviour
     void UpdateToTarget()
     {
         transform.position = _target.transform.position;
-        gameObject.name = _target.name;
+        gameObject.name = _target.name + " Patrol Points";
     }
 }

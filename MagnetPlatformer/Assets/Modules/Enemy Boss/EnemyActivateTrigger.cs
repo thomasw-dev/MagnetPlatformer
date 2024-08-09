@@ -6,6 +6,8 @@ public class EnemyActivateTrigger : MonoBehaviour
     public event Action OnActivate;
     bool _activated = false;
 
+    //EnemyController GetController() => transform.parent.GetComponent<EnemyController>();
+
     void OnTriggerEnter2D(Collider2D col)
     {
         if (!_activated) { return; }

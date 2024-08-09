@@ -17,6 +17,9 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField] Rigidbody2D _rigidbody;
 
+    [Header("Enemy Boss")]
+    [SerializeField] Transform _enemyBossMoveTarget;
+
     // Chase Target
 
     Transform _target;
@@ -64,10 +67,22 @@ public class EnemyController : MonoBehaviour
         StateController.ChangeState(StateEnum.Idle);
         _initialPos = transform.position;
 
-        GameObject player = Method.GetPlayerObject();
-        if (player != null)
+        // Enemy Boss
+        if (IsEnemyBoss())
         {
-            _target = player.transform;
+            if (_enemyBossMoveTarget != null)
+            {
+                _target = _enemyBossMoveTarget;
+            }
+        }
+        // Enemy
+        else
+        {
+            GameObject player = Method.GetPlayerObject();
+            if (player != null)
+            {
+                _target = player.transform;
+            }
         }
     }
 
@@ -136,8 +151,7 @@ public class EnemyController : MonoBehaviour
     {
         if (GameState.CurrentState != GameState.Play) { return; }
 
-        _target = Method.GetPlayerObject().transform;
-        StateController.ChangeState(StateEnum.Chase);
+        StartChase();
     }
 
     public void StayChase()
@@ -146,9 +160,26 @@ public class EnemyController : MonoBehaviour
 
         if (StateController.CurrentEnum != StateEnum.Chase)
         {
-            _target = Method.GetPlayerObject().transform;
-            StateController.ChangeState(StateEnum.Chase);
+            StartChase();
         }
+    }
+
+    void StartChase()
+    {
+        // Enemy Boss
+        if (IsEnemyBoss())
+        {
+            Debug.Log("Emeny Boss Start Chase!");
+            _target = _enemyBossMoveTarget;
+            _enemyBossMoveTarget.GetComponent<EnemyBossMoveTarget>().StartPatrol();
+        }
+        // Enemy
+        else
+        {
+            _target = Method.GetPlayerObject().transform;
+        }
+
+        StateController.ChangeState(StateEnum.Chase);
     }
 
     public void ExitChase()
@@ -159,4 +190,6 @@ public class EnemyController : MonoBehaviour
             StateController.ChangeState(StateEnum.Return);
         else StateController.ChangeState(StateEnum.Idle);
     }
+
+    bool IsEnemyBoss() => gameObject.tag == Constants.TAG[Constants.ENUM_TAG.ENEMY_BOSS];
 }
