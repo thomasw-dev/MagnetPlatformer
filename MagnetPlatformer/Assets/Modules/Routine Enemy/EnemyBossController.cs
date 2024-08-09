@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-public class EnemyRoutineBoss : MonoBehaviour
+public class EnemyBossController : MonoBehaviour
 {
     // State
 
