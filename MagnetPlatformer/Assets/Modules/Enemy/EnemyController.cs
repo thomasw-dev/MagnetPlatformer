@@ -184,6 +184,8 @@ public class EnemyController : MonoBehaviour
 
     public void ExitChase()
     {
+        if (IsEnemyBoss()) { return; }
+
         _targetPos = _initialPos;
 
         if (Values.ReturnToInitialPosition)

@@ -684,6 +684,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _groundCheck: {fileID: 487488742793983701}
+  _startPoint: {fileID: 0}
+  _startAtCurrentPosition: 0
   _moveSpeed: 2
   _jumpForce: 80
   _airJumpEnabled: 0
@@ -1006,11 +1008,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2545387695518705771, guid: 651fbb72bac624c43bb9ef163dd7a3a3, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1.57
       objectReference: {fileID: 0}
     - target: {fileID: 5416002511043138186, guid: 651fbb72bac624c43bb9ef163dd7a3a3, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1.57
       objectReference: {fileID: 0}
     - target: {fileID: 8216205345779562793, guid: 651fbb72bac624c43bb9ef163dd7a3a3, type: 3}
       propertyPath: m_LocalPosition.y
