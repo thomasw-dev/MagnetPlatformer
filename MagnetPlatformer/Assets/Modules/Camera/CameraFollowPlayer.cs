@@ -3,7 +3,7 @@ using UnityEngine;
 public class CameraFollowPlayer : CameraTriggerArea
 {
     [Range(1f, 10f)]
-    [SerializeField] float _followSmoothFactor = 4f;
+    [SerializeField] float _lerpFactor = 4f;
     [SerializeField] Vector3 _followOffset = Vector2.zero;
 
     Transform _player;
@@ -21,7 +21,7 @@ public class CameraFollowPlayer : CameraTriggerArea
         if (_player == null) { return; }
 
         Vector3 newPos = new Vector3(_player.transform.position.x, _player.transform.position.y, _camera.transform.position.z);
-        _camera.transform.position = Vector3.Lerp(_camera.transform.position, newPos + _followOffset, _followSmoothFactor * Time.deltaTime);
+        _camera.transform.position = Vector3.Lerp(_camera.transform.position, newPos + _followOffset, _lerpFactor * Time.deltaTime);
     }
 
     protected override void EnableEffect()

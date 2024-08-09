@@ -335,14 +335,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6881912606513331495}
     m_Modifications:
-    - target: {fileID: 323037802610345206, guid: 651fbb72bac624c43bb9ef163dd7a3a3, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1236864178800991512, guid: 651fbb72bac624c43bb9ef163dd7a3a3, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 1236864178800991512, guid: 651fbb72bac624c43bb9ef163dd7a3a3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
@@ -358,18 +350,6 @@ PrefabInstance:
     - target: {fileID: 1911637327361274543, guid: 651fbb72bac624c43bb9ef163dd7a3a3, type: 3}
       propertyPath: m_Name
       value: Enemy Collision Kill
-      objectReference: {fileID: 0}
-    - target: {fileID: 2545387695518705771, guid: 651fbb72bac624c43bb9ef163dd7a3a3, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5416002511043138186, guid: 651fbb72bac624c43bb9ef163dd7a3a3, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8216205345779562793, guid: 651fbb72bac624c43bb9ef163dd7a3a3, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
