@@ -1,39 +1,64 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectRespawner : MonoBehaviour
 {
     [SerializeField] GameObject _object;
-
-    [SerializeField] bool _objectInArea = true;
-
+    [SerializeField] bool _objectInArea = false;
     [SerializeField] float _respawnAfter = 1f;
-    float _leaveAreaTime;
+    [SerializeField] List<GameObject> spawnedObjects;
+
+    [SerializeField] GameObject _lastSpawnedObject;
+    [SerializeField] float _lastInAreaTime = 0f;
+
+    void Start()
+    {
+        SpawnObject(_object);
+    }
 
     void Update()
     {
         if (!_objectInArea)
         {
-            if (Time.time > _leaveAreaTime + _respawnAfter)
-            {
-                // Spawn the object
-                GameObject respanwedObject = Instantiate(_object, transform.position, Quaternion.identity);
-                _objectInArea = true;
+            if (Time.time > _lastInAreaTime + _respawnAfter)
+                SpawnObject(_object);
+        }
+        else
+        {
+            _lastInAreaTime = Time.time;
+        }
+    }
 
-                // Start the spawned object's self-destruct countdown
-                if (respanwedObject.TryGetComponent(out SelfDestructTimer selfDestructTimer) && selfDestructTimer.isActiveAndEnabled)
-                {
-                    selfDestructTimer.StartCountdown();
-                }
-            }
+    void SpawnObject(GameObject obj)
+    {
+        if (obj == null) { return; }
+
+        // Spawn the object
+        GameObject spawnedObject = Instantiate(_object, transform.position, Quaternion.identity);
+        StartObjectSelfDestructCountdown(spawnedObject);
+        spawnedObjects.Add(spawnedObject);
+        _lastSpawnedObject = spawnedObject;
+        _objectInArea = true;
+    }
+
+    void StartObjectSelfDestructCountdown(GameObject obj)
+    {
+        if (obj == null) { return; }
+
+        // Start the spawned object's self-destruct countdown
+        if (obj.TryGetComponent(out SelfDestructTimer selfDestructTimer) && selfDestructTimer.isActiveAndEnabled)
+        {
+            selfDestructTimer.StartCountdown();
         }
     }
 
     void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.gameObject != _object) { return; }
+        Debug.Log(collider.gameObject.name);
+
+        if (collider.transform.parent.gameObject != _lastSpawnedObject) { return; }
 
         _objectInArea = false;
-        _leaveAreaTime = Time.time;
     }
 
     [ContextMenu("Update To Target Object Position & Scale")]
