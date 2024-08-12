@@ -5,11 +5,11 @@ public static class MagneticInteractionPhysics
 {
     public const float DISTANCE_MULTIPLIER = 5f;
 
-    public static Vector2 Calculate(Vector2 selfPos, Vector2 targetPos, float targetGain)
+    public static Vector2 Calculate(Vector2 selfPos, Vector2 targetPos, float emissionForce)
     {
         Vector2 direction = selfPos - targetPos;
         float distance = direction.magnitude;
-        float forceMagnitude = 1 / distance * Mathf.Pow(DISTANCE_MULTIPLIER + targetGain, 5);
+        float forceMagnitude = 1 / distance * Mathf.Pow(DISTANCE_MULTIPLIER, emissionForce);
         return direction.normalized * forceMagnitude;
     }
 

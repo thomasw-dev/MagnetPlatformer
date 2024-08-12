@@ -15,8 +15,8 @@ public class MagneticInteractionValues : MonoBehaviour
 
     [Header("Emission")]
 
-    [Range(0, MagneticInteractionPhysics.DISTANCE_MULTIPLIER)]
-    public float EmissionGain = 0f;
+    [Range(0, 10f)]
+    public float EmissionForce = 5f;
 
     public float EmissionRadius = 10f;
 
