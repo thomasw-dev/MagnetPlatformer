@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class CollisionKill : MonoBehaviour
@@ -12,9 +13,13 @@ public class CollisionKill : MonoBehaviour
 
     [SerializeField] List<GameObject> _collisions;
 
+    [SerializeField] bool _invoked = false;
+    [SerializeField] float _invokeResetDelay = 1f;
+    Tweener _invokeResetTween;
+    float _invokeResetTweenProgress;
+
     public event Action OnKill;
     public event Action<Direction.Type> OnKillDirection;
-    bool _invoked = false;
 
     void FixedUpdate()
     {
@@ -45,6 +50,7 @@ public class CollisionKill : MonoBehaviour
                 OnKill?.Invoke();
                 OnKillDirection?.Invoke(Direction.Type.Vertical);
                 _invoked = true;
+                StartInvokeResetTween(_invokeResetDelay);
             }
         }
 
@@ -55,8 +61,33 @@ public class CollisionKill : MonoBehaviour
                 OnKill?.Invoke();
                 OnKillDirection?.Invoke(Direction.Type.Horizontal);
                 _invoked = true;
+                StartInvokeResetTween(_invokeResetDelay);
             }
         }
+    }
+
+    void StartInvokeResetTween(float delay)
+    {
+        // Kill any current tween progress
+        if (_invokeResetTween != null && _invokeResetTween.IsActive()) _invokeResetTween.Kill();
+
+        // Start the tween again
+        _invokeResetTween = DOTween.To(x => _invokeResetTweenProgress = x, delay, 0, delay).SetEase(Ease.Linear)
+            .SetAutoKill(false)
+            .OnPlay(() =>
+            {
+
+            })
+            .OnUpdate(() =>
+            {
+
+            })
+            .OnComplete(() =>
+            {
+                _invoked = false;
+            });
+
+        _invokeResetTween.Play();
     }
 
     void OnDrawGizmosSelected()

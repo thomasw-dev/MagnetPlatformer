@@ -6,10 +6,9 @@ public class ObjectRespawner : MonoBehaviour
     [SerializeField] GameObject _object;
     [SerializeField] bool _objectInArea = false;
     [SerializeField] float _respawnAfter = 1f;
-    [SerializeField] List<GameObject> spawnedObjects;
 
-    [SerializeField] GameObject _lastSpawnedObject;
-    [SerializeField] float _lastInAreaTime = 0f;
+    GameObject _lastSpawnedObject;
+    float _lastInAreaTime = 0f;
 
     void Start()
     {
@@ -35,8 +34,6 @@ public class ObjectRespawner : MonoBehaviour
 
         // Spawn the object
         GameObject spawnedObject = Instantiate(_object, transform.position, Quaternion.identity);
-        StartObjectSelfDestructCountdown(spawnedObject);
-        spawnedObjects.Add(spawnedObject);
         _lastSpawnedObject = spawnedObject;
         _objectInArea = true;
     }
@@ -59,6 +56,7 @@ public class ObjectRespawner : MonoBehaviour
         if (collider.transform.parent.gameObject != _lastSpawnedObject) { return; }
 
         _objectInArea = false;
+        StartObjectSelfDestructCountdown(_lastSpawnedObject);
     }
 
     [ContextMenu("Update To Target Object Position & Scale")]

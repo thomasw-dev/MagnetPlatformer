@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyBossHealth : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    const int MAX_HEALTH = 10;
+    public int CurrentHealth { get => _currentHealth; }
+    [SerializeField] int _currentHealth = MAX_HEALTH;
 
-    // Update is called once per frame
-    void Update()
+    public void DealDamage()
     {
-        
+        _currentHealth--;
     }
 }

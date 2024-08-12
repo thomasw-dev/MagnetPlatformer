@@ -26,6 +26,13 @@ public class MagneticInteractionValues : MonoBehaviour
 
     MagneticInteractionController GetController() => GetComponent<MagneticInteractionController>();
 
+    void Awake()
+    {
+        SetChargeByBools();
+        UpdateChargeBools(GetController().CurrentCharge);
+        UpdateType(_type);
+    }
+
     void OnValidate()
     {
         SetChargeByBools();
