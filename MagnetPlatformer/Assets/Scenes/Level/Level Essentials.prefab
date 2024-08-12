@@ -830,6 +830,7 @@ GameObject:
   - component: {fileID: 9134263011161231009}
   - component: {fileID: 2436299402897365203}
   - component: {fileID: 8775806406730617008}
+  - component: {fileID: 4208716820786282814}
   m_Layer: 5
   m_Name: Ammo Text
   m_TagString: Untagged
@@ -966,6 +967,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!225 &4208716820786282814
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3237949378655655758}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &3645952117340587589
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,6 +1575,7 @@ MonoBehaviour:
   _camera: {fileID: 6961872721945674997}
   _target: {fileID: 0}
   _following: 0
+  _offset: {x: 0, y: 0}
 --- !u!1 &5790764650949400548
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,6 +2352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startPoint: {fileID: 0}
+  _startAtCurrentPosition: 0
   _defaultZoom: 9
   _followPlayer: 1
   _followSmoothFactor: 4

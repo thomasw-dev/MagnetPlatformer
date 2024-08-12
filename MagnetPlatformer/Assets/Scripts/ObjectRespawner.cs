@@ -35,4 +35,13 @@ public class ObjectRespawner : MonoBehaviour
         _objectInArea = false;
         _leaveAreaTime = Time.time;
     }
+
+    [ContextMenu("Update To Target Object Position & Scale")]
+    void UpdateToTargetObjectPositionScale()
+    {
+        if (_object == null) { return; }
+
+        transform.position = _object.transform.position;
+        transform.localScale = _object.transform.localScale;
+    }
 }
