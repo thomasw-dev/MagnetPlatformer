@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36be1fcaaeac94ed3899f40dd150500a, type: 3}
   m_Name: Current Settings
   m_EditorClassIdentifier: 
-  _gizmosSettingsSO: {fileID: 11400000}
-  _appliedForcesGizmos: 0
-  _netAppliedForceGizmos: 0
-  _emissionRadiusGizmos: 0
-  _targetPoint: 0
+  _appliedForces: 1
+  _netAppliedForce: 1
+  _emissionRadius: 1
+  _targetPoint: 1
