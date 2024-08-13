@@ -10,5 +10,6 @@ public static class GizmosSettings
     public struct Enemy
     {
         public static bool TargetPoint = true;
+        public static bool DashEnableDistance = true;
     }
 }

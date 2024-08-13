@@ -10,6 +10,7 @@ public class GizmosSettingsControl : ScriptableObject
 
     [Header("Enemy")]
     [SerializeField] bool _targetPoint;
+    [SerializeField] bool _dashEnableDistance;
 
     void OnValidate()
     {
@@ -18,5 +19,6 @@ public class GizmosSettingsControl : ScriptableObject
         GizmosSettings.MagneticInteraction.EmissionRadius = _emissionRadius;
 
         GizmosSettings.Enemy.TargetPoint = _targetPoint;
+        GizmosSettings.Enemy.DashEnableDistance = _dashEnableDistance;
     }
 }

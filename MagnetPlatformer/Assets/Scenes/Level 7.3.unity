@@ -697,7 +697,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5274913827994063994, guid: d98a1573837b545a69c36bc95a9b512f, type: 3}
       propertyPath: m_Radius
-      value: 17
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 5626366645197232143, guid: d98a1573837b545a69c36bc95a9b512f, type: 3}
       propertyPath: ChaseAcceleration

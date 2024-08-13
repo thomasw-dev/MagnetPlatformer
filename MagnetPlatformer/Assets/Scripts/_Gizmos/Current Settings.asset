@@ -16,3 +16,4 @@ MonoBehaviour:
   _netAppliedForce: 1
   _emissionRadius: 0
   _targetPoint: 1
+  _dashEnableDistance: 1
