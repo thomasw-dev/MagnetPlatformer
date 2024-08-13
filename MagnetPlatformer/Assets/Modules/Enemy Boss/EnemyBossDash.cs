@@ -7,12 +7,24 @@ public class EnemyBossDash : MonoBehaviour
     EnemyValues _enemyValues;
     Transform _player;
 
-    [SerializeField] bool _playerIsInSameDirection;
-
     [SerializeField] float _dashEnableDistance = 5f;
+    bool dashCountdownStarted = false;
 
     Tweener _dashCountdownTween;
     float _dashCountdownProgress;
+
+    Tweener _dashAccelerationTween;
+    float _dashAccelerationProgress;
+
+    [SerializeField] bool _dash = false;
+    [SerializeField] float _dashAcceleration = 500f;
+    [SerializeField] float _initialAcceleration = 500f;
+    [SerializeField] float _dashDuration = 1f;
+    float _initialChaseAcceleration;
+
+    public bool ReadyToDash;
+    public float TimeToDash;
+    bool _dashed = false;
 
     void Awake()
     {
@@ -21,14 +33,37 @@ public class EnemyBossDash : MonoBehaviour
         _player = Method.GetPlayerObject().transform;
     }
 
+    void Start()
+    {
+        _initialChaseAcceleration = _enemyValues.ChaseAcceleration;
+    }
+
     void Update()
     {
-        /*if (PlayerIsInSameDirection())
+        _enemyValues.ChaseAcceleration = _dash ? _dashAcceleration : _initialAcceleration;
+
+        return;
+
+        ReadyToDash = PlayerIsInSameDirection() && Mathf.Abs(transform.position.x - _player.position.x) >= _dashEnableDistance;
+
+        if (ReadyToDash)
         {
+            if (!dashCountdownStarted)
+            {
+                StartDashCountdown();
+                dashCountdownStarted = true;
+            }
 
-        }*/
-
-        _playerIsInSameDirection = PlayerIsInSameDirection();
+            if (Time.time >= TimeToDash)
+            {
+                Dash();
+                _dashed = true;
+            }
+        }
+        else
+        {
+            _dashed = false;
+        }
     }
 
     bool PlayerIsInSameDirection()
@@ -40,7 +75,8 @@ public class EnemyBossDash : MonoBehaviour
 
     void StartDashCountdown()
     {
-        float nextDashCountdown = GetNextDashCountdown();
+        float timeUntilNextDash = GetNextDashCountdown();
+        TimeToDash = Time.time + timeUntilNextDash;
     }
 
     float GetNextDashCountdown()
@@ -48,6 +84,31 @@ public class EnemyBossDash : MonoBehaviour
         float min = 2f;
         float max = 4f;
         return Random.Range(min, max);
+    }
+
+    void Dash()
+    {
+        // Kill any current tween progress
+        if (_dashAccelerationTween != null && _dashAccelerationTween.IsActive()) _dashAccelerationTween.Kill();
+
+        // Start the tween again
+        _dashAccelerationTween = DOTween.To(x => _dashAccelerationProgress = x, _dashAcceleration, _initialChaseAcceleration, _dashDuration)
+            .SetEase(Ease.Linear)
+            .SetAutoKill(false)
+            .OnPlay(() =>
+            {
+
+            })
+            .OnUpdate(() =>
+            {
+                _enemyValues.ChaseAcceleration = _dashAccelerationProgress;
+            })
+            .OnComplete(() =>
+            {
+
+            });
+
+        _dashAccelerationTween.Play();
     }
 
     void OnDrawGizmos()

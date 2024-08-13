@@ -24,6 +24,10 @@ public class InputManager : MonoBehaviour
     const KeyCode JUMP_KEY_ALT = KeyCode.W;
     const KeyCode TOGGLE_CHARGE_KEY = KeyCode.E;
 
+    const KeyCode MOVE_LEFT_ARROW_KEY = KeyCode.LeftArrow;
+    const KeyCode MOVE_RIGHT_ARROW_KEY = KeyCode.RightArrow;
+    const KeyCode JUMP_ARROW_KEY = KeyCode.UpArrow;
+
     Magnet.Charge _toggleCharge = Magnet.Charge.Positive;
 
     void OnEnable()
@@ -73,7 +77,7 @@ public class InputManager : MonoBehaviour
     {
         // Move Left
 
-        if (Input.GetKey(MOVE_LEFT_KEY))
+        if (Input.GetKey(MOVE_LEFT_KEY) || Input.GetKey(MOVE_LEFT_ARROW_KEY))
         {
             OnMoveLeftInput?.Invoke();
         }
@@ -81,7 +85,7 @@ public class InputManager : MonoBehaviour
 
         // Move Right
 
-        if (Input.GetKey(MOVE_RIGHT_KEY))
+        if (Input.GetKey(MOVE_RIGHT_KEY) || Input.GetKey(MOVE_RIGHT_ARROW_KEY))
         {
             OnMoveRightInput?.Invoke();
         }
@@ -89,11 +93,11 @@ public class InputManager : MonoBehaviour
 
         // Jump
 
-        if (Input.GetKeyDown(JUMP_KEY))
+        if (Input.GetKeyDown(JUMP_KEY) || Input.GetKeyDown(JUMP_ARROW_KEY))
         {
             OnJumpInput?.Invoke();
         }
-        if (Input.GetKeyUp(JUMP_KEY))
+        if (Input.GetKeyUp(JUMP_KEY) || Input.GetKeyUp(JUMP_ARROW_KEY))
         {
             OnJumpInputStop?.Invoke();
         }
