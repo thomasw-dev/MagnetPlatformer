@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _appliedForces: 1
   _netAppliedForce: 1
-  _emissionRadius: 1
+  _emissionRadius: 0
   _targetPoint: 1

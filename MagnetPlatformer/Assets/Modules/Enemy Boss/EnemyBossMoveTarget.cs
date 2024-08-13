@@ -1,28 +1,46 @@
 using UnityEngine;
 
-public class EnemyBossMoveTarget : MonoBehaviour
+public class EnemyBossMoveTargetPoint : MonoBehaviour
 {
-    Animator _animator;
+    [SerializeField] EnemyBossMoveTargetTriggerArea _triggerAreaLeft;
+    [SerializeField] EnemyBossMoveTargetTriggerArea _triggerAreaRight;
 
-    void Awake()
+    void OnEnable()
     {
-        _animator = GetComponent<Animator>();
+        if (_triggerAreaLeft != null)
+        {
+            _triggerAreaLeft.OnEnemyBossEnter += MoveTargetPointToRight;
+        }
+        if (_triggerAreaRight != null)
+        {
+            _triggerAreaRight.OnEnemyBossEnter += MoveTargetPointToLeft;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (_triggerAreaLeft != null)
+        {
+            _triggerAreaLeft.OnEnemyBossEnter -= MoveTargetPointToRight;
+        }
+        if (_triggerAreaRight != null)
+        {
+            _triggerAreaRight.OnEnemyBossEnter -= MoveTargetPointToLeft;
+        }
     }
 
     void Start()
     {
-        _animator.enabled = false;
+        MoveTargetPointToLeft();
     }
 
-    [ContextMenu("Start Patrol")]
-    public void StartPatrol()
+    void MoveTargetPointToLeft()
     {
-        _animator.enabled = true;
+        transform.position = _triggerAreaLeft.transform.position;
     }
 
-    [ContextMenu("Stop Patrol")]
-    public void StopPatrol()
+    void MoveTargetPointToRight()
     {
-        _animator.enabled = false;
+        transform.position = _triggerAreaRight.transform.position;
     }
 }

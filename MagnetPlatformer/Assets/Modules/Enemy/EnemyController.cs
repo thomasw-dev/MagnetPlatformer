@@ -169,9 +169,7 @@ public class EnemyController : MonoBehaviour
         // Enemy Boss
         if (IsEnemyBoss())
         {
-            Debug.Log("Emeny Boss Start Chase!");
             _target = _enemyBossMoveTarget;
-            _enemyBossMoveTarget.GetComponent<EnemyBossMoveTarget>().StartPatrol();
         }
         // Enemy
         else
