@@ -1,11 +1,8 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Gizmos Settings", order = Constants.GIZMOS_SETTINGS_SO)]
-public class GizmosSettingsSO : ScriptableObject
+[CreateAssetMenu(fileName = "Gizmos Settings Control", order = Constants.GIZMOS_SETTINGS_CONTROL)]
+public class GizmosSettingsControl : ScriptableObject
 {
-    [Header("Value Set")]
-    [SerializeField] GizmosSettingsSO _gizmosSettingsSO;
-
     [Header("Magnetic Interaction")]
     [SerializeField] bool _appliedForcesGizmos;
     [SerializeField] bool _netAppliedForceGizmos;
@@ -13,4 +10,10 @@ public class GizmosSettingsSO : ScriptableObject
 
     [Header("Enemy")]
     [SerializeField] bool _targetPoint;
+
+    void OnValidate()
+    {
+        //CurrentSettings = _assignedSet;
+        Debug.Log("Updated CurrentSettings");
+    }
 }

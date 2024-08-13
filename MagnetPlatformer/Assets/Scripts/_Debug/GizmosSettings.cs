@@ -1,20 +1,16 @@
-using UnityEngine;
-
 public class GizmosSettings
 {
-    [SerializeField] static GizmosSettingsSO _gizmosSettingsSO;
+    public static bool GizmosEnabled = true;
 
-    public static MagneticInteractionSettings MagneticInteraction;
-    public struct MagneticInteractionSettings
+    public struct MagneticInteraction
     {
-        public bool AppliedForces;
-        public bool NetAppliedForce;
-        public bool EmissionRadius;
+        public static bool AppliedForces;
+        public static bool NetAppliedForce;
+        public static bool EmissionRadius;
     }
 
-    public static EnemySettings Enemy;
-    public struct EnemySettings
+    public struct Enemy
     {
-        public bool TargetPoint;
+        public static bool TargetPoint;
     }
 }

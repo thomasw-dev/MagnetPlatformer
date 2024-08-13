@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 public static class Constants
 {
-    //public const float GRAVITY = 9.81f;
     public const float CAMERA_FOLLOW_SMOOTH_FACTOR = 4f;
 
     public enum ENUM_TAG
@@ -31,8 +30,8 @@ public static class Constants
     }
 
     // Scriptable Objects: Create Asset Menu Orders
-    public const int MAGNET_OBJECT_GROUP = 1;
-    public const int MAGNETIC_OBJECT_SPRITE_SET = 2;
-    public const int MAGNETIC_OBJECT_SPRITE_SET_COLLECTION = 3;
-    public const int GIZMOS_SETTINGS_SO = 4;
+    public const int GIZMOS_SETTINGS_CONTROL = 1;
+    public const int MAGNET_OBJECT_GROUP = 2;
+    public const int MAGNETIC_OBJECT_SPRITE_SET = 3;
+    public const int MAGNETIC_OBJECT_SPRITE_SET_COLLECTION = 4;
 }
