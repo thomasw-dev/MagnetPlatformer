@@ -12,6 +12,9 @@ public class GizmosSettingsControl : ScriptableObject
     [SerializeField] bool _targetPoint;
     [SerializeField] bool _dashEnableDistance;
 
+    [Header("Enemy Boss")]
+    [SerializeField] bool _moveTarget;
+
     void OnValidate()
     {
         GizmosSettings.MagneticInteraction.AppliedForces = _appliedForces;
@@ -20,5 +23,7 @@ public class GizmosSettingsControl : ScriptableObject
 
         GizmosSettings.Enemy.TargetPoint = _targetPoint;
         GizmosSettings.Enemy.DashEnableDistance = _dashEnableDistance;
+
+        GizmosSettings.EnemyBoss.MoveTarget = _moveTarget;
     }
 }

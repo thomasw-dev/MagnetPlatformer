@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class EnemyBossDash : MonoBehaviour
 {
-    EnemyController _enemyController;
-    EnemyValues _enemyValues;
+    EnemyBossController _enemyBossController;
+    EnemyBossValues _enemyBossValues;
     Transform _player;
 
     [SerializeField] float _dashEnableDistance = 5f;
@@ -28,19 +28,19 @@ public class EnemyBossDash : MonoBehaviour
 
     void Awake()
     {
-        _enemyController = GetComponent<EnemyController>();
-        _enemyValues = GetComponent<EnemyValues>();
+        _enemyBossController = GetComponent<EnemyBossController>();
+        _enemyBossValues = GetComponent<EnemyBossValues>();
         _player = Method.GetPlayerObject().transform;
     }
 
     void Start()
     {
-        _initialChaseAcceleration = _enemyValues.ChaseAcceleration;
+        _initialChaseAcceleration = _enemyBossValues.ChaseAcceleration;
     }
 
     void Update()
     {
-        _enemyValues.ChaseAcceleration = _dash ? _dashAcceleration : _initialAcceleration;
+        _enemyBossValues.ChaseAcceleration = _dash ? _dashAcceleration : _initialAcceleration;
 
         return;
 
@@ -68,8 +68,8 @@ public class EnemyBossDash : MonoBehaviour
 
     bool PlayerIsInSameDirection()
     {
-        bool left = _enemyController.MoveDirection == Move.Direction.Left && _player.position.x < transform.position.x;
-        bool right = _enemyController.MoveDirection == Move.Direction.Right && _player.position.x > transform.position.x;
+        bool left = _enemyBossController.MoveDirection == Move.Direction.Left && _player.position.x < transform.position.x;
+        bool right = _enemyBossController.MoveDirection == Move.Direction.Right && _player.position.x > transform.position.x;
         return left || right;
     }
 
@@ -97,15 +97,15 @@ public class EnemyBossDash : MonoBehaviour
             .SetAutoKill(false)
             .OnPlay(() =>
             {
-
+                Debug.Log("Dash tween start.");
             })
             .OnUpdate(() =>
             {
-                _enemyValues.ChaseAcceleration = _dashAccelerationProgress;
+                _enemyBossValues.ChaseAcceleration = _dashAccelerationProgress;
             })
             .OnComplete(() =>
             {
-
+                Debug.Log("Dash tween complete.");
             });
 
         _dashAccelerationTween.Play();

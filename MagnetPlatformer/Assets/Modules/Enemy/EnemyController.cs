@@ -17,9 +17,6 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField] Rigidbody2D _rigidbody;
 
-    [Header("Enemy Boss")]
-    [SerializeField] Transform _enemyBossMoveTarget;
-
     // Chase Target
 
     Transform _target;
@@ -67,22 +64,10 @@ public class EnemyController : MonoBehaviour
         StateController.ChangeState(StateEnum.Idle);
         _initialPos = transform.position;
 
-        // Enemy Boss
-        if (IsEnemyBoss())
+        GameObject player = Method.GetPlayerObject();
+        if (player != null)
         {
-            if (_enemyBossMoveTarget != null)
-            {
-                _target = _enemyBossMoveTarget;
-            }
-        }
-        // Enemy
-        else
-        {
-            GameObject player = Method.GetPlayerObject();
-            if (player != null)
-            {
-                _target = player.transform;
-            }
+            _target = player.transform;
         }
     }
 
@@ -166,30 +151,16 @@ public class EnemyController : MonoBehaviour
 
     void StartChase()
     {
-        // Enemy Boss
-        if (IsEnemyBoss())
-        {
-            _target = _enemyBossMoveTarget;
-        }
-        // Enemy
-        else
-        {
-            _target = Method.GetPlayerObject().transform;
-        }
-
+        _target = Method.GetPlayerObject().transform;
         StateController.ChangeState(StateEnum.Chase);
     }
 
     public void ExitChase()
     {
-        if (IsEnemyBoss()) { return; }
-
         _targetPos = _initialPos;
 
         if (Values.ReturnToInitialPosition)
             StateController.ChangeState(StateEnum.Return);
         else StateController.ChangeState(StateEnum.Idle);
     }
-
-    bool IsEnemyBoss() => gameObject.tag == Constants.TAG[Constants.ENUM_TAG.ENEMY_BOSS];
 }
