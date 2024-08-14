@@ -37,6 +37,12 @@ public class EnemyBossController : MonoBehaviour
     }
     public event Action<Move.Direction> OnMoveDirectionChange;
 
+    // Dash
+
+    EnemyBossDash _enemyBossDash;
+
+    // Kill
+
     public Action OnKillPlayer;
 
     // --------------------
@@ -44,15 +50,18 @@ public class EnemyBossController : MonoBehaviour
     void Awake()
     {
         Values = GetComponent<EnemyBossValues>();
+        _enemyBossDash = GetComponent<EnemyBossDash>();
     }
 
     void OnEnable()
     {
+        if (_enemyBossDash != null) _enemyBossDash.OnDash += HandleDash;
         OnKillPlayer += ExitChase;
     }
 
     void OnDisable()
     {
+        if (_enemyBossDash != null) _enemyBossDash.OnDash -= HandleDash;
         OnKillPlayer -= ExitChase;
     }
 
@@ -76,7 +85,7 @@ public class EnemyBossController : MonoBehaviour
             MoveDirection = Move.Direction.None;
         }
 
-        if (StateController.CurrentEnum == StateEnum.Chase)
+        if (StateController.CurrentEnum == StateEnum.Chase || StateController.CurrentEnum == StateEnum.Dash)
         {
             _targetPos = MoveTarget == null ? _initialPos : MoveTarget.transform.position;
             MoveDirection = UpdateMoveDirection(transform.position.x, _targetPos.x);
@@ -104,6 +113,8 @@ public class EnemyBossController : MonoBehaviour
         _rigidbody.AddForce(moveForce);
     }
 
+    // Chase
+
     public void EnterChase()
     {
         if (GameState.CurrentState != GameState.Play) { return; }
@@ -122,12 +133,18 @@ public class EnemyBossController : MonoBehaviour
 
     void StartChase()
     {
-
         StateController.ChangeState(StateEnum.Chase);
     }
 
     public void ExitChase()
     {
         StateController.ChangeState(StateEnum.Idle);
+    }
+
+    // Dash
+
+    void HandleDash()
+    {
+        StateController.ChangeState(StateEnum.Dash);
     }
 }

@@ -1,10 +1,11 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyBossDash : MonoBehaviour
 {
     EnemyBossController _enemyBossController;
-    EnemyBossValues _enemyBossValues;
     Transform _player;
 
     [SerializeField] float _dashEnableDistance = 5f;
@@ -26,21 +27,35 @@ public class EnemyBossDash : MonoBehaviour
     public float TimeToDash;
     bool _dashed = false;
 
+    Tweener _countdownToNextDashTween;
+    float _countdownToNextDashProgress;
+
+    public event Action OnDash;
+
     void Awake()
     {
         _enemyBossController = GetComponent<EnemyBossController>();
-        _enemyBossValues = GetComponent<EnemyBossValues>();
         _player = Method.GetPlayerObject().transform;
+    }
+
+    void OnEnable()
+    {
+        _enemyBossController.StateController.EnumToState(EnemyBossController.StateEnum.Chase).OnEnter += CountdownToNextDash;
+    }
+
+    void OnDisable()
+    {
+        _enemyBossController.StateController.EnumToState(EnemyBossController.StateEnum.Chase).OnEnter -= CountdownToNextDash;
     }
 
     void Start()
     {
-        _initialChaseAcceleration = _enemyBossValues.ChaseAcceleration;
+        _initialChaseAcceleration = _enemyBossController.Values.ChaseAcceleration;
     }
 
     void Update()
     {
-        _enemyBossValues.ChaseAcceleration = _dash ? _dashAcceleration : _initialAcceleration;
+        _enemyBossController.Values.ChaseAcceleration = _dash ? _dashAcceleration : _initialAcceleration;
 
         return;
 
@@ -50,13 +65,13 @@ public class EnemyBossDash : MonoBehaviour
         {
             if (!dashCountdownStarted)
             {
-                StartDashCountdown();
+                //StartDashCountdown();
                 dashCountdownStarted = true;
             }
 
             if (Time.time >= TimeToDash)
             {
-                Dash();
+                //Dash();
                 _dashed = true;
             }
         }
@@ -73,26 +88,48 @@ public class EnemyBossDash : MonoBehaviour
         return left || right;
     }
 
-    void StartDashCountdown()
+    void CountdownToNextDash()
     {
-        float timeUntilNextDash = GetNextDashCountdown();
-        TimeToDash = Time.time + timeUntilNextDash;
+        float duration = GetCountdownDurationToNextDash();
+
+        // Kill any current tween progress
+        if (_countdownToNextDashTween != null && _countdownToNextDashTween.IsActive()) _countdownToNextDashTween.Kill();
+
+        // Start the tween again
+        _countdownToNextDashTween = DOTween.To(x => _countdownToNextDashProgress = x, duration, 0, duration)
+            .SetEase(Ease.Linear)
+            .SetAutoKill(false)
+            .OnPlay(() =>
+            {
+
+            })
+            .OnUpdate(() =>
+            {
+
+            })
+            .OnComplete(() =>
+            {
+                OnDash?.Invoke();
+                DashAccelerationTween();
+            });
+
+        _countdownToNextDashTween.Play();
     }
 
-    float GetNextDashCountdown()
+    float GetCountdownDurationToNextDash()
     {
         float min = 2f;
         float max = 4f;
         return Random.Range(min, max);
     }
 
-    void Dash()
+    void DashAccelerationTween()
     {
         // Kill any current tween progress
         if (_dashAccelerationTween != null && _dashAccelerationTween.IsActive()) _dashAccelerationTween.Kill();
 
         // Start the tween again
-        _dashAccelerationTween = DOTween.To(x => _dashAccelerationProgress = x, _dashAcceleration, _initialChaseAcceleration, _dashDuration)
+        _dashAccelerationTween = DOTween.To(x => _dashAccelerationProgress = x, _dashAcceleration, _dashAcceleration, _dashDuration)
             .SetEase(Ease.Linear)
             .SetAutoKill(false)
             .OnPlay(() =>
@@ -101,10 +138,11 @@ public class EnemyBossDash : MonoBehaviour
             })
             .OnUpdate(() =>
             {
-                _enemyBossValues.ChaseAcceleration = _dashAccelerationProgress;
+                _enemyBossController.Values.ChaseAcceleration = _dashAccelerationProgress;
             })
             .OnComplete(() =>
             {
+                _enemyBossController.Values.ChaseAcceleration = _initialChaseAcceleration;
                 Debug.Log("Dash tween complete.");
             });
 
