@@ -213,6 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyBossDash: {fileID: 6525405838609175060}
+  duration: 1
   flashSpeed: 0.15
 --- !u!222 &2749573996002635063
 CanvasRenderer:
@@ -432,12 +433,16 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 152286255734616122, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: ac395c8251ab94c16975123f7fd6a287, type: 2}
+    - target: {fileID: 152286255734616122, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
       propertyPath: m_LinearDrag
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1573477837052839366, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
       propertyPath: m_Name
-      value: Enemy Boss
+      value: The Enemy Boss
       objectReference: {fileID: 0}
     - target: {fileID: 1994449776716945763, guid: 77b936279c16c459d8e7157e5d87cd29, type: 3}
       propertyPath: m_Size.x
