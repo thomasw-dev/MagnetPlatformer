@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyBossDashHintText : MonoBehaviour
 {
     [SerializeField] EnemyBossDash _enemyBossDash;
-
+    [SerializeField] float duration = 1f;
     [SerializeField] float flashSpeed = 0.1f;
     bool _flashingEffectStarted = false;
 
@@ -18,12 +18,17 @@ public class EnemyBossDashHintText : MonoBehaviour
 
     void OnDisable()
     {
-        _tmpText.DOKill();
+        InitialState();
+    }
+
+    void Start()
+    {
+        InitialState();
     }
 
     void Update()
     {
-        if (_enemyBossDash.ReadyToDash && Time.time - _enemyBossDash.TimeToDash <= 1f)
+        if (_enemyBossDash.CountingDown && _enemyBossDash.NextDashTime - Time.time <= duration)
         {
             if (!_flashingEffectStarted)
             {
@@ -33,14 +38,20 @@ public class EnemyBossDashHintText : MonoBehaviour
         }
         else
         {
-            _tmpText.enabled = false;
+            InitialState();
             _flashingEffectStarted = false;
         }
     }
 
     void StartFlashingEffect()
     {
-        _tmpText.enabled = true;
+        _tmpText.color = new Color(_tmpText.color.r, _tmpText.color.g, _tmpText.color.b, 1f);
         _tmpText.DOFade(0.0f, flashSpeed).SetLoops(-1, LoopType.Yoyo);
+    }
+
+    void InitialState()
+    {
+        _tmpText.DOKill();
+        _tmpText.color = new Color(_tmpText.color.r, _tmpText.color.g, _tmpText.color.b, 0f);
     }
 }

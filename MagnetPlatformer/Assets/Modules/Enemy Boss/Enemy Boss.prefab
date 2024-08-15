@@ -354,14 +354,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 492be60345b1a47608dfb8d5944160b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dashEnableDistance: 10
-  _dash: 0
+  _minDistanceToEnable: 10
+  CountingDown: 0
+  NextDashTime: 0
+  Dashing: 0
   _dashAcceleration: 75000
-  _initialAcceleration: 5000
-  _manualDash: 0
   _dashDuration: 0.2
-  ReadyToDash: 0
-  TimeToDash: 0
+  _manualDashTrigger: 0
 --- !u!61 &664944229793957158
 BoxCollider2D:
   m_ObjectHideFlags: 0

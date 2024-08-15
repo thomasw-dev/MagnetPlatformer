@@ -5,37 +5,53 @@ using Random = UnityEngine.Random;
 
 public class EnemyBossDash : MonoBehaviour
 {
+    [Header("Countdown Condition")]
+
+    [SerializeField] bool _playerIsInSameDirection;
+    [SerializeField] bool _playerIsFartherThanMinDistance;
+    [SerializeField] bool _dashConditionIsMet;
+    bool _dashCondition
+    {
+        set
+        {
+            if (value == true && !CountingDown) OnDashConditionMet?.Invoke();
+            if (value == false) OnDashConditionUnmet?.Invoke();
+            _dashConditionIsMet = value;
+        }
+    }
+    event Action OnDashConditionMet;
+    event Action OnDashConditionUnmet;
+
     EnemyBossController _enemyBossController;
     Transform _player;
 
-    [SerializeField] float _dashEnableDistance = 5f;
-    bool dashCountdownStarted = false;
+    [Header("Countdown")]
 
-    Tweener _dashCountdownTween;
-    float _dashCountdownProgress;
-
-    Tweener _dashAccelerationTween;
-    float _dashAccelerationProgress;
-
-    [SerializeField] bool _dash = false;
-
-    [SerializeField] float _dashAcceleration = 500f;
-    [SerializeField] float _initialAcceleration = 500f;
-
-    [SerializeField] bool _manualDash = false;
-    [SerializeField] float _dashDuration = 1f;
-
-    float _initialChaseAcceleration;
-
-    public bool ReadyToDash;
-    public float TimeToDash;
-    bool _dashed = false;
-
+    [SerializeField] float _minDistanceToEnable = 5f;
+    public bool CountingDown;
     Tweener _countdownToNextDashTween;
     float _countdownToNextDashProgress;
+    public float NextDashTime;
+
+    [Header("Dash")]
+
+    public bool Dashing = false;
+    Tweener _dashAccelerationTween;
+    float _dashAccelerationProgress;
+    [SerializeField] float _dashAcceleration = 500f;
+    [SerializeField] float _dashDuration = 1f;
+    float _initialChaseAcceleration;
 
     public event Action OnDashStart;
     public event Action OnDashStop;
+
+    [Header("Debug")]
+
+    [SerializeField] bool _manualDashTrigger = false;
+
+    // Dev
+
+    [SerializeField] float _time;
 
     void Awake()
     {
@@ -45,50 +61,28 @@ public class EnemyBossDash : MonoBehaviour
 
     void OnEnable()
     {
-        //_enemyBossController.StateController.EnumToState(EnemyBossController.StateEnum.Chase).OnEnter += CountdownToNextDash;
+        _enemyBossController.StateController.EnumToState(EnemyBossController.StateEnum.Chase).OnEnter += StartCountdownToNextDash;
+        OnDashConditionMet += StartCountdownToNextDash;
+        OnDashConditionUnmet += KillCountdownToNextDash;
     }
 
     void OnDisable()
     {
-        //_enemyBossController.StateController.EnumToState(EnemyBossController.StateEnum.Chase).OnEnter -= CountdownToNextDash;
-    }
-
-    void Start()
-    {
-        _initialChaseAcceleration = _enemyBossController.Values.ChaseAcceleration;
+        _enemyBossController.StateController.EnumToState(EnemyBossController.StateEnum.Chase).OnEnter -= StartCountdownToNextDash;
+        OnDashConditionMet -= StartCountdownToNextDash;
+        OnDashConditionUnmet -= KillCountdownToNextDash;
     }
 
     void Update()
     {
-        if (_manualDash)
-        {
-            DashAccelerationTween();
-        }
+        _dashCondition = !Dashing && PlayerIsInSameDirection() && PlayerIsFartherThanMinDistance();
 
-        //_enemyBossController.Values.ChaseAcceleration = _dash ? _dashAcceleration : _initialAcceleration;
+        if (_manualDashTrigger) Dash();
 
-        return;
-
-        ReadyToDash = PlayerIsInSameDirection() && Mathf.Abs(transform.position.x - _player.position.x) >= _dashEnableDistance;
-
-        if (ReadyToDash)
-        {
-            if (!dashCountdownStarted)
-            {
-                //StartDashCountdown();
-                dashCountdownStarted = true;
-            }
-
-            if (Time.time >= TimeToDash)
-            {
-                //Dash();
-                _dashed = true;
-            }
-        }
-        else
-        {
-            _dashed = false;
-        }
+        // Dev
+        _time = Time.time;
+        _playerIsInSameDirection = PlayerIsInSameDirection();
+        _playerIsFartherThanMinDistance = PlayerIsFartherThanMinDistance();
     }
 
     bool PlayerIsInSameDirection()
@@ -98,32 +92,9 @@ public class EnemyBossDash : MonoBehaviour
         return left || right;
     }
 
-    void CountdownToNextDash()
+    bool PlayerIsFartherThanMinDistance()
     {
-        float duration = GetCountdownDurationToNextDash();
-
-        // Kill any current tween progress
-        if (_countdownToNextDashTween != null && _countdownToNextDashTween.IsActive()) _countdownToNextDashTween.Kill();
-
-        // Start the tween again
-        _countdownToNextDashTween = DOTween.To(x => _countdownToNextDashProgress = x, duration, 0, duration)
-            .SetEase(Ease.Linear)
-            .SetAutoKill(false)
-            .OnPlay(() =>
-            {
-
-            })
-            .OnUpdate(() =>
-            {
-
-            })
-            .OnComplete(() =>
-            {
-                //OnDash?.Invoke();
-                DashAccelerationTween();
-            });
-
-        _countdownToNextDashTween.Play();
+        return Mathf.Abs(transform.position.x - _player.position.x) >= _minDistanceToEnable;
     }
 
     float GetCountdownDurationToNextDash()
@@ -133,7 +104,50 @@ public class EnemyBossDash : MonoBehaviour
         return Random.Range(min, max);
     }
 
-    void DashAccelerationTween()
+    void StartCountdownToNextDash()
+    {
+        float duration = GetCountdownDurationToNextDash();
+        NextDashTime = Time.time + duration;
+
+        // Kill any current tween progress
+        KillCountdownToNextDash();
+
+        // Start the tween again
+        _countdownToNextDashTween = DOTween.To(x => _countdownToNextDashProgress = x, duration, 0, duration)
+            .SetEase(Ease.Linear)
+            .SetAutoKill(false)
+            .OnPlay(() =>
+            {
+                if (Log.EnemyBoss)
+                {
+                    string durationDisplay = duration.ToString("F2");
+                    Debug.Log($"Next dash in {durationDisplay} seconds.");
+                }
+            })
+            .OnUpdate(() =>
+            {
+                CountingDown = true;
+            })
+            .OnComplete(() =>
+            {
+                Dash();
+                CountingDown = false;
+            })
+            .OnKill(() =>
+            {
+                CountingDown = false;
+            });
+
+        _countdownToNextDashTween.Play();
+    }
+
+    void KillCountdownToNextDash()
+    {
+        if (_countdownToNextDashTween != null && _countdownToNextDashTween.IsActive())
+            _countdownToNextDashTween.Kill();
+    }
+
+    void Dash()
     {
         // Kill any current tween progress
         if (_dashAccelerationTween != null && _dashAccelerationTween.IsActive()) _dashAccelerationTween.Kill();
@@ -145,20 +159,23 @@ public class EnemyBossDash : MonoBehaviour
             .OnPlay(() =>
             {
                 OnDashStart?.Invoke();
+                _initialChaseAcceleration = _enemyBossController.Values.ChaseAcceleration;
 
-                _manualDash = false;
-                Debug.Log("Dash tween start.");
+                if (_manualDashTrigger) _manualDashTrigger = false;
+                if (Log.EnemyBoss) Debug.Log($"Dash started.");
             })
             .OnUpdate(() =>
             {
+                Dashing = true;
                 _enemyBossController.Values.ChaseAcceleration = _dashAccelerationProgress;
             })
             .OnComplete(() =>
             {
+                Dashing = false;
                 OnDashStop?.Invoke();
-
                 _enemyBossController.Values.ChaseAcceleration = _initialChaseAcceleration;
-                Debug.Log("Dash tween complete.");
+
+                if (Log.EnemyBoss) Debug.Log($"Dash stopped.");
             });
 
         _dashAccelerationTween.Play();
@@ -169,8 +186,8 @@ public class EnemyBossDash : MonoBehaviour
         if (GizmosSettings.Enemy.DashEnableDistance)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position, transform.position + Vector3.left * _dashEnableDistance);
-            Gizmos.DrawLine(transform.position, transform.position + Vector3.right * _dashEnableDistance);
+            Gizmos.DrawLine(transform.position, transform.position + Vector3.left * _minDistanceToEnable);
+            Gizmos.DrawLine(transform.position, transform.position + Vector3.right * _minDistanceToEnable);
         }
     }
 }
