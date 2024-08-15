@@ -55,14 +55,16 @@ public class EnemyBossController : MonoBehaviour
 
     void OnEnable()
     {
-        if (_enemyBossDash != null) _enemyBossDash.OnDash += HandleDash;
-        OnKillPlayer += ExitChase;
+        if (_enemyBossDash != null) _enemyBossDash.OnDashStart += EnterDashState;
+        if (_enemyBossDash != null) _enemyBossDash.OnDashStop += ExitDashState;
+        OnKillPlayer += ExitChaseState;
     }
 
     void OnDisable()
     {
-        if (_enemyBossDash != null) _enemyBossDash.OnDash -= HandleDash;
-        OnKillPlayer -= ExitChase;
+        if (_enemyBossDash != null) _enemyBossDash.OnDashStart -= EnterDashState;
+        if (_enemyBossDash != null) _enemyBossDash.OnDashStop -= ExitDashState;
+        OnKillPlayer -= ExitChaseState;
     }
 
     void Start()
@@ -120,7 +122,7 @@ public class EnemyBossController : MonoBehaviour
         if (GameState.CurrentState != GameState.Play) { return; }
         if (StateController.CurrentEnum == StateEnum.Chase) { return; }
 
-        StartChase();
+        EnterChaseState();
     }
 
     public void StayChase()
@@ -128,23 +130,16 @@ public class EnemyBossController : MonoBehaviour
         if (GameState.CurrentState != GameState.Play) { return; }
         if (StateController.CurrentEnum == StateEnum.Chase) { return; }
 
-        StartChase();
+        EnterChaseState();
     }
 
-    void StartChase()
-    {
-        StateController.ChangeState(StateEnum.Chase);
-    }
+    void EnterChaseState() => StateController.ChangeState(StateEnum.Chase);
 
-    public void ExitChase()
-    {
-        StateController.ChangeState(StateEnum.Idle);
-    }
+    public void ExitChaseState() => StateController.ChangeState(StateEnum.Idle);
 
     // Dash
 
-    void HandleDash()
-    {
-        StateController.ChangeState(StateEnum.Dash);
-    }
+    void EnterDashState() => StateController.ChangeState(StateEnum.Dash);
+
+    void ExitDashState() => StateController.ChangeState(StateEnum.Chase);
 }

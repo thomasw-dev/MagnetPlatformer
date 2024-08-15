@@ -18,9 +18,13 @@ public class EnemyBossDash : MonoBehaviour
     float _dashAccelerationProgress;
 
     [SerializeField] bool _dash = false;
+
     [SerializeField] float _dashAcceleration = 500f;
     [SerializeField] float _initialAcceleration = 500f;
+
+    [SerializeField] bool _manualDash = false;
     [SerializeField] float _dashDuration = 1f;
+
     float _initialChaseAcceleration;
 
     public bool ReadyToDash;
@@ -30,7 +34,8 @@ public class EnemyBossDash : MonoBehaviour
     Tweener _countdownToNextDashTween;
     float _countdownToNextDashProgress;
 
-    public event Action OnDash;
+    public event Action OnDashStart;
+    public event Action OnDashStop;
 
     void Awake()
     {
@@ -40,12 +45,12 @@ public class EnemyBossDash : MonoBehaviour
 
     void OnEnable()
     {
-        _enemyBossController.StateController.EnumToState(EnemyBossController.StateEnum.Chase).OnEnter += CountdownToNextDash;
+        //_enemyBossController.StateController.EnumToState(EnemyBossController.StateEnum.Chase).OnEnter += CountdownToNextDash;
     }
 
     void OnDisable()
     {
-        _enemyBossController.StateController.EnumToState(EnemyBossController.StateEnum.Chase).OnEnter -= CountdownToNextDash;
+        //_enemyBossController.StateController.EnumToState(EnemyBossController.StateEnum.Chase).OnEnter -= CountdownToNextDash;
     }
 
     void Start()
@@ -55,7 +60,12 @@ public class EnemyBossDash : MonoBehaviour
 
     void Update()
     {
-        _enemyBossController.Values.ChaseAcceleration = _dash ? _dashAcceleration : _initialAcceleration;
+        if (_manualDash)
+        {
+            DashAccelerationTween();
+        }
+
+        //_enemyBossController.Values.ChaseAcceleration = _dash ? _dashAcceleration : _initialAcceleration;
 
         return;
 
@@ -109,7 +119,7 @@ public class EnemyBossDash : MonoBehaviour
             })
             .OnComplete(() =>
             {
-                OnDash?.Invoke();
+                //OnDash?.Invoke();
                 DashAccelerationTween();
             });
 
@@ -134,6 +144,9 @@ public class EnemyBossDash : MonoBehaviour
             .SetAutoKill(false)
             .OnPlay(() =>
             {
+                OnDashStart?.Invoke();
+
+                _manualDash = false;
                 Debug.Log("Dash tween start.");
             })
             .OnUpdate(() =>
@@ -142,6 +155,8 @@ public class EnemyBossDash : MonoBehaviour
             })
             .OnComplete(() =>
             {
+                OnDashStop?.Invoke();
+
                 _enemyBossController.Values.ChaseAcceleration = _initialChaseAcceleration;
                 Debug.Log("Dash tween complete.");
             });
