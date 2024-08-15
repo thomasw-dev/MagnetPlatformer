@@ -186,8 +186,7 @@ public class EnemyBossDash : MonoBehaviour
         if (GizmosSettings.Enemy.DashEnableDistance)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position, transform.position + Vector3.left * _minDistanceToEnable);
-            Gizmos.DrawLine(transform.position, transform.position + Vector3.right * _minDistanceToEnable);
+            Gizmos.DrawWireSphere(transform.position, _minDistanceToEnable);
         }
     }
 }
