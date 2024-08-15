@@ -45,6 +45,13 @@ public class EnemyBossController : MonoBehaviour
 
     public Action OnKillPlayer;
 
+    [Header("Anti-stuck")]
+    [SerializeField] bool _antiStuckEnabled = true;
+    float _stuckVelocityThreshold = 1f;
+    bool _stuckBegin = false;
+    float _stuckStartTime;
+    float _stuckDuration = 0.75f;
+
     // --------------------
 
     void Awake()
@@ -90,10 +97,38 @@ public class EnemyBossController : MonoBehaviour
         if (StateController.CurrentEnum == StateEnum.Chase || StateController.CurrentEnum == StateEnum.Dash)
         {
             _targetPos = MoveTarget == null ? _initialPos : MoveTarget.transform.position;
-            MoveDirection = UpdateMoveDirection(transform.position.x, _targetPos.x);
+
+            // Anti-stuck
+            if (_antiStuckEnabled)
+            {
+                if (Mathf.Abs(_rigidbody.velocity.x) < _stuckVelocityThreshold)
+                {
+                    if (!_stuckBegin)
+                    {
+                        _stuckStartTime = Time.time;
+                        _stuckBegin = true;
+                    }
+                }
+                else _stuckBegin = false;
+
+                if (_stuckBegin && Time.time >= _stuckStartTime + _stuckDuration)
+                {
+                    // Flip the Move Direction
+                    if (MoveDirection == Move.Direction.Left) MoveDirection = Move.Direction.Right;
+                    else if (MoveDirection == Move.Direction.Right) MoveDirection = Move.Direction.Left;
+                    _stuckBegin = false;
+                }
+            }
+            else
+            {
+                MoveDirection = UpdateMoveDirection(transform.position.x, _targetPos.x);
+            }
+
             MoveRigidbody(Values.ChaseAcceleration);
         }
     }
+
+    public void CheckMoveDirection() => MoveDirection = UpdateMoveDirection(transform.position.x, _targetPos.x);
 
     Move.Direction UpdateMoveDirection(float selfX, float targetX)
     {
@@ -133,7 +168,11 @@ public class EnemyBossController : MonoBehaviour
         EnterChaseState();
     }
 
-    void EnterChaseState() => StateController.ChangeState(StateEnum.Chase);
+    void EnterChaseState()
+    {
+        StateController.ChangeState(StateEnum.Chase);
+        MoveDirection = UpdateMoveDirection(transform.position.x, _targetPos.x);
+    }
 
     public void ExitChaseState() => StateController.ChangeState(StateEnum.Idle);
 

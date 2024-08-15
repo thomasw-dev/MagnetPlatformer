@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyBossMoveTargetPoint : MonoBehaviour
 {
+    [SerializeField] EnemyBossController _enemyBossController;
     [SerializeField] EnemyBossMoveTargetTriggerArea _triggerAreaLeft;
     [SerializeField] EnemyBossMoveTargetTriggerArea _triggerAreaRight;
 
@@ -37,10 +38,12 @@ public class EnemyBossMoveTargetPoint : MonoBehaviour
     void MoveTargetPointToLeft()
     {
         transform.position = _triggerAreaLeft.transform.position;
+        _enemyBossController.CheckMoveDirection();
     }
 
     void MoveTargetPointToRight()
     {
         transform.position = _triggerAreaRight.transform.position;
+        _enemyBossController.CheckMoveDirection();
     }
 }

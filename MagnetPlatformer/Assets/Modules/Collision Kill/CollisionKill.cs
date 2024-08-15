@@ -12,11 +12,10 @@ public class CollisionKill : MonoBehaviour
     [Space(10)]
 
     [SerializeField] List<GameObject> _collisions;
-
-    [SerializeField] bool _invoked = false;
-    [SerializeField] float _invokeResetDelay = 1f;
-    Tweener _invokeResetTween;
-    float _invokeResetTweenProgress;
+    [SerializeField] List<GameObject> _collisionsTop;
+    [SerializeField] List<GameObject> _collisionsBottom;
+    [SerializeField] List<GameObject> _collisionsLeft;
+    [SerializeField] List<GameObject> _collisionsRight;
 
     public event Action OnKill;
     public event Action<Direction.Type> OnKillDirection;
@@ -45,49 +44,15 @@ public class CollisionKill : MonoBehaviour
 
         if (isHitTop && isHitBottom)
         {
-            if (!_invoked)
-            {
-                OnKill?.Invoke();
-                OnKillDirection?.Invoke(Direction.Type.Vertical);
-                _invoked = true;
-                StartInvokeResetTween(_invokeResetDelay);
-            }
+            OnKill?.Invoke();
+            OnKillDirection?.Invoke(Direction.Type.Vertical);
         }
 
         if (isHitLeft && isHitRight)
         {
-            if (!_invoked)
-            {
-                OnKill?.Invoke();
-                OnKillDirection?.Invoke(Direction.Type.Horizontal);
-                _invoked = true;
-                StartInvokeResetTween(_invokeResetDelay);
-            }
+            OnKill?.Invoke();
+            OnKillDirection?.Invoke(Direction.Type.Horizontal);
         }
-    }
-
-    void StartInvokeResetTween(float delay)
-    {
-        // Kill any current tween progress
-        if (_invokeResetTween != null && _invokeResetTween.IsActive()) _invokeResetTween.Kill();
-
-        // Start the tween again
-        _invokeResetTween = DOTween.To(x => _invokeResetTweenProgress = x, delay, 0, delay).SetEase(Ease.Linear)
-            .SetAutoKill(false)
-            .OnPlay(() =>
-            {
-
-            })
-            .OnUpdate(() =>
-            {
-
-            })
-            .OnComplete(() =>
-            {
-                _invoked = false;
-            });
-
-        _invokeResetTween.Play();
     }
 
     void OnDrawGizmosSelected()

@@ -17,3 +17,4 @@ MonoBehaviour:
   _emissionRadius: 0
   _targetPoint: 1
   _dashEnableDistance: 1
+  _moveTarget: 1
