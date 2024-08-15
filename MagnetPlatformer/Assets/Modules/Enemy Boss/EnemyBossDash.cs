@@ -49,10 +49,6 @@ public class EnemyBossDash : MonoBehaviour
 
     [SerializeField] bool _manualDashTrigger = false;
 
-    // Dev
-
-    [SerializeField] float _time;
-
     void Awake()
     {
         _enemyBossController = GetComponent<EnemyBossController>();
@@ -79,8 +75,6 @@ public class EnemyBossDash : MonoBehaviour
 
         if (_manualDashTrigger) Dash();
 
-        // Dev
-        _time = Time.time;
         _playerIsInSameDirection = PlayerIsInSameDirection();
         _playerIsFartherThanMinDistance = PlayerIsFartherThanMinDistance();
     }
