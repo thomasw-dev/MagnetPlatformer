@@ -2065,6 +2065,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 79566963118209870, guid: 7e38aefbe8ab0491ea94fb7e1ff28644, type: 3}
+      propertyPath: m_Radius
+      value: 7.9
+      objectReference: {fileID: 0}
     - target: {fileID: 2124353753786090649, guid: 7e38aefbe8ab0491ea94fb7e1ff28644, type: 3}
       propertyPath: MoveTarget
       value: 
@@ -2072,6 +2076,18 @@ PrefabInstance:
     - target: {fileID: 2230711807617135640, guid: 7e38aefbe8ab0491ea94fb7e1ff28644, type: 3}
       propertyPath: m_Name
       value: The Enemy Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 6525405838609175060, guid: 7e38aefbe8ab0491ea94fb7e1ff28644, type: 3}
+      propertyPath: _dashDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6525405838609175060, guid: 7e38aefbe8ab0491ea94fb7e1ff28644, type: 3}
+      propertyPath: _manualCountdown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6525405838609175060, guid: 7e38aefbe8ab0491ea94fb7e1ff28644, type: 3}
+      propertyPath: _dashAcceleration
+      value: 30000
       objectReference: {fileID: 0}
     - target: {fileID: 7224038489555591024, guid: 7e38aefbe8ab0491ea94fb7e1ff28644, type: 3}
       propertyPath: m_LocalPosition.x
