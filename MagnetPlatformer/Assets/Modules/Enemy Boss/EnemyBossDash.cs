@@ -45,6 +45,9 @@ public class EnemyBossDash : MonoBehaviour
     public event Action OnDashStart;
     public event Action OnDashStop;
 
+    [Range(0f, 10f)]
+    [SerializeField] float _manualCountdown = 1f;
+
     [Header("Debug")]
 
     [SerializeField] bool _manualDashTrigger = false;
@@ -93,9 +96,10 @@ public class EnemyBossDash : MonoBehaviour
 
     float GetCountdownDurationToNextDash()
     {
-        float min = 2f;
+        return _manualCountdown;
+        /*float min = 2f;
         float max = 4f;
-        return Random.Range(min, max);
+        return Random.Range(min, max);*/
     }
 
     void StartCountdownToNextDash()
