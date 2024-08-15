@@ -11,43 +11,52 @@ public class CollisionKill : MonoBehaviour
     [Space(10)]
 
     [SerializeField] List<GameObject> _collisions;
-    [SerializeField] List<GameObject> _collisionsTop;
-    [SerializeField] List<GameObject> _collisionsBottom;
-    [SerializeField] List<GameObject> _collisionsLeft;
-    [SerializeField] List<GameObject> _collisionsRight;
+    [SerializeField] GameObject _hitTop;
+    [SerializeField] GameObject _hitBottom;
+    [SerializeField] GameObject _hitLeft;
+    [SerializeField] GameObject _hitRight;
 
     public event Action OnKill;
     public event Action<Direction.Type> OnKillDirection;
 
     void FixedUpdate()
     {
-        _collisions = new List<GameObject>();
-        bool isHitTop = false;
-        bool isHitBottom = false;
-        bool isHitLeft = false;
-        bool isHitRight = false;
+        List<GameObject> hitObjects = new List<GameObject>();
+        GameObject hitTop = null;
+        GameObject hitBottom = null;
+        GameObject hitLeft = null;
+        GameObject hitRight = null;
 
         for (int i = 0; i < 4; i++)
         {
             Vector2 direction = IndexToDirection(i);
             RaycastHit2D hit = Physics2D.BoxCast(_castPoints[i].position, _castPoints[i].localScale, 0, direction, _castDistance, _includeLayers);
-            if (hit.collider != null)
+            GameObject hitObject = hit.collider.gameObject;
+
+            // Handle hit object if any
+            if (hit.collider.gameObject != null)
             {
-                _collisions.Add(hit.collider.gameObject);
-                if (i == 0) isHitTop = true;
-                if (i == 1) isHitBottom = true;
-                if (i == 2) isHitLeft = true;
-                if (i == 3) isHitRight = true;
+                _collisions.Add(hitObject);
+                if (i == 0) _hitTop = hitObject;
+                if (i == 1) _hitBottom = hitObject;
+                if (i == 2) _hitLeft = hitObject;
+                if (i == 3) _hitRight = hitObject;
+            }
+
+            // Check cached hit object
+            if (i == 0)
+            {
+                _hitTop = hitObject;
             }
         }
 
-        if (isHitTop && isHitBottom)
+        if (hitTop != null && _hitTop != hitTop && hitBottom != null && _hitBottom != hitBottom)
         {
             OnKill?.Invoke();
             OnKillDirection?.Invoke(Direction.Type.Vertical);
         }
 
-        if (isHitLeft && isHitRight)
+        if (hitLeft != null && _hitLeft != hitLeft && hitRight != null && _hitRight != hitRight)
         {
             OnKill?.Invoke();
             OnKillDirection?.Invoke(Direction.Type.Horizontal);
