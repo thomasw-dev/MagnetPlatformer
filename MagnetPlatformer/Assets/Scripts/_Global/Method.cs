@@ -127,4 +127,16 @@ public static class Method
         }
         return true;
     }
+
+    public static Vector2 SideToVector2(Direction.Side side)
+    {
+        return side switch
+        {
+            Direction.Side.Top => Vector2.up,
+            Direction.Side.Bottom => Vector2.down,
+            Direction.Side.Left => Vector2.left,
+            Direction.Side.Right => Vector2.right,
+            _ => Vector2.zero
+        };
+    }
 }

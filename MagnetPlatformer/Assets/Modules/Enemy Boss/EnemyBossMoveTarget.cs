@@ -6,6 +6,9 @@ public class EnemyBossMoveTargetPoint : MonoBehaviour
     [SerializeField] EnemyBossMoveTargetTriggerArea _triggerAreaLeft;
     [SerializeField] EnemyBossMoveTargetTriggerArea _triggerAreaRight;
 
+    [Header("Anti-stuck")]
+    [SerializeField] CollisionKill _collisionKill;
+
     void OnEnable()
     {
         if (_triggerAreaLeft != null)
@@ -33,6 +36,36 @@ public class EnemyBossMoveTargetPoint : MonoBehaviour
     void Start()
     {
         MoveTargetPointToLeft();
+    }
+
+    void Update()
+    {
+        if (_collisionKill != null)
+        {
+            FlipMoveTargetOnCollision();
+        }
+    }
+
+    void FlipMoveTargetOnCollision()
+    {
+        switch (_enemyBossController.MoveDirection)
+        {
+            // If enemy boss is moving to the left and colliding with an object on the left side
+            case Move.Direction.Left:
+                if (_collisionKill.CollidingObjects[(int)Direction.Side.Left] != null)
+                {
+                    MoveTargetPointToRight();
+                }
+                break;
+
+            // If enemy boss is moving to the right and colliding with an object on the right side
+            case Move.Direction.Right:
+                if (_collisionKill.CollidingObjects[(int)Direction.Side.Right] != null)
+                {
+                    MoveTargetPointToLeft();
+                }
+                break;
+        }
     }
 
     void MoveTargetPointToLeft()

@@ -21,4 +21,11 @@ public static class CameraArea
 public static class Direction
 {
     public enum Type { Vertical, Horizontal }
+    public enum Side
+    {
+        Top = 0,
+        Bottom = 1,
+        Left = 2,
+        Right = 3
+    }
 }

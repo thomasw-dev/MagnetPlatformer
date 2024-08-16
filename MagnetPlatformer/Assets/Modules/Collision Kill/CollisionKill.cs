@@ -12,7 +12,7 @@ public class CollisionKill : MonoBehaviour
     [SerializeField] LayerMask _includeLayers;
 
     [Header("Values")]
-    public List<GameObject> CollidingObjects = new List<GameObject>(4); // 0 (Top), 1 (Bottom), 2 (Left), 3 (Right)
+    public List<GameObject> CollidingObjects = new List<GameObject>(4);
     public List<GameObject> LastVerticalKillObjects = new List<GameObject>(2);
     public List<GameObject> LastHorizontalKillObjects = new List<GameObject>(2);
 
@@ -32,7 +32,7 @@ public class CollisionKill : MonoBehaviour
 
     void DirectionBoxCast(int i)
     {
-        RaycastHit2D hit = Physics2D.BoxCast(_castPoints[i].position, _castPoints[i].localScale, 0, IndexToDirection(i), _castDistance, _includeLayers);
+        RaycastHit2D hit = Physics2D.BoxCast(_castPoints[i].position, _castPoints[i].localScale, 0, Method.SideToVector2((Direction.Side)i), _castDistance, _includeLayers);
 
         // The BoxCast of this direction detects a collider, cache its GameObject
         if (hit.collider != null)
@@ -54,13 +54,13 @@ public class CollisionKill : MonoBehaviour
 
     void CheckVerticalKill()
     {
-        if (CollidingObjects[0] != null && CollidingObjects[1] != null)
+        if (CollidingObjects[(int)Direction.Side.Top] != null && CollidingObjects[(int)Direction.Side.Bottom] != null)
         {
             OnKill?.Invoke();
 
             LastVerticalKillObjects.Clear();
-            LastVerticalKillObjects.Add(CollidingObjects[0]);
-            LastVerticalKillObjects.Add(CollidingObjects[1]);
+            LastVerticalKillObjects.Add(CollidingObjects[(int)Direction.Side.Top]);
+            LastVerticalKillObjects.Add(CollidingObjects[(int)Direction.Side.Bottom]);
 
             OnKillDirection?.Invoke(Direction.Type.Vertical, LastVerticalKillObjects);
         }
@@ -68,13 +68,13 @@ public class CollisionKill : MonoBehaviour
 
     void CheckHorizontalKill()
     {
-        if (CollidingObjects[2] != null && CollidingObjects[3] != null)
+        if (CollidingObjects[(int)Direction.Side.Left] != null && CollidingObjects[(int)Direction.Side.Right] != null)
         {
             OnKill?.Invoke();
 
             LastHorizontalKillObjects.Clear();
-            LastHorizontalKillObjects.Add(CollidingObjects[2]);
-            LastHorizontalKillObjects.Add(CollidingObjects[3]);
+            LastHorizontalKillObjects.Add(CollidingObjects[(int)Direction.Side.Left]);
+            LastHorizontalKillObjects.Add(CollidingObjects[(int)Direction.Side.Right]);
 
             OnKillDirection?.Invoke(Direction.Type.Horizontal, LastHorizontalKillObjects);
         }
@@ -94,24 +94,12 @@ public class CollisionKill : MonoBehaviour
         }
     }
 
-    Vector2 IndexToDirection(int i)
-    {
-        return i switch
-        {
-            0 => Vector2.up,
-            1 => Vector2.down,
-            2 => Vector2.left,
-            3 => Vector2.right,
-            _ => Vector2.zero
-        };
-    }
-
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         for (int i = 0; i < 4; i++)
         {
-            Vector2 direction = IndexToDirection(i);
+            Vector2 direction = Method.SideToVector2((Direction.Side)i);
             Gizmos.DrawRay(_castPoints[i].position, direction * _castDistance);
         }
     }
