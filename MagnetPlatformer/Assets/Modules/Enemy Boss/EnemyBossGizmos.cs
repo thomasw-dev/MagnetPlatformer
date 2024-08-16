@@ -11,8 +11,12 @@ public class EnemyBossGizmos : MonoBehaviour
     {
         if (GizmosSettings.EnemyBoss.MoveTarget)
         {
-            Gizmos.color = MOVE_TARGET_COLOR;
-            Gizmos.DrawWireSphere(GetController().MoveTarget.position, MOVE_TARGET_SIZE);
+            Transform moveTarget = GetController().MoveTarget;
+            if (moveTarget != null)
+            {
+                Gizmos.color = MOVE_TARGET_COLOR;
+                Gizmos.DrawWireSphere(moveTarget.position, MOVE_TARGET_SIZE);
+            }
         }
     }
 }

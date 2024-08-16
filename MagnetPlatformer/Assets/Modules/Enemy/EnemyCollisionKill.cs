@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ public class EnemyCollisionKill : MonoBehaviour
         _collisionKill.OnKillDirection -= HandleKillDirection;
     }
 
-    void HandleKillDirection(Direction.Type direction)
+    void HandleKillDirection(Direction.Type direction, List<GameObject> hitObjects)
     {
         _enemyController.StateController.ChangeState(EnemyController.StateEnum.Death);
 
