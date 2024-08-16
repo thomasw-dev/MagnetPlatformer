@@ -57,9 +57,15 @@ MonoBehaviour:
   _includeLayers:
     serializedVersion: 2
     m_Bits: 768
-  HitDirection:
+  CollidingObjects:
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  LastVerticalKillObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  LastHorizontalKillObjects:
   - {fileID: 0}
   - {fileID: 0}
 --- !u!1 &2204644125613955245

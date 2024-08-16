@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using UnityEngine;
 
 public class CollisionKill : MonoBehaviour
@@ -13,10 +12,13 @@ public class CollisionKill : MonoBehaviour
     [SerializeField] LayerMask _includeLayers;
 
     [Header("Values")]
-    public List<GameObject> HitDirection = new List<GameObject>(4); // 0 (Top), 1 (Bottom), 2 (Left), 3 (Right)
+    public List<GameObject> CollidingObjects = new List<GameObject>(4); // 0 (Top), 1 (Bottom), 2 (Left), 3 (Right)
+    public List<GameObject> LastVerticalKillObjects = new List<GameObject>(2);
+    public List<GameObject> LastHorizontalKillObjects = new List<GameObject>(2);
 
     public event Action OnKill;
     public event Action<Direction.Type, List<GameObject>> OnKillDirection;
+    public event Action<Direction.Type> OnClearTriggeredList;
 
     void FixedUpdate()
     {
@@ -24,46 +26,71 @@ public class CollisionKill : MonoBehaviour
         {
             DirectionBoxCast(i);
         }
-        DetectVerticalCollisionKill();
-        DetectHorizontalCollisionKill();
+        CheckVerticalKill();
+        CheckHorizontalKill();
     }
 
     void DirectionBoxCast(int i)
     {
         RaycastHit2D hit = Physics2D.BoxCast(_castPoints[i].position, _castPoints[i].localScale, 0, IndexToDirection(i), _castDistance, _includeLayers);
 
-        // Cache the hit object if any
+        // The BoxCast of this direction detects a collider, cache its GameObject
         if (hit.collider != null)
         {
             GameObject hitObject = hit.collider.gameObject;
 
-            if (hitObject != HitDirection[i])
+            if (hitObject != CollidingObjects[i])
             {
-                HitDirection[i] = hitObject;
+                CollidingObjects[i] = hitObject;
             }
         }
-        // Remove the cached object that isn't currently hit by the cast
+        // The BoxCast of this direction doesn't detect a collider, remove the cached GameObject
         else
         {
-            HitDirection[i] = null;
+            CollidingObjects[i] = null;
+            ClearKillObjectsByDirection(i);
         }
     }
 
-    void DetectVerticalCollisionKill()
+    void CheckVerticalKill()
     {
-        if (HitDirection[0] != null && HitDirection[1] != null)
+        if (CollidingObjects[0] != null && CollidingObjects[1] != null)
         {
             OnKill?.Invoke();
-            OnKillDirection?.Invoke(Direction.Type.Vertical, new List<GameObject> { HitDirection[0], HitDirection[1] });
+
+            LastVerticalKillObjects.Clear();
+            LastVerticalKillObjects.Add(CollidingObjects[0]);
+            LastVerticalKillObjects.Add(CollidingObjects[1]);
+
+            OnKillDirection?.Invoke(Direction.Type.Vertical, LastVerticalKillObjects);
         }
     }
 
-    void DetectHorizontalCollisionKill()
+    void CheckHorizontalKill()
     {
-        if (HitDirection[2] != null && HitDirection[3] != null)
+        if (CollidingObjects[2] != null && CollidingObjects[3] != null)
         {
             OnKill?.Invoke();
-            OnKillDirection?.Invoke(Direction.Type.Horizontal, new List<GameObject> { HitDirection[2], HitDirection[3] });
+
+            LastHorizontalKillObjects.Clear();
+            LastHorizontalKillObjects.Add(CollidingObjects[2]);
+            LastHorizontalKillObjects.Add(CollidingObjects[3]);
+
+            OnKillDirection?.Invoke(Direction.Type.Horizontal, LastHorizontalKillObjects);
+        }
+    }
+
+    void ClearKillObjectsByDirection(int i)
+    {
+        if (i == 0 || i == 1)
+        {
+            LastVerticalKillObjects.Clear();
+            OnClearTriggeredList?.Invoke(Direction.Type.Vertical);
+        }
+        if (i == 2 || i == 3)
+        {
+            LastHorizontalKillObjects.Clear();
+            OnClearTriggeredList?.Invoke(Direction.Type.Horizontal);
         }
     }
 

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 
@@ -28,26 +27,28 @@ public class EnemyBossCollisionKill : MonoBehaviour
     void OnEnable()
     {
         _collisionKill.OnKillDirection += HandleKillDirection;
+        _collisionKill.OnClearTriggeredList += ClearTriggeredList;
     }
 
     void OnDisable()
     {
         _collisionKill.OnKillDirection -= HandleKillDirection;
+        _collisionKill.OnClearTriggeredList -= ClearTriggeredList;
+    }
+
+    void ClearTriggeredList(Direction.Type direction)
+    {
+        if (direction == Direction.Type.Vertical) _triggeredHitObjectsVertical.Clear();
+        if (direction == Direction.Type.Horizontal) _triggeredHitObjectsHorizontal.Clear();
     }
 
     void HandleKillDirection(Direction.Type direction, List<GameObject> hitObjects)
     {
         // Deal damage if the pair of hit objects aren't exactly the same
-        bool dealDamage = false;
         switch (direction)
         {
             case Direction.Type.Vertical:
-                foreach (GameObject obj in hitObjects)
-                {
-                    if (_triggeredHitObjectsVertical.Any(item => item != obj))
-                        dealDamage = true;
-                }
-                if (dealDamage)
+                if (hitObjects != _triggeredHitObjectsVertical)
                 {
                     _enemyBossHealth.DealDamage();
                     _triggeredHitObjectsVertical = hitObjects;
@@ -55,12 +56,7 @@ public class EnemyBossCollisionKill : MonoBehaviour
                 break;
 
             case Direction.Type.Horizontal:
-                foreach (GameObject obj in hitObjects)
-                {
-                    if (_triggeredHitObjectsHorizontal.Any(item => item != obj))
-                        dealDamage = true;
-                }
-                if (dealDamage)
+                if (hitObjects != _triggeredHitObjectsHorizontal)
                 {
                     _enemyBossHealth.DealDamage();
                     _triggeredHitObjectsHorizontal = hitObjects;

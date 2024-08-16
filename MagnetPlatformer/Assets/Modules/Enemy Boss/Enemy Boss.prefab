@@ -329,6 +329,7 @@ MonoBehaviour:
   Values: {fileID: 0}
   _rigidbody: {fileID: 0}
   MoveTarget: {fileID: 0}
+  _antiStuckEnabled: 1
 --- !u!114 &8512853400631984870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,12 +355,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 492be60345b1a47608dfb8d5944160b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerIsInSameDirection: 0
+  _playerIsFartherThanMinDistance: 0
+  _dashConditionIsMet: 0
   _minDistanceToEnable: 10
   CountingDown: 0
   NextDashTime: 0
   Dashing: 0
   _dashAcceleration: 75000
   _dashDuration: 0.2
+  _manualCountdown: 1
   _manualDashTrigger: 0
 --- !u!61 &664944229793957158
 BoxCollider2D:
@@ -525,6 +530,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rootParent: {fileID: 0}
   _squeezeDuration: 1
+  _triggeredHitObjectsVertical:
+  - {fileID: 0}
+  - {fileID: 0}
+  _triggeredHitObjectsHorizontal:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &2117579002263145892 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1236864178800991512, guid: 651fbb72bac624c43bb9ef163dd7a3a3, type: 3}
