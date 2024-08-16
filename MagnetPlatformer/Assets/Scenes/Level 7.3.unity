@@ -2086,7 +2086,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 79566963118209870, guid: 7e38aefbe8ab0491ea94fb7e1ff28644, type: 3}
       propertyPath: m_Radius
-      value: 5
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 946870792329099444, guid: 7e38aefbe8ab0491ea94fb7e1ff28644, type: 3}
       propertyPath: _triggeredHitObjectsVertical.Array.size
