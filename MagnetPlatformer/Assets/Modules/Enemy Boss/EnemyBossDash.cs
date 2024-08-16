@@ -5,6 +5,15 @@ using Random = UnityEngine.Random;
 
 public class EnemyBossDash : MonoBehaviour
 {
+    [Header("Countdown Settings")]
+
+    [SerializeField] float _minDistanceToEnable = 5f;
+    [SerializeField] float _randomCountdownMin = 2f;
+    [SerializeField] float _randomCountdownMax = 4f;
+    [SerializeField] bool _useManualCountdown = false;
+    [Range(0f, 10f)]
+    [SerializeField] float _manualCountdown = 1f;
+
     [Header("Countdown Condition")]
 
     [SerializeField] bool _playerIsInSameDirection;
@@ -14,7 +23,7 @@ public class EnemyBossDash : MonoBehaviour
     {
         set
         {
-            if (value == true && !CountingDown) OnDashConditionMet?.Invoke();
+            if (value == true && !IsCountingDown) OnDashConditionMet?.Invoke();
             if (value == false) OnDashConditionUnmet?.Invoke();
             _dashConditionIsMet = value;
         }
@@ -22,20 +31,17 @@ public class EnemyBossDash : MonoBehaviour
     event Action OnDashConditionMet;
     event Action OnDashConditionUnmet;
 
-    EnemyBossController _enemyBossController;
-    Transform _player;
-
     [Header("Countdown")]
 
-    [SerializeField] float _minDistanceToEnable = 5f;
-    public bool CountingDown;
+    public bool IsCountingDown = false;
     Tweener _countdownToNextDashTween;
     float _countdownToNextDashProgress;
-    public float NextDashTime;
+    float _nextDashTime;
+    public float NextDashIn;
 
     [Header("Dash")]
 
-    public bool Dashing = false;
+    public bool IsDashing = false;
     Tweener _dashAccelerationTween;
     float _dashAccelerationProgress;
     [SerializeField] float _dashAcceleration = 500f;
@@ -45,12 +51,12 @@ public class EnemyBossDash : MonoBehaviour
     public event Action OnDashStart;
     public event Action OnDashStop;
 
-    [Range(0f, 10f)]
-    [SerializeField] float _manualCountdown = 1f;
-
     [Header("Debug")]
 
     [SerializeField] bool _manualDashTrigger = false;
+
+    EnemyBossController _enemyBossController;
+    Transform _player;
 
     void Awake()
     {
@@ -74,7 +80,9 @@ public class EnemyBossDash : MonoBehaviour
 
     void Update()
     {
-        _dashCondition = !Dashing && PlayerIsInSameDirection() && PlayerIsFartherThanMinDistance();
+        _dashCondition = !IsDashing && PlayerIsInSameDirection() && PlayerIsFartherThanMinDistance();
+
+        NextDashIn = _nextDashTime - Time.time;
 
         if (_manualDashTrigger) Dash();
 
@@ -96,16 +104,22 @@ public class EnemyBossDash : MonoBehaviour
 
     float GetCountdownDurationToNextDash()
     {
-        return _manualCountdown;
-        /*float min = 2f;
-        float max = 4f;
-        return Random.Range(min, max);*/
+        if (_useManualCountdown)
+        {
+            return _manualCountdown;
+        }
+        else
+        {
+            float min = 2f;
+            float max = 4f;
+            return Random.Range(min, max);
+        }
     }
 
     void StartCountdownToNextDash()
     {
         float duration = GetCountdownDurationToNextDash();
-        NextDashTime = Time.time + duration;
+        _nextDashTime = Time.time + duration;
 
         // Kill any current tween progress
         KillCountdownToNextDash();
@@ -119,21 +133,21 @@ public class EnemyBossDash : MonoBehaviour
                 if (Log.EnemyBoss)
                 {
                     string durationDisplay = duration.ToString("F2");
-                    Debug.Log($"Next dash in {durationDisplay} seconds.");
+                    Debug.Log($"Enemy Boss: Next dash in {durationDisplay} seconds.");
                 }
             })
             .OnUpdate(() =>
             {
-                CountingDown = true;
+                IsCountingDown = true;
             })
             .OnComplete(() =>
             {
                 Dash();
-                CountingDown = false;
+                IsCountingDown = false;
             })
             .OnKill(() =>
             {
-                CountingDown = false;
+                IsCountingDown = false;
             });
 
         _countdownToNextDashTween.Play();
@@ -164,12 +178,12 @@ public class EnemyBossDash : MonoBehaviour
             })
             .OnUpdate(() =>
             {
-                Dashing = true;
+                IsDashing = true;
                 _enemyBossController.Values.ChaseAcceleration = _dashAccelerationProgress;
             })
             .OnComplete(() =>
             {
-                Dashing = false;
+                IsDashing = false;
                 OnDashStop?.Invoke();
                 _enemyBossController.Values.ChaseAcceleration = _initialChaseAcceleration;
 

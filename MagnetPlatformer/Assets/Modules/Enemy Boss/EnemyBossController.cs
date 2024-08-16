@@ -50,7 +50,7 @@ public class EnemyBossController : MonoBehaviour
     float _stuckVelocityThreshold = 1f;
     bool _stuckBegin = false;
     float _stuckStartTime;
-    float _stuckDuration = 0.75f;
+    [SerializeField] float _stuckDuration = 0.5f;
 
     // --------------------
 

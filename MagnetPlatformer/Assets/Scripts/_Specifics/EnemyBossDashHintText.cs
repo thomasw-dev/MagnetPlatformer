@@ -28,7 +28,7 @@ public class EnemyBossDashHintText : MonoBehaviour
 
     void Update()
     {
-        if (_enemyBossDash.CountingDown && _enemyBossDash.NextDashTime - Time.time <= duration)
+        if (_enemyBossDash.IsCountingDown && _enemyBossDash.NextDashIn <= duration)
         {
             if (!_flashingEffectStarted)
             {
