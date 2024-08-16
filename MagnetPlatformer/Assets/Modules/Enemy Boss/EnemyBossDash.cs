@@ -51,10 +51,6 @@ public class EnemyBossDash : MonoBehaviour
     public event Action OnDashStart;
     public event Action OnDashStop;
 
-    [Header("Debug")]
-
-    [SerializeField] bool _manualDashTrigger = false;
-
     EnemyBossController _enemyBossController;
     Transform _player;
 
@@ -83,8 +79,6 @@ public class EnemyBossDash : MonoBehaviour
         _dashCondition = !IsDashing && PlayerIsInSameDirection() && PlayerIsFartherThanMinDistance();
 
         NextDashIn = _nextDashTime - Time.time;
-
-        if (_manualDashTrigger) Dash();
 
         _playerIsInSameDirection = PlayerIsInSameDirection();
         _playerIsFartherThanMinDistance = PlayerIsFartherThanMinDistance();
@@ -173,8 +167,7 @@ public class EnemyBossDash : MonoBehaviour
                 OnDashStart?.Invoke();
                 _initialChaseAcceleration = _enemyBossController.Values.ChaseAcceleration;
 
-                if (_manualDashTrigger) _manualDashTrigger = false;
-                if (Log.EnemyBoss) Debug.Log($"Dash started.");
+                if (Log.EnemyBoss) Debug.Log($"Enemy boss begins dash.");
             })
             .OnUpdate(() =>
             {
@@ -187,7 +180,7 @@ public class EnemyBossDash : MonoBehaviour
                 OnDashStop?.Invoke();
                 _enemyBossController.Values.ChaseAcceleration = _initialChaseAcceleration;
 
-                if (Log.EnemyBoss) Debug.Log($"Dash stopped.");
+                if (Log.EnemyBoss) Debug.Log($"Enemy boss ends dash.");
             });
 
         _dashAccelerationTween.Play();

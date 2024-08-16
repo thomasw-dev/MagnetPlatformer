@@ -7027,10 +7027,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1272894662}
     - target: {fileID: 897019240687640046, guid: b7981eb017f6549628d241412ab194a1, type: 3}
-      propertyPath: _defaultZoom
-      value: 13.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 897019240687640046, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: _startAtCurrentPosition
       value: 1
       objectReference: {fileID: 0}
