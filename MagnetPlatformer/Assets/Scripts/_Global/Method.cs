@@ -107,4 +107,24 @@ public static class Method
         }
         return false;
     }
+
+    public static void ListItemsExactCopy<T>(List<T> listFrom, List<T> listTo)
+    {
+        listTo.Clear();
+        foreach (var item in listFrom)
+        {
+            listTo.Add(item);
+        }
+    }
+
+    public static bool ListItemsAreIdentical<T>(List<T> list1, List<T> list2)
+    {
+        if (list1 == null || list2 == null) { return false; }
+        if (list1.Count != list2.Count) { return false; }
+        for (int i = 0; i < list1.Count; i++)
+        {
+            if (!list1[i].Equals(list2[i])) return false;
+        }
+        return true;
+    }
 }

@@ -336,6 +336,14 @@ PrefabInstance:
       propertyPath: _rootParent
       value: 
       objectReference: {fileID: 7224038489555591024}
+    - target: {fileID: 873227564301676669, guid: 36940e1c3bea44cd9abd1ab098aefcf7, type: 3}
+      propertyPath: _triggeredVerticalKillObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 873227564301676669, guid: 36940e1c3bea44cd9abd1ab098aefcf7, type: 3}
+      propertyPath: _triggeredHorizontalKillObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2037489965130058832, guid: 36940e1c3bea44cd9abd1ab098aefcf7, type: 3}
       propertyPath: _rigidbody
       value: 

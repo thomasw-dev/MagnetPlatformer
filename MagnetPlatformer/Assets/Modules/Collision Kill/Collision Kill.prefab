@@ -56,7 +56,7 @@ MonoBehaviour:
   _castDistance: 0.1
   _includeLayers:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 776
   CollidingObjects:
   - {fileID: 0}
   - {fileID: 0}

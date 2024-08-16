@@ -9,17 +9,17 @@ public class EnemyBossCollisionKill : MonoBehaviour
 
     [SerializeField] float _squeezeDuration = 1f;
 
-    EnemyController _enemyController;
+    EnemyBossController _enemyBossController;
     EnemyBossHealth _enemyBossHealth;
     CollisionKill _collisionKill;
 
     [Header("Values")]
-    [SerializeField] List<GameObject> _triggeredHitObjectsVertical = new List<GameObject>(2);
-    [SerializeField] List<GameObject> _triggeredHitObjectsHorizontal = new List<GameObject>(2);
+    [SerializeField] List<GameObject> _triggeredVerticalKillObjects = new List<GameObject>(2);
+    [SerializeField] List<GameObject> _triggeredHorizontalKillObjects = new List<GameObject>(2);
 
     void Awake()
     {
-        _enemyController = transform.parent.GetComponent<EnemyController>();
+        _enemyBossController = transform.parent.GetComponent<EnemyBossController>();
         _enemyBossHealth = transform.parent.GetComponent<EnemyBossHealth>();
         _collisionKill = GetComponent<CollisionKill>();
     }
@@ -38,8 +38,8 @@ public class EnemyBossCollisionKill : MonoBehaviour
 
     void ClearTriggeredList(Direction.Type direction)
     {
-        if (direction == Direction.Type.Vertical) _triggeredHitObjectsVertical.Clear();
-        if (direction == Direction.Type.Horizontal) _triggeredHitObjectsHorizontal.Clear();
+        if (direction == Direction.Type.Vertical) _triggeredVerticalKillObjects.Clear();
+        if (direction == Direction.Type.Horizontal) _triggeredHorizontalKillObjects.Clear();
     }
 
     void HandleKillDirection(Direction.Type direction, List<GameObject> hitObjects)
@@ -48,25 +48,25 @@ public class EnemyBossCollisionKill : MonoBehaviour
         switch (direction)
         {
             case Direction.Type.Vertical:
-                if (hitObjects != _triggeredHitObjectsVertical)
+                if (!Method.ListItemsAreIdentical(hitObjects, _triggeredVerticalKillObjects))
                 {
                     _enemyBossHealth.DealDamage();
-                    _triggeredHitObjectsVertical = hitObjects;
+                    Method.ListItemsExactCopy(hitObjects, _triggeredVerticalKillObjects);
                 }
                 break;
 
             case Direction.Type.Horizontal:
-                if (hitObjects != _triggeredHitObjectsHorizontal)
+                if (!Method.ListItemsAreIdentical(hitObjects, _triggeredHorizontalKillObjects))
                 {
                     _enemyBossHealth.DealDamage();
-                    _triggeredHitObjectsHorizontal = hitObjects;
+                    Method.ListItemsExactCopy(hitObjects, _triggeredHorizontalKillObjects);
                 }
                 break;
         }
 
         if (_enemyBossHealth.CurrentHealth == 0)
         {
-            _enemyController.StateController.ChangeState(EnemyController.StateEnum.Death);
+            _enemyBossController.StateController.ChangeState(EnemyBossController.StateEnum.Death);
 
             // Scale the object according to the kill direction
             Vector3 toScale = Vector3.one;
