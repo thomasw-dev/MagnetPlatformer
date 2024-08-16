@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d666297f608ef4fd4a2412b78efb524f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChaseAcceleration: 5000
+  ChaseAcceleration: 3000
 --- !u!114 &2037489965130058832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,8 +329,6 @@ MonoBehaviour:
   Values: {fileID: 0}
   _rigidbody: {fileID: 0}
   MoveTarget: {fileID: 0}
-  _antiStuckEnabled: 1
-  _stuckDuration: 0.25
 --- !u!114 &8512853400631984870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,9 +365,8 @@ MonoBehaviour:
   IsCountingDown: 0
   NextDashIn: 0
   IsDashing: 0
-  _dashAcceleration: 15000
+  _dashAcceleration: 10000
   _dashDuration: 1
-  _manualDashTrigger: 0
 --- !u!61 &664944229793957158
 BoxCollider2D:
   m_ObjectHideFlags: 0
