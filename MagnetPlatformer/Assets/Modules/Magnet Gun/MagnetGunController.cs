@@ -69,6 +69,7 @@ public class MagnetGunController : MonoBehaviour
     {
         if (_mouseArea != null)
         {
+            _mouseArea.OnMagnetSetCharge += SetCharge;
             _mouseArea.OnLeftButtonDown += Fire;
             _mouseArea.OnLeftButtonUp += FireRelease;
             _mouseArea.OnRightButtonDown += Fire;
@@ -79,18 +80,19 @@ public class MagnetGunController : MonoBehaviour
     void OnEnable()
     {
         GameState.Play.OnEnter += EnterPlay;
-        InputManager.OnMagnetGunSetCharge += SetCharge;
+        //InputManager.OnMagnetGunSetCharge += SetCharge;
         GameState.Play.OnExit += ExitPlay;
     }
 
     void OnDisable()
     {
         GameState.Play.OnEnter -= EnterPlay;
-        InputManager.OnMagnetGunSetCharge -= SetCharge;
+        //InputManager.OnMagnetGunSetCharge -= SetCharge;
         GameState.Play.OnExit -= ExitPlay;
 
         if (_mouseArea != null)
         {
+            _mouseArea.OnMagnetSetCharge -= SetCharge;
             _mouseArea.OnLeftButtonDown -= Fire;
             _mouseArea.OnLeftButtonUp -= FireRelease;
             _mouseArea.OnRightButtonDown -= Fire;
@@ -111,7 +113,7 @@ public class MagnetGunController : MonoBehaviour
     void Update()
     {
         _state = StateController.CurrentEnum;
-        _currentCharge = CurrentCharge;
+        //_currentCharge = CurrentCharge;
 
         AttachSelfToPoint();
         AimSelfAtCursor();

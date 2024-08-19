@@ -9,7 +9,7 @@ public class MouseArea : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public event Action OnRightButtonDown;
     public event Action OnRightButtonUp;
 
-    public void OnPointerDown(PointerEventData eventData)
+    public virtual void OnPointerDown(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
@@ -21,7 +21,7 @@ public class MouseArea : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public virtual void OnPointerUp(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {

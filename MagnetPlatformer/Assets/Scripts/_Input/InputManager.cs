@@ -111,6 +111,7 @@ public class InputManager : MonoBehaviour
         }
 
         // Set charge with mosue click
+        /*
         if (Input.GetMouseButtonDown(0))
         {
             OnMagnetGunSetCharge?.Invoke(Magnet.Charge.Positive);
@@ -119,5 +120,6 @@ public class InputManager : MonoBehaviour
         {
             OnMagnetGunSetCharge?.Invoke(Magnet.Charge.Negative);
         }
+        */
     }
 }
