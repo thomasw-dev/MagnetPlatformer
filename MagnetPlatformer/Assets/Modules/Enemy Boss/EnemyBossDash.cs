@@ -98,16 +98,8 @@ public class EnemyBossDash : MonoBehaviour
 
     float GetCountdownDurationToNextDash()
     {
-        if (_useManualCountdown)
-        {
-            return _manualCountdown;
-        }
-        else
-        {
-            float min = 2f;
-            float max = 4f;
-            return Random.Range(min, max);
-        }
+        if (_useManualCountdown) return _manualCountdown;
+        else return Random.Range(_randomCountdownMin, _randomCountdownMax);
     }
 
     void StartCountdownToNextDash()
