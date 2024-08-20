@@ -48,7 +48,8 @@ MonoBehaviour:
   _rootParent: {fileID: 0}
   _magneticInteractionController: {fileID: 0}
   _sourceSpriteRenderer: {fileID: 0}
-  alpha: 0.6
+  sourceAlpha: 0.6
+  overlayAlpha: 0.75
 --- !u!1 &9097905509781189016
 GameObject:
   m_ObjectHideFlags: 0

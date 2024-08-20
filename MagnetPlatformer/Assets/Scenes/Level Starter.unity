@@ -198,6 +198,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5859685949880444810, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
   m_PrefabInstance: {fileID: 353618628}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &353618630 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 470146935077431739, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
+  m_PrefabInstance: {fileID: 353618628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b37fc7055971a49859702a6ef72107b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &500717686
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,6 +714,10 @@ PrefabInstance:
       propertyPath: _player
       value: 
       objectReference: {fileID: 44890073}
+    - target: {fileID: 9134263011161231009, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: _magnetGun
+      value: 
+      objectReference: {fileID: 353618630}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

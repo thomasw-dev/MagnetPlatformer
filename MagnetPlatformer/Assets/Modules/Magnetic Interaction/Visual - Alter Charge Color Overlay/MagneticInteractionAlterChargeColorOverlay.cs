@@ -10,7 +10,9 @@ public class MagneticInteractionAlterChargeColorOverlay : MonoBehaviour
 
     [Header("Tunables")]
     [Range(0, 1)]
-    [SerializeField] float alpha = 0.5f;
+    [SerializeField] float sourceAlpha = 0.5f;
+    [Range(0, 1)]
+    [SerializeField] float overlayAlpha = 0.5f;
 
     SpriteRenderer _spriteRenderer;
 
@@ -42,7 +44,7 @@ public class MagneticInteractionAlterChargeColorOverlay : MonoBehaviour
             transform.localScale = new Vector3(transform.localScale.x, scale, transform.localScale.z);
 
             // Source sprite color (transparent)
-            _sourceSpriteRenderer.color = new Color(sourceColor.r, sourceColor.g, sourceColor.b, alpha);
+            _sourceSpriteRenderer.color = new Color(sourceColor.r, sourceColor.g, sourceColor.b, sourceAlpha);
 
             // Overlay sprite color
             Magnet.Charge charge = _magneticInteractionController.CurrentCharge;
@@ -54,9 +56,9 @@ public class MagneticInteractionAlterChargeColorOverlay : MonoBehaviour
     {
         return charge switch
         {
-            Magnet.Charge.Neutral => new Color(1, 1, 1, alpha),
-            Magnet.Charge.Positive => new Color(1, 0, 0, alpha),
-            Magnet.Charge.Negative => new Color(0, 0, 1, alpha),
+            Magnet.Charge.Neutral => new Color(1, 1, 1, overlayAlpha),
+            Magnet.Charge.Positive => new Color(1, 0, 0, overlayAlpha),
+            Magnet.Charge.Negative => new Color(0, 0, 1, overlayAlpha),
             _ => new Color()
         };
     }
