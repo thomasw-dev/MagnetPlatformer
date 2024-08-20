@@ -5,25 +5,27 @@ public class CheckpointManager : MonoBehaviour
     [SerializeField] LevelProgress _levelProgress;
     [SerializeField] Checkpoint[] _checkpoints;
 
-    [SerializeField] Transform _manualStartPoint;
+    [SerializeField] Transform _cameraStartPoint;
+    [SerializeField] Transform _playerStartPoint;
 
     [Header("Options")]
     [SerializeField] bool _startAtCurrentPosition = false;
 
-    CheckpointManager _checkpointManager;
+    Transform _camera;
     Transform _player;
 
     void Awake()
     {
-        _checkpointManager = GetComponent<CheckpointManager>();
+        _camera = Camera.main.transform;
         _player = Method.GetPlayerObject().transform;
     }
 
     void Start()
     {
-        if (_manualStartPoint != null && !_startAtCurrentPosition)
+        if (!_startAtCurrentPosition)
         {
-            transform.position = _manualStartPoint.position;
+            _camera.position = _cameraStartPoint.position;
+            _player.position = _playerStartPoint.position;
         }
     }
 }

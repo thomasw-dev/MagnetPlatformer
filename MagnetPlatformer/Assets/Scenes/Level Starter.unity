@@ -654,6 +654,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 555338788803734818, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: _cameraStartPoint
+      value: 
+      objectReference: {fileID: 1011904419}
+    - target: {fileID: 555338788803734818, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: _playerStartPoint
+      value: 
+      objectReference: {fileID: 501896385}
     - target: {fileID: 897019240687640046, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: _startPoint
       value: 
@@ -718,7 +726,8 @@ PrefabInstance:
       propertyPath: _magnetGun
       value: 
       objectReference: {fileID: 353618630}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6723687068902026551, guid: b7981eb017f6549628d241412ab194a1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -3,10 +3,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [Header("Start")]
-    [SerializeField] Transform _startPoint;
-    [SerializeField] bool _startAtCurrentPosition = false;
-
     [Header("Settings")]
     [SerializeField] float _defaultZoom = 9f;
     [SerializeField] bool _followPlayer = true;
@@ -29,10 +25,6 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        if (_startPoint != null && !_startAtCurrentPosition)
-        {
-            transform.position = _startPoint.position;
-        }
         EnableDefaultBehaviour();
     }
 
@@ -75,10 +67,10 @@ public class CameraController : MonoBehaviour
         _zoomTween.Play();
     }
 
-    [ContextMenu("Save Current Position To Start Point")]
-    void SaveCurrentPosToStartPoint()
+    [ContextMenu("Move To Player")]
+    void MoveToPlayer()
     {
-        if (_startPoint == null) { return; }
-        _startPoint.transform.position = transform.position;
+        Vector3 to = Method.GetPlayerObject().transform.position;
+        transform.position = new Vector3(to.x, to.y, -10);
     }
 }
