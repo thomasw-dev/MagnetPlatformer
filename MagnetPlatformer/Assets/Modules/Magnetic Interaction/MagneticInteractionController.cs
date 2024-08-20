@@ -76,7 +76,7 @@ public class MagneticInteractionController : MonoBehaviour
 
     [Header("Alter Charge")]
     public float AlterChargeTimeRemaining;
-    Magnet.Charge _initialCharge;
+    public Magnet.Charge InitialCharge { get; private set; }
     Tweener _alterChargeTween;
 
     public Action<Magnet.Charge> OnAlterCharge;
@@ -116,7 +116,7 @@ public class MagneticInteractionController : MonoBehaviour
     void Start()
     {
         StateController.ChangeState(StateEnum.Normal);
-        _initialCharge = CurrentCharge;
+        InitialCharge = CurrentCharge;
     }
 
     void Update()
@@ -223,7 +223,7 @@ public class MagneticInteractionController : MonoBehaviour
             })
             .OnComplete(() =>
             {
-                CurrentCharge = _initialCharge;
+                CurrentCharge = InitialCharge;
             });
 
         _alterChargeTween.Play();

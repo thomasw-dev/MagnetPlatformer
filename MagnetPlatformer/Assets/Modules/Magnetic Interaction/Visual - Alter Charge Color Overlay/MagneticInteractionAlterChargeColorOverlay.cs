@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MagneticInteractionAlterChargeColorOverlay : MonoBehaviour
 {
@@ -22,24 +23,31 @@ public class MagneticInteractionAlterChargeColorOverlay : MonoBehaviour
     {
         if (_magneticInteractionController == null) { return; }
 
-        // Scale (Y)
-        float timeRemaining = _magneticInteractionController.AlterChargeTimeRemaining;
-        float duration = _magneticInteractionController.Values.Duration;
-        float scale = timeRemaining / duration;
-        transform.localScale = new Vector3(transform.localScale.x, scale, transform.localScale.z);
+        Color sourceColor = _sourceSpriteRenderer.color;
 
-        // Source sprite color
-        if (Application.isPlaying)
+        if (_magneticInteractionController.CurrentCharge == _magneticInteractionController.InitialCharge)
         {
-            Color sourceColor = _sourceSpriteRenderer.color;
-            Color transparent = new Color(sourceColor.r, sourceColor.g, sourceColor.b, alpha);
-            Color full = new Color(sourceColor.r, sourceColor.g, sourceColor.b, 1);
-            _sourceSpriteRenderer.color = timeRemaining > 0 ? transparent : full;
-        }
+            // Scale (Y: 0)
+            transform.localScale = new Vector3(transform.localScale.x, 0, transform.localScale.z);
 
-        // Overlay sprite color
-        Magnet.Charge charge = _magneticInteractionController.CurrentCharge;
-        _spriteRenderer.color = GetSpriteColorByCharge(charge);
+            // Source sprite color (full)
+            _sourceSpriteRenderer.color = new Color(sourceColor.r, sourceColor.g, sourceColor.b, 1);
+        }
+        else
+        {
+            // Scale (Y: shrink scale)
+            float timeRemaining = _magneticInteractionController.AlterChargeTimeRemaining;
+            float duration = _magneticInteractionController.Values.Duration;
+            float scale = timeRemaining / duration;
+            transform.localScale = new Vector3(transform.localScale.x, scale, transform.localScale.z);
+
+            // Source sprite color (transparent)
+            _sourceSpriteRenderer.color = new Color(sourceColor.r, sourceColor.g, sourceColor.b, alpha);
+
+            // Overlay sprite color
+            Magnet.Charge charge = _magneticInteractionController.CurrentCharge;
+            _spriteRenderer.color = GetSpriteColorByCharge(charge);
+        }
     }
 
     Color GetSpriteColorByCharge(Magnet.Charge charge)
