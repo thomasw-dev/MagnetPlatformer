@@ -52,7 +52,7 @@ MonoBehaviour:
   _positive: 0
   _negative: 0
   _type: 0
-  EmissionGain: 0
+  EmissionForce: 5
   EmissionRadius: 5
   Duration: 5
 --- !u!114 &3093660629287824162
@@ -163,9 +163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecca5b9ca18f547299b81f031314e43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 0}
+  _spriteRenderers: []
   _objectSpritesCollection: {fileID: 11400000, guid: f96d89555cd7b476ebd948b2a060d2dd, type: 2}
-  _updateToCurrentCharge: 0
+  _subscribeToChanges: 0
 --- !u!1 &8954012650576354977
 GameObject:
   m_ObjectHideFlags: 0
