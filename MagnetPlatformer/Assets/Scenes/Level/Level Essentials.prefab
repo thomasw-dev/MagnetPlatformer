@@ -258,7 +258,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7694147603728282353}
   - component: {fileID: 555338788803734818}
-  - component: {fileID: 6723687068902026551}
   m_Layer: 0
   m_Name: Checkpoint Manager
   m_TagString: Untagged
@@ -295,18 +294,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelProgress: {fileID: 0}
   _checkpoints: []
---- !u!114 &6723687068902026551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1793740918188528691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd392437876404cd289c82e8b7e9891c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _cameraStartPoint: {fileID: 0}
+  _playerStartPoint: {fileID: 0}
+  _startAtCurrentPosition: 0
 --- !u!1 &1978219287791803359
 GameObject:
   m_ObjectHideFlags: 0
@@ -2394,8 +2384,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3dec31af4b2544c9ab816ac2679fa6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startPoint: {fileID: 0}
-  _startAtCurrentPosition: 0
   _defaultZoom: 9
   _followPlayer: 1
   _followSmoothFactor: 4

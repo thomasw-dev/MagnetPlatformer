@@ -49,6 +49,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Magnetic Alter Charge
+    uniqueID: 2038789565
+    locked: 0
   - name: Magnetic
     uniqueID: 2405844661
     locked: 0
