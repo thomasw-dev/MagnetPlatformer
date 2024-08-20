@@ -31,7 +31,8 @@ public static class Constants
 
     // Scriptable Objects: Create Asset Menu Orders
     public const int GIZMOS_SETTINGS_CONTROL = 1;
-    public const int MAGNET_OBJECT_GROUP = 2;
-    public const int MAGNETIC_OBJECT_SPRITE_SET = 3;
-    public const int MAGNETIC_OBJECT_SPRITE_SET_COLLECTION = 4;
+    public const int LEVEL_PROGRESS = 2;
+    public const int MAGNET_OBJECT_GROUP = 3;
+    public const int MAGNETIC_OBJECT_SPRITE_SET = 4;
+    public const int MAGNETIC_OBJECT_SPRITE_SET_COLLECTION = 5;
 }

@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36be1fcaaeac94ed3899f40dd150500a, type: 3}
-  m_Name: Current Settings
+  m_Script: {fileID: 11500000, guid: 498c457de31da49bdbc05a15f0c88f1c, type: 3}
+  m_Name: Level 7 Progress
   m_EditorClassIdentifier: 
-  _appliedForces: 1
-  _netAppliedForce: 1
-  _emissionRadius: 0
-  _targetPoint: 1
-  _dashEnableDistance: 1
-  _moveTarget: 1
+  CurrentCheckpoint: 0
