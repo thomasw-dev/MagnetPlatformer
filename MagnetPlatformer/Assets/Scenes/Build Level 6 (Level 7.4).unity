@@ -815,10 +815,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4691827298052386809}
     - target: {fileID: 5232363758396998246, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
-      propertyPath: _jumpForce
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5232363758396998246, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
       propertyPath: _startPoint
       value: 
       objectReference: {fileID: 492120252}
@@ -8183,7 +8179,7 @@ CompositeCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -88517,6 +88513,7 @@ GameObject:
   - component: {fileID: 4349365348147734958}
   - component: {fileID: 7152658316118430576}
   - component: {fileID: 4482319824507426576}
+  - component: {fileID: 7532832723311835900}
   m_Layer: 8
   m_Name: Spikes
   m_TagString: Environment
@@ -88524,6 +88521,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &7532832723311835900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7532832723311835899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df87eaeb95d514405b05e1cceb9c4780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8462723015056522237
 Transform:
   m_ObjectHideFlags: 0

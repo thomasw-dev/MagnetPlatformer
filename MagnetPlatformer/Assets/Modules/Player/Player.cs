@@ -6,10 +6,6 @@ public class Player : MonoBehaviour
     [Header("Assign Fields")]
     [SerializeField] GroundCheck _groundCheck;
 
-    [Header("Start")]
-    [SerializeField] Transform _startPoint;
-    [SerializeField] bool _startAtCurrentPosition = false;
-
     [Header("Movement")]
     [Range(0.001f, 10f)]
     [SerializeField] float _moveSpeed = 1f;
@@ -67,14 +63,6 @@ public class Player : MonoBehaviour
         InputManager.OnJumpInputStop -= JumpStop;
         InputManager.OnJumpAltInput -= Jump;
         InputManager.OnJumpAltInputStop -= JumpStop;
-    }
-
-    void Start()
-    {
-        if (_startPoint != null && !_startAtCurrentPosition)
-        {
-            transform.position = _startPoint.position;
-        }
     }
 
     void FixedUpdate()

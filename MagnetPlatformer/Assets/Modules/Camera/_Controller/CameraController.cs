@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [Header("Settings")]
     [SerializeField] float _defaultZoom = 9f;
     [SerializeField] bool _followPlayer = true;
     [Range(1f, 10f)]
