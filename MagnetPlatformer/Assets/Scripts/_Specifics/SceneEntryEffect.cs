@@ -17,7 +17,7 @@ public class SceneEntryEffect : MonoBehaviour
     {
         if (_rawImage == null) { return; }
 
-        DOTween.To(x => _alpha = x, 1, 0, 1)
+        DOTween.To(x => _alpha = x, 1, 0, _duration)
         .SetEase(Ease.OutCirc)
         .OnUpdate(() =>
         {
