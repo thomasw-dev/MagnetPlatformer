@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public static class Constants
 {
     public const float CAMERA_FOLLOW_SMOOTH_FACTOR = 4f;
-
+    
     public enum ENUM_TAG
     {
         ENVIRONMENT,
@@ -35,4 +35,16 @@ public static class Constants
     public const int MAGNET_OBJECT_GROUP = 3;
     public const int MAGNETIC_OBJECT_SPRITE_SET = 4;
     public const int MAGNETIC_OBJECT_SPRITE_SET_COLLECTION = 5;
+
+    // Scene build index
+    public enum SCENE
+    {
+        MAIN_MENU = 0,
+        LEVEL_1 = 1,
+        LEVEL_2 = 2,
+        LEVEL_3 = 3,
+        LEVEL_4 = 4,
+        LEVEL_5 = 5,
+        LEVEL_6 = 6
+    }
 }
