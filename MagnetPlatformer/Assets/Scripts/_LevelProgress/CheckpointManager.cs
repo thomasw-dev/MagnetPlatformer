@@ -5,9 +5,6 @@ public class CheckpointManager : MonoBehaviour
     [SerializeField] LevelProgress _levelProgress;
     [SerializeField] Checkpoint[] _checkpoints;
 
-    [SerializeField] Transform _cameraStartPoint;
-    [SerializeField] Transform _playerStartPoint;
-
     [Header("Options")]
     [SerializeField] bool _startAtCurrentPosition = false;
 
@@ -24,8 +21,13 @@ public class CheckpointManager : MonoBehaviour
     {
         if (!_startAtCurrentPosition)
         {
-            _camera.position = _cameraStartPoint.position;
-            _player.position = _playerStartPoint.position;
+            GoToCheckpoint(0);
         }
+    }
+
+    void GoToCheckpoint(int i)
+    {
+        _camera.position = _checkpoints[0].transform.position;
+        _player.position = _checkpoints[0].transform.position;
     }
 }
