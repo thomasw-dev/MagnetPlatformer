@@ -3512,7 +3512,7 @@ PrefabInstance:
     - target: {fileID: 9134263011161231009, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: _magnetGun
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1679122113}
     m_RemovedComponents:
     - {fileID: 6723687068902026551, guid: b7981eb017f6549628d241412ab194a1, type: 3}
     m_RemovedGameObjects: []
@@ -4463,6 +4463,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 829706316}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1679122113 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 470146935077431739, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
+  m_PrefabInstance: {fileID: 353618628}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b37fc7055971a49859702a6ef72107b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1694266770
 GameObject:
   m_ObjectHideFlags: 0

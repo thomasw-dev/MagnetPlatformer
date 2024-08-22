@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     bool _isJumping = false;
     float _velocityX;
 
+    public static bool AllowInput = true;
+
     void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -67,6 +69,8 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!AllowInput) { return; }
+
         if (_isMovingLeft || _isMovingRight)
         {
             _rigidbody2D.velocity = new Vector2(_velocityX, _rigidbody2D.velocity.y);
@@ -117,6 +121,8 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
+        if (!AllowInput) { return; }
+
         if (_airJumpEnabled || (_isGrounded && !_isJumping))
         {
             _rigidbody2D.AddForce(Vector2.up * _jumpForce);
