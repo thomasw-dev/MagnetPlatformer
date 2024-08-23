@@ -25,7 +25,7 @@ public class SceneEntryEffect : MonoBehaviour
         })
         .OnComplete(() =>
         {
-            Destroy(this);
+            Destroy(gameObject);
         });
     }
 }

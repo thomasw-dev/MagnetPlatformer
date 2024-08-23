@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 470146935077431739}
   - component: {fileID: 5659566996703109919}
   m_Layer: 0
-  m_Name: Magnet Gun *
+  m_Name: Magnet Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
