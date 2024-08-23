@@ -29,6 +29,8 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        if (GameState.CurrentState != GameState.Play) { return; }
+
         if (_followPlayer && _player != null)
         {
             Vector3 newPos = new Vector3(_player.transform.position.x, _player.transform.position.y, transform.position.z);

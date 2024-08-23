@@ -2,22 +2,26 @@ using UnityEngine;
 
 public class TogglePauseMenu : MonoBehaviour
 {
-    [SerializeField] GameObject _pauseMenu;
+    CanvasGroup _canvasGroup;
     [SerializeField] bool _show = false;
+
+    void Awake()
+    {
+        _canvasGroup = GetComponent<CanvasGroup>();
+    }
 
     void OnEnable()
     {
-        GameState.Play.OnExit += ToggleFalse;
+        GameState.Play.OnExit += () => Toggle(false);
     }
 
     void OnDisable()
     {
-        GameState.Play.OnExit += ToggleFalse;
+        GameState.Play.OnExit -= () => Toggle(false);
     }
 
     void Start()
     {
-        _pauseMenu = transform.Find("Pause Menu").gameObject; // #%
         Toggle(false);
     }
 
@@ -31,12 +35,15 @@ public class TogglePauseMenu : MonoBehaviour
         }
     }
 
-    void ToggleFalse() => Toggle(false);
-
     void Toggle(bool state)
     {
         _show = state;
-        _pauseMenu.SetActive(_show);
+
+        if (_canvasGroup == null) { return; }
+
+        _canvasGroup.alpha = state ? 1 : 0;
+        _canvasGroup.interactable = state;
+        _canvasGroup.blocksRaycasts = state;
 
         Player.AllowInput = !_show; // #%
     }

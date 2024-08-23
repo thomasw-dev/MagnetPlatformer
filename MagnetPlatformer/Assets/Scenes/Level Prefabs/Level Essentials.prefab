@@ -1898,6 +1898,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1081261508214127804}
+  - component: {fileID: 2917525014080057502}
+  - component: {fileID: 3191201878725241229}
   m_Layer: 5
   m_Name: Pause Menu
   m_TagString: Untagged
@@ -1928,6 +1930,31 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2917525014080057502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4523542747133029239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b06c432b6fb9641c192f172c84131eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _show: 0
+--- !u!225 &3191201878725241229
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4523542747133029239}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4650060426120261131
 GameObject:
   m_ObjectHideFlags: 0
@@ -3355,7 +3382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8861297063692933640}
   - component: {fileID: 1993301925022603066}
-  - component: {fileID: 6630460749316838897}
+  - component: {fileID: 1417129237041337001}
   - component: {fileID: 317692428001972299}
   - component: {fileID: 2923060372696052483}
   - component: {fileID: 4784103660695534881}
@@ -3412,7 +3439,7 @@ MonoBehaviour:
   - {fileID: 3690442155826925764}
   - {fileID: 2961566373138962479}
   - {fileID: 7853677491094041452}
---- !u!114 &6630460749316838897
+--- !u!114 &1417129237041337001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3421,11 +3448,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7188118920323737458}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b06c432b6fb9641c192f172c84131eb1, type: 3}
+  m_Script: {fileID: 11500000, guid: df76705861ac84dbaa472d902905b2e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseMenu: {fileID: 4523542747133029239}
-  _show: 0
 --- !u!223 &317692428001972299
 Canvas:
   m_ObjectHideFlags: 0

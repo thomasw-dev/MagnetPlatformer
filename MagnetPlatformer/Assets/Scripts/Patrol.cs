@@ -21,6 +21,7 @@ public class Patrol : MonoBehaviour
     }
 
     int _current = 0;
+    bool _started = false;
 
     void Start()
     {
@@ -58,7 +59,11 @@ public class Patrol : MonoBehaviour
     [ContextMenu("Start Patrol")]
     void StartPatrol()
     {
-        ToNextMarker();
+        if (!_started)
+        {
+            ToNextMarker();
+            _started = true;
+        }
     }
 
     void ToNextMarker()
