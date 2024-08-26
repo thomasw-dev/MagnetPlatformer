@@ -27,7 +27,7 @@ public class CheckpointManager : MonoBehaviour
 
     void GoToCheckpoint(int i)
     {
-        _camera.position = new Vector3(_checkpoints[0].transform.position.x, _checkpoints[0].transform.position.y, _camera.position.z);
+        //_camera.position = new Vector3(_checkpoints[0].transform.position.x, _checkpoints[0].transform.position.y, _camera.position.z);
         _player.position = new Vector3(_checkpoints[0].transform.position.x, _checkpoints[0].transform.position.y, _player.position.z);
     }
 }
