@@ -539,6 +539,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
+--- !u!4 &353618629 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5859685949880444810, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
+  m_PrefabInstance: {fileID: 353618628}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &359834799 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4421919774485550289, guid: 46a8021d6e4ab410ca3e0791a051d3db, type: 3}
@@ -801,6 +806,10 @@ PrefabInstance:
       propertyPath: _goals.Array.data[0]
       value: 
       objectReference: {fileID: 359834799}
+    - target: {fileID: 7627288705260634345, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: _target
+      value: 
+      objectReference: {fileID: 353618629}
     - target: {fileID: 8289559323581626963, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11
