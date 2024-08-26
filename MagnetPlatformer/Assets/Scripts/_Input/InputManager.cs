@@ -21,13 +21,10 @@ public class InputManager : MonoBehaviour
     const KeyCode MOVE_RIGHT_KEY = KeyCode.D;
     const KeyCode JUMP_KEY = KeyCode.Space;
     const KeyCode JUMP_KEY_ALT = KeyCode.W;
-    const KeyCode TOGGLE_CHARGE_KEY = KeyCode.E;
 
     const KeyCode MOVE_LEFT_ARROW_KEY = KeyCode.LeftArrow;
     const KeyCode MOVE_RIGHT_ARROW_KEY = KeyCode.RightArrow;
     const KeyCode JUMP_ARROW_KEY = KeyCode.UpArrow;
-
-    //Magnet.Charge _toggleCharge = Magnet.Charge.Positive;
 
     void OnEnable()
     {
@@ -109,17 +106,5 @@ public class InputManager : MonoBehaviour
         {
             OnJumpAltInputStop?.Invoke();
         }
-
-        // Set charge with mosue click
-        /*
-        if (Input.GetMouseButtonDown(0))
-        {
-            OnMagnetGunSetCharge?.Invoke(Magnet.Charge.Positive);
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            OnMagnetGunSetCharge?.Invoke(Magnet.Charge.Negative);
-        }
-        */
     }
 }
