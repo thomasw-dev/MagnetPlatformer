@@ -45,6 +45,8 @@ public class EnemyBossController : MonoBehaviour
 
     public Action OnKillPlayer;
 
+    [SerializeField] Vector3 vel;
+
     // --------------------
 
     void Awake()
@@ -82,6 +84,11 @@ public class EnemyBossController : MonoBehaviour
     {
         _state = StateController.CurrentEnum; // Inspector
 
+        vel = _rigidbody.velocity;
+    }
+
+    void FixedUpdate()
+    {
         if (StateController.CurrentEnum == StateEnum.Idle)
         {
             MoveDirection = Move.Direction.None;

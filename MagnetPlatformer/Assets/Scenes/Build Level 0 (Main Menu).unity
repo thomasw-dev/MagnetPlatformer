@@ -2240,6 +2240,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3405045458725006614, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: orthographic size
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4650060426120261131, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: m_Name
       value: Level Essentials
