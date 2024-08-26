@@ -4,6 +4,7 @@ using UnityEngine;
 public class Checkpoint : PlayerTriggerEvents
 {
     public event Action<Checkpoint> OnPlayerReach;
+    public Transform SpawnPoint;
 
     SpriteRenderer _spriteRenderer;
 

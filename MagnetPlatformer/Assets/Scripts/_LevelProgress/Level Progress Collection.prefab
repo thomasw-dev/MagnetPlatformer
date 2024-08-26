@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6075467778119805586
+--- !u!1 &672361798647583842
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8406406930280422483}
-  - component: {fileID: 8366904021054912708}
+  - component: {fileID: 3451605739966265286}
+  - component: {fileID: -6215942815667479521}
   m_Layer: 0
-  m_Name: SceneLoader
+  m_Name: Level Progress Collection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8406406930280422483
+--- !u!4 &3451605739966265286
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6075467778119805586}
+  m_GameObject: {fileID: 672361798647583842}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,16 +32,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8366904021054912708
+--- !u!114 &-6215942815667479521
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6075467778119805586}
+  m_GameObject: {fileID: 672361798647583842}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1c07a6e09e5449daa6b154b3cde2154, type: 3}
+  m_Script: {fileID: 11500000, guid: 902c40068f9c347a68aa5122c89913b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelProgressCollection: {fileID: -6215942815667479521, guid: b6bad2c53226940559ecea2e278fbeb8, type: 3}
+  _allLevelProgress:
+  - {fileID: 11400000, guid: f756614b1c2e74067943c386c2a6a755, type: 2}
+  - {fileID: 11400000, guid: 79408118d468f4a158439938729426d3, type: 2}
+  - {fileID: 11400000, guid: 27b2d20d027d944a4b8befb84071d081, type: 2}
+  - {fileID: 11400000, guid: 43a47a06219e84893bb6a8f7f5939b8c, type: 2}
+  - {fileID: 11400000, guid: 5b48bf579ddf14ee49375b1081fdd143, type: 2}
+  - {fileID: 11400000, guid: e2c0d9f79b65b4fbeb70d21d7e046bea, type: 2}

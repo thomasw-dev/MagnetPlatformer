@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    [SerializeField] LevelProgressCollection _levelProgressCollection;
+
     public void ReloadCurrentScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -11,5 +13,6 @@ public class SceneLoader : MonoBehaviour
     public void LoadScene(int index)
     {
         SceneManager.LoadScene(index);
+        _levelProgressCollection.ResetAll();
     }
 }

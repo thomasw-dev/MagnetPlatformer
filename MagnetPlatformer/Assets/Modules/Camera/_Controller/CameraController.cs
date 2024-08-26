@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    [SerializeField] float _startZoom = 4f;
     [SerializeField] float _defaultZoom = 9f;
     [SerializeField] bool _followPlayer = true;
     [Range(1f, 10f)]
@@ -24,6 +25,7 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
+        _cam.orthographicSize = _startZoom;
         EnableDefaultBehaviour();
     }
 
