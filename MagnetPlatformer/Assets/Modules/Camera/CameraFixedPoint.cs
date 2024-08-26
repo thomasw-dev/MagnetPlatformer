@@ -8,6 +8,7 @@ public class CameraFixedPointAdjustZoom : CameraTriggerArea
     [SerializeField] float _lerpFactor = 4f;
     [Range(0f, 30f)]
     [SerializeField] float _zoom = 9f;
+    [SerializeField] Vector3 _offset;
 
     float _currentZoom;
     Tweener _zoomTween;
@@ -16,16 +17,14 @@ public class CameraFixedPointAdjustZoom : CameraTriggerArea
     void Update()
     {
         if (!_effectEnabled) { return; }
+        if (_point == null) { return; }
 
-        if (_point != null)
+        Vector3 newPos = new Vector3(_point.position.x, _point.position.y, _camera.transform.position.z) + _offset;
+        _camera.transform.position = Vector3.Lerp(_camera.transform.position, newPos, _lerpFactor * Time.deltaTime);
+
+        if (_camera.orthographicSize != _zoom)
         {
-            Vector3 newPos = new Vector3(_point.position.x, _point.position.y, _camera.transform.position.z);
-            _camera.transform.position = Vector3.Lerp(_camera.transform.position, newPos, _lerpFactor * Time.deltaTime);
-
-            if (_camera.orthographicSize != _zoom)
-            {
-                ZoomTransition(_zoom);
-            }
+            ZoomTransition(_zoom);
         }
     }
 

@@ -1017,13 +1017,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 555338788803734818, guid: b7981eb017f6549628d241412ab194a1, type: 3}
-      propertyPath: _startAtCurrentPosition
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2961566373138962479, guid: b7981eb017f6549628d241412ab194a1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 2829779864366002734, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3352652249662677554, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1065,10 +1061,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3690442155826925764, guid: b7981eb017f6549628d241412ab194a1, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4650060426120261131, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: m_Name
       value: Level Essentials
@@ -1079,7 +1071,7 @@ PrefabInstance:
       objectReference: {fileID: 1691294755}
     - target: {fileID: 6961872721945674997, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 42
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6961872721945674997, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: m_LocalPosition.y
