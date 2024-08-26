@@ -429,7 +429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelProgress: {fileID: 0}
   _checkpoints:
-  - {fileID: 5331088645949584963}
+  - {fileID: 7699614819859668553}
   _startAtCurrentPosition: 0
 --- !u!1 &1978219287791803359
 GameObject:
@@ -4377,13 +4377,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a930b857a6e4b484b94aa34b673eae3c, type: 3}
---- !u!114 &5331088645949584963 stripped
+--- !u!114 &7699614819859668553 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1460142622902409789, guid: a930b857a6e4b484b94aa34b673eae3c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3990793967378739767, guid: a930b857a6e4b484b94aa34b673eae3c, type: 3}
   m_PrefabInstance: {fileID: 6753326975327153278}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b38a85bbb0a4444d9fe743484d995eb, type: 3}
   m_Name: 

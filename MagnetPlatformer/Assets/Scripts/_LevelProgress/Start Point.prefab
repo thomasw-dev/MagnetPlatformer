@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3364977626135139885}
-  - component: {fileID: 1460142622902409789}
+  - component: {fileID: 3990793967378739767}
   - component: {fileID: 1144417619639462765}
   m_Layer: 0
   m_Name: Start Point
@@ -65,7 +65,7 @@ Transform:
   - {fileID: 5692036116763489153}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1460142622902409789
+--- !u!114 &3990793967378739767
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

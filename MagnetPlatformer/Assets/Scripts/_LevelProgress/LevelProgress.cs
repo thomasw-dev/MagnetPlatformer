@@ -8,6 +8,7 @@ public class LevelProgress : ScriptableObject
     public void SaveCheckpointIndex(int i)
     {
         CurrentCheckpoint = i;
+        Debug.Log($"SaveCheckpointIndex: {i}");
     }
 
     public void ResetProgress()
