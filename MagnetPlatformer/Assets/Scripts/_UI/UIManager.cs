@@ -40,6 +40,7 @@ public class UIManager : MonoBehaviour
         {
             foreach (GameObject obj in list)
             {
+                if (obj == null) continue;
                 obj.SetActive(obj == target);
             }
         }
@@ -50,7 +51,10 @@ public class UIManager : MonoBehaviour
     void EnableAllScreens()
     {
         foreach (GameObject obj in _screens)
+        {
+            if (obj == null) continue;
             obj.SetActive(true);
+        }
     }
 
     void Initialize()
