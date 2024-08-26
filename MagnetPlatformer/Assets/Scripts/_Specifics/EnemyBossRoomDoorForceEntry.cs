@@ -15,6 +15,7 @@ public class EnemyBossRoomDoorForceEntry : MonoBehaviour
     [SerializeField] GameObject _enterTrigger;
     [SerializeField] GameObject _visualWall;
     [SerializeField] GameObject _physicsCollider;
+    [SerializeField] GameObject _enemyBoss;
 
     [SerializeField] float _pushSpeed = 1f;
 
@@ -54,6 +55,7 @@ public class EnemyBossRoomDoorForceEntry : MonoBehaviour
         _invisibleMagneticWall.SetActive(true);
         _visualWall.SetActive(false);
         _physicsCollider.SetActive(false);
+        _enemyBoss.SetActive(false);
     }
 
     void HandleEnterEnteredState()
@@ -62,6 +64,7 @@ public class EnemyBossRoomDoorForceEntry : MonoBehaviour
         _invisibleMagneticWall.SetActive(false);
         _visualWall.SetActive(true);
         _physicsCollider.SetActive(true);
+        _enemyBoss.SetActive(true);
 
         Vector3 initialPos = transform.position;
         transform.position += Vector3.left * 2;

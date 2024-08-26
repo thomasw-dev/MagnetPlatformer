@@ -74,6 +74,11 @@ public class EnemyBossDash : MonoBehaviour
         OnDashConditionUnmet -= KillCountdownToNextDash;
     }
 
+    void Start()
+    {
+        _initialChaseAcceleration = _enemyBossController.Values.ChaseAcceleration;
+    }
+
     void Update()
     {
         _dashCondition = !IsDashing && PlayerIsInSameDirection() && PlayerIsFartherThanMinDistance();
@@ -157,7 +162,7 @@ public class EnemyBossDash : MonoBehaviour
             .OnPlay(() =>
             {
                 OnDashStart?.Invoke();
-                _initialChaseAcceleration = _enemyBossController.Values.ChaseAcceleration;
+                //_initialChaseAcceleration = _enemyBossController.Values.ChaseAcceleration;
 
                 if (Log.EnemyBoss) Debug.Log($"Enemy boss begins dash.");
             })
