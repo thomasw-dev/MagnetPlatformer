@@ -494,10 +494,6 @@ PrefabInstance:
       propertyPath: gizmos
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5232363758396998246, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
-      propertyPath: _airJumpEnabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5859685949880444810, guid: 9025306f8e61a47a899000ed4b6c1f47, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12

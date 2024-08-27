@@ -1668,10 +1668,6 @@ PrefabInstance:
       propertyPath: _startPoint
       value: 
       objectReference: {fileID: 1011904419}
-    - target: {fileID: 1793740918188528691, guid: b7981eb017f6549628d241412ab194a1, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2829779864366002734, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 2
@@ -1732,6 +1728,10 @@ PrefabInstance:
       propertyPath: _target
       value: 
       objectReference: {fileID: 353618629}
+    - target: {fileID: 8289559323581626963, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -14
+      objectReference: {fileID: 0}
     - target: {fileID: 8388390619968269205, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: _player
       value: 

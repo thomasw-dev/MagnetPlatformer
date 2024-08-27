@@ -8,9 +8,13 @@ public class Mod : MonoBehaviour
     public static bool EnableDeath;
     [SerializeField] bool _enableDeath;
 
-    void OnValidate()
+    void WriteValues()
     {
         EnableWin = _enableWin;
         EnableDeath = _enableDeath;
     }
+
+    void OnEnable() => WriteValues();
+
+    void OnValidate() => WriteValues();
 }
