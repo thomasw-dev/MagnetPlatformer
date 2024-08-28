@@ -36,10 +36,10 @@ public class CheckpointManager : MonoBehaviour
 
     void Start()
     {
-        if (!_startAtCurrentPosition)
-        {
-            GoToCheckpoint(_levelProgress.CurrentCheckpoint);
-        }
+        if (_startAtCurrentPosition) { return; }
+        if (_levelProgress == null) { return; }
+
+        GoToCheckpoint(_levelProgress.CurrentCheckpoint);
     }
 
     void GoToCheckpoint(int i)
