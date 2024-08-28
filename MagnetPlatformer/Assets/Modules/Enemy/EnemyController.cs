@@ -74,7 +74,10 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         _state = StateController.CurrentEnum; // Inspector
+    }
 
+    void FixedUpdate()
+    {
         if (StateController.CurrentEnum == StateEnum.Idle)
         {
             if (!Values.ReturnToInitialPosition)

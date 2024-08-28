@@ -2080,14 +2080,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5626366645197232143, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
-      propertyPath: WalkAcceleration
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5626366645197232143, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
-      propertyPath: ChaseAcceleration
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 7457597730870448871, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
       propertyPath: m_Name
       value: Magnetic Enemy (0) G Left
@@ -3463,14 +3455,6 @@ PrefabInstance:
     - target: {fileID: 5274913827994063994, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
       propertyPath: m_Enabled
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5626366645197232143, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
-      propertyPath: WalkAcceleration
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5626366645197232143, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
-      propertyPath: ChaseAcceleration
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7457597730870448871, guid: 591438ee4cb094d2498a50aad51b06aa, type: 3}
       propertyPath: m_Name
