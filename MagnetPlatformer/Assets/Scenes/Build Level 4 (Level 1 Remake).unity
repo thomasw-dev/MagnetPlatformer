@@ -25523,10 +25523,6 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 555338788803734818, guid: b7981eb017f6549628d241412ab194a1, type: 3}
-      propertyPath: _startAtCurrentPosition
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 555338788803734818, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: _checkpoints.Array.data[1]
       value: 
       objectReference: {fileID: 1996223123}
@@ -73122,7 +73118,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7517000206985752481, guid: b2dfab638e9cb4353873ce15d67e1c5d, type: 3}
       propertyPath: _zoom
-      value: 11
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7517000206985752481, guid: b2dfab638e9cb4353873ce15d67e1c5d, type: 3}
+      propertyPath: _offset.y
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7517000206985752481, guid: b2dfab638e9cb4353873ce15d67e1c5d, type: 3}
       propertyPath: _lerpFactor
