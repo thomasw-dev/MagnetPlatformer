@@ -659,6 +659,7 @@ GameObject:
   - component: {fileID: 7152658317316919564}
   - component: {fileID: 4482319823306773868}
   - component: {fileID: 8196937909933596673}
+  - component: {fileID: 8692934253785165388}
   m_Layer: 8
   m_Name: Spikes
   m_TagString: Environment
@@ -874,7 +875,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: d0ab9e4456d374e939c5fe3bdc216b82, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -940,5 +941,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df87eaeb95d514405b05e1cceb9c4780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8692934253785165388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7532832724527102087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c494bcc5a5ece4b1181fcd23b61fe84d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

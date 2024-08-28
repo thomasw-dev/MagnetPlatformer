@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ignorePhysicsCollidersInSelf:
-  - {fileID: 0}
+  - {fileID: 171622582547990570}
   _isGrounded: 0
   _groundColliders: []
 --- !u!61 &6679316205452129483
