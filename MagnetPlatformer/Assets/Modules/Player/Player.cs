@@ -87,6 +87,7 @@ public class Player : MonoBehaviour
     void EnterPlay()
     {
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+        AllowInput = true;
     }
 
     void ResetInput()
