@@ -30,6 +30,7 @@ public class SelectCheckpointDropdown : MonoBehaviour
     void Start()
     {
         ResizeDropdownOptions();
+        _dropdownTMP.value = _levelProgress.CurrentCheckpoint;
     }
 
     void ResizeDropdownOptions()
