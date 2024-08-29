@@ -2236,18 +2236,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Essentials
       objectReference: {fileID: 0}
-    - target: {fileID: 5099286390259842689, guid: b7981eb017f6549628d241412ab194a1, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 32
-      objectReference: {fileID: 0}
     - target: {fileID: 6375807708991789659, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: _goals.Array.data[0]
       value: 
       objectReference: {fileID: 1691294755}
-    - target: {fileID: 6961872721945674997, guid: b7981eb017f6549628d241412ab194a1, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 32
-      objectReference: {fileID: 0}
     - target: {fileID: 7627288705260634345, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: _target
       value: 
