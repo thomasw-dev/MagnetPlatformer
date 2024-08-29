@@ -1077,6 +1077,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Essentials
       objectReference: {fileID: 0}
+    - target: {fileID: 5682266158361935330, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: m_text
+      value: '<size=48>Level 3</size>
+
+        [Paused]'
+      objectReference: {fileID: 0}
     - target: {fileID: 6375807708991789659, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: _goals.Array.data[0]
       value: 
