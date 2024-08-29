@@ -8766,6 +8766,26 @@ PrefabInstance:
       propertyPath: m_text
       value: You WIN !!!
       objectReference: {fileID: 0}
+    - target: {fileID: 2829779864366002734, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2829779864366002734, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2829779864366002734, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 8366904021054912708, guid: ad27a655d54a543ef979d1e850690343, type: 3}
+    - target: {fileID: 2829779864366002734, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: LoadScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 2829779864366002734, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2961566373138962479, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: m_IsActive
       value: 0
