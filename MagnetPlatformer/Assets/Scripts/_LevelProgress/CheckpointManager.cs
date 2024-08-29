@@ -42,8 +42,13 @@ public class CheckpointManager : MonoBehaviour
         GoToCheckpoint(_levelProgress.CurrentCheckpoint);
     }
 
+    public LevelProgress GetLevelProgress() => _levelProgress;
+
+    public int GetCheckpointArraySize() => _checkpoints.Length;
+
     void GoToCheckpoint(int i)
     {
+        i = Mathf.Clamp(i, 0, _checkpoints.Length);
         _camera.position = new Vector3(_checkpoints[i].SpawnPoint.position.x, _checkpoints[i].SpawnPoint.position.y, _camera.position.z);
         _player.position = new Vector3(_checkpoints[i].SpawnPoint.position.x, _checkpoints[i].SpawnPoint.position.y, _player.position.z);
     }
