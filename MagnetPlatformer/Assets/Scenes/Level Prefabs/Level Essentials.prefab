@@ -1934,8 +1934,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -193}
-  m_SizeDelta: {x: 200, y: 30}
+  m_AnchoredPosition: {x: 0, y: -198}
+  m_SizeDelta: {x: 300, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5709000577224472198
 CanvasRenderer:
@@ -2033,7 +2033,19 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8192628596293063786}
+        m_TargetAssemblyTypeName: SelectCheckpointDropdown, Assembly-CSharp
+        m_MethodName: SaveSelectedValueToLevelProgress
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &8192628596293063786
 MonoBehaviour:
@@ -2047,6 +2059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9375b569749174269b28be88cb61b310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelProgress: {fileID: 0}
 --- !u!1 &3435173277833963471
 GameObject:
   m_ObjectHideFlags: 0
@@ -5518,8 +5531,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

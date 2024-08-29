@@ -8846,6 +8846,10 @@ PrefabInstance:
       propertyPath: _target
       value: 
       objectReference: {fileID: 353618629}
+    - target: {fileID: 8192628596293063786, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: _levelProgress
+      value: 
+      objectReference: {fileID: 11400000, guid: e2c0d9f79b65b4fbeb70d21d7e046bea, type: 2}
     - target: {fileID: 8198494484738420071, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: _target
       value: 

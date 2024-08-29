@@ -6,20 +6,29 @@ public class SelectCheckpointDropdown : MonoBehaviour
     [SerializeField] LevelProgress _levelProgress;
 
     TMP_Dropdown _dropdownTMP;
-    [SerializeField] int _index;
 
     void Awake()
     {
         _dropdownTMP = GetComponent<TMP_Dropdown>();
     }
 
-    void Update()
+    void OnEnable()
     {
-        _index = _dropdownTMP.value;
+        if (_levelProgress == null) { return; }
+        _levelProgress.OnSaveCheckpointIndex += UpdateCheckpointValue;
     }
+
+    void OnDisable()
+    {
+        if (_levelProgress == null) { return; }
+        _levelProgress.OnSaveCheckpointIndex -= UpdateCheckpointValue;
+    }
+
+    void UpdateCheckpointValue(int i) => _dropdownTMP.value = i;
 
     public void SaveSelectedValueToLevelProgress()
     {
-        _levelProgress.CurrentCheckpoint = _index;
+        if (_levelProgress == null) { return; }
+        _levelProgress.CurrentCheckpoint = _dropdownTMP.value;
     }
 }
