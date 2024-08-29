@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameState: 1
-  _magnetWeaponHit: 1
+  _magnetWeaponHit: 0
   _enemyBoss: 1
   _checkpoint: 1
 --- !u!114 &2822302842360481922

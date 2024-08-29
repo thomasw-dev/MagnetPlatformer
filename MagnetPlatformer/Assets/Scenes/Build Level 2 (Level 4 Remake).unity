@@ -557,6 +557,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 555338788803734818, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: _levelProgress
+      value: 
+      objectReference: {fileID: 11400000, guid: 79408118d468f4a158439938729426d3, type: 2}
+    - target: {fileID: 555338788803734818, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: _cameraStartPoint
       value: 
       objectReference: {fileID: 1506274325}
