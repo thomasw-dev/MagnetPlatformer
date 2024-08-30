@@ -906,8 +906,20 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5477159902529282285, guid: 01c93249bcb5e433aafd6480435dff97, type: 3}
+      propertyPath: _ease
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5477159902529282285, guid: 01c93249bcb5e433aafd6480435dff97, type: 3}
       propertyPath: _zoom
       value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 5477159902529282285, guid: 01c93249bcb5e433aafd6480435dff97, type: 3}
+      propertyPath: _lerpFactor
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5477159902529282285, guid: 01c93249bcb5e433aafd6480435dff97, type: 3}
+      propertyPath: _zoomDuration
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7409231905308582348, guid: 01c93249bcb5e433aafd6480435dff97, type: 3}
       propertyPath: m_Name

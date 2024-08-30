@@ -4,15 +4,19 @@ using UnityEngine;
 public class CameraFixedPointAdjustZoom : CameraTriggerArea
 {
     [SerializeField] Transform _point;
-    [Range(1f, 10f)]
+
+    [Range(0f, 10f)]
     [SerializeField] float _lerpFactor = 4f;
+
     [Range(0f, 30f)]
     [SerializeField] float _zoom = 9f;
-    [SerializeField] Vector3 _offset;
 
-    float _currentZoom;
+    [SerializeField] float _currentZoom;
     Tweener _zoomTween;
-    const float ZOOM_DURATION = 1f;
+    [SerializeField] Ease _ease = Ease.OutCubic;
+    [SerializeField] float _zoomDuration = 1f;
+
+    [SerializeField] Vector3 _offset;
 
     void Update()
     {
@@ -34,8 +38,8 @@ public class CameraFixedPointAdjustZoom : CameraTriggerArea
         if (_zoomTween != null && _zoomTween.IsActive()) _zoomTween.Kill();
 
         // Start the zoom transition again
-        _zoomTween = DOTween.To(x => _currentZoom = x, _camera.orthographicSize, targetZoom, ZOOM_DURATION)
-            .SetEase(Ease.OutCubic)
+        _zoomTween = DOTween.To(x => _currentZoom = x, _camera.orthographicSize, targetZoom, _zoomDuration)
+            .SetEase(_ease)
             .OnUpdate(() =>
             {
                 _camera.orthographicSize = _currentZoom;
