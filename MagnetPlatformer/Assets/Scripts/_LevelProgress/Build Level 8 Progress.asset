@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 498c457de31da49bdbc05a15f0c88f1c, type: 3}
   m_Name: Build Level 8 Progress
   m_EditorClassIdentifier: 
-  CurrentCheckpoint: 2
+  CurrentCheckpoint: 0
