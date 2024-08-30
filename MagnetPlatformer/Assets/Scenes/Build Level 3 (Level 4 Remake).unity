@@ -572,6 +572,10 @@ PrefabInstance:
       propertyPath: _startPoint
       value: 
       objectReference: {fileID: 1506274325}
+    - target: {fileID: 1305544284025795982, guid: b7981eb017f6549628d241412ab194a1, type: 3}
+      propertyPath: m_text
+      value: Level 3 Cleared!
+      objectReference: {fileID: 0}
     - target: {fileID: 2829779864366002734, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 3
@@ -622,7 +626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5682266158361935330, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: m_text
-      value: '<size=48>Level 2</size>
+      value: '<size=48>Level 3</size>
 
         [Paused]'
       objectReference: {fileID: 0}
@@ -652,7 +656,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8967530747471010935, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: m_text
-      value: Level 2 / 6
+      value: Level 3 / 8
       objectReference: {fileID: 0}
     - target: {fileID: 9134263011161231009, guid: b7981eb017f6549628d241412ab194a1, type: 3}
       propertyPath: _magnetGun
