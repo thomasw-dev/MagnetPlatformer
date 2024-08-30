@@ -32,6 +32,10 @@ public class EnemyBossHealth : MonoBehaviour
     public void DealDamage()
     {
         CurrentHealth--;
+        if (Log.EnemyBoss)
+        {
+            Debug.Log("Enemy Boss takes damage.");
+        }
     }
 
     public void DeductLife()

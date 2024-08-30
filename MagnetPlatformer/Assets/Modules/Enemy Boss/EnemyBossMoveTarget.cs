@@ -6,6 +6,16 @@ public class EnemyBossMoveTargetPoint : MonoBehaviour
     [SerializeField] EnemyBossMoveTargetTriggerArea _triggerAreaLeft;
     [SerializeField] EnemyBossMoveTargetTriggerArea _triggerAreaRight;
 
+    [Header("Magnetic Object")]
+    [SerializeField] EnemyBossMoveTargetTriggerArea _Object1L;
+    [SerializeField] EnemyBossMoveTargetTriggerArea _Object1R;
+    [SerializeField] EnemyBossMoveTargetTriggerArea _Object2L;
+    [SerializeField] EnemyBossMoveTargetTriggerArea _Object2R;
+    [SerializeField] EnemyBossMoveTargetTriggerArea _Object3L;
+    [SerializeField] EnemyBossMoveTargetTriggerArea _Object3R;
+    [SerializeField] EnemyBossMoveTargetTriggerArea _Object4L;
+    [SerializeField] EnemyBossMoveTargetTriggerArea _Object4R;
+
     [Header("Anti-stuck")]
     [SerializeField] CollisionKill _collisionKill;
 
@@ -19,6 +29,15 @@ public class EnemyBossMoveTargetPoint : MonoBehaviour
         {
             _triggerAreaRight.OnEnemyBossEnter += MoveTargetPointToLeft;
         }
+
+        _Object1L.OnEnemyBossEnter += MoveTargetPointToLeft;
+        _Object1R.OnEnemyBossEnter += MoveTargetPointToRight;
+        _Object2L.OnEnemyBossEnter += MoveTargetPointToLeft;
+        _Object2R.OnEnemyBossEnter += MoveTargetPointToRight;
+        _Object3L.OnEnemyBossEnter += MoveTargetPointToLeft;
+        _Object3R.OnEnemyBossEnter += MoveTargetPointToRight;
+        _Object4L.OnEnemyBossEnter += MoveTargetPointToLeft;
+        _Object4R.OnEnemyBossEnter += MoveTargetPointToRight;
     }
 
     void OnDisable()
@@ -31,6 +50,15 @@ public class EnemyBossMoveTargetPoint : MonoBehaviour
         {
             _triggerAreaRight.OnEnemyBossEnter -= MoveTargetPointToLeft;
         }
+
+        _Object1L.OnEnemyBossEnter -= MoveTargetPointToLeft;
+        _Object1R.OnEnemyBossEnter -= MoveTargetPointToRight;
+        _Object2L.OnEnemyBossEnter -= MoveTargetPointToLeft;
+        _Object2R.OnEnemyBossEnter -= MoveTargetPointToRight;
+        _Object3L.OnEnemyBossEnter -= MoveTargetPointToLeft;
+        _Object3R.OnEnemyBossEnter -= MoveTargetPointToRight;
+        _Object4L.OnEnemyBossEnter -= MoveTargetPointToLeft;
+        _Object4R.OnEnemyBossEnter -= MoveTargetPointToRight;
     }
 
     void Start()
