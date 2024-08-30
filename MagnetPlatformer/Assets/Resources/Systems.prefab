@@ -62,4 +62,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enableWin: 1
-  _enableDeath: 1
+  _enableDeath: 0

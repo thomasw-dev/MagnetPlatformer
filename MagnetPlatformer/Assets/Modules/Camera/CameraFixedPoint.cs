@@ -11,10 +11,10 @@ public class CameraFixedPointAdjustZoom : CameraTriggerArea
     [Range(0f, 30f)]
     [SerializeField] float _zoom = 9f;
 
-    [SerializeField] float _currentZoom;
     Tweener _zoomTween;
+    float _currentZoom;
     [SerializeField] Ease _ease = Ease.OutCubic;
-    [SerializeField] float _zoomDuration = 1f;
+    float _zoomDuration = 1f;
 
     [SerializeField] Vector3 _offset;
 
